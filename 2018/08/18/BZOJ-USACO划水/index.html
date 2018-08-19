@@ -108,25 +108,25 @@
 
 
 
-  <meta name="description" content="BZOJ-3403-直线上的牛插入和弹出次数最多2*n,双端队列直接做 BZOJ-3401-仰望维护单调递减栈,在一个元素出栈的时候记录一下 BZOJ-1652-Treats for the Cows区间DP,f[l][r]=max(f[l+1][r]+v[l]x(n-len),f[l][r-1]+v[r]x(n-len))">
+  <meta name="description" content="BZOJ-3403-直线上的牛插入和弹出次数最多$O(2n)$,双端队列[deque]直接做BZOJ-3401-仰望维护单调递减栈,在一个元素出栈的时候记录一下BZOJ-1652-Treats for the Cows区间DP$$f[l][r]=max\left ( f[l+1][r]+v[l]\cdot \left ( n-len \right ),f[l][r-1]+v[r]\cdot \le">
 <meta name="keywords" content="BZOJ,USACO">
 <meta property="og:type" content="article">
-<meta property="og:title" content="BZOJ-usaco刷水">
-<meta property="og:url" content="http://yoursite.com/2018/08/18/BZOJ-usaco刷水/index.html">
+<meta property="og:title" content="BZOJ-USACO划水">
+<meta property="og:url" content="http://yoursite.com/2018/08/18/BZOJ-USACO划水/index.html">
 <meta property="og:site_name" content="ZincSabian&#39;s Blog">
-<meta property="og:description" content="BZOJ-3403-直线上的牛插入和弹出次数最多2*n,双端队列直接做 BZOJ-3401-仰望维护单调递减栈,在一个元素出栈的时候记录一下 BZOJ-1652-Treats for the Cows区间DP,f[l][r]=max(f[l+1][r]+v[l]x(n-len),f[l][r-1]+v[r]x(n-len))">
+<meta property="og:description" content="BZOJ-3403-直线上的牛插入和弹出次数最多$O(2n)$,双端队列[deque]直接做BZOJ-3401-仰望维护单调递减栈,在一个元素出栈的时候记录一下BZOJ-1652-Treats for the Cows区间DP$$f[l][r]=max\left ( f[l+1][r]+v[l]\cdot \left ( n-len \right ),f[l][r-1]+v[r]\cdot \le">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-08-18T05:38:43.137Z">
+<meta property="og:updated_time" content="2018-08-19T11:54:41.890Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="BZOJ-usaco刷水">
-<meta name="twitter:description" content="BZOJ-3403-直线上的牛插入和弹出次数最多2*n,双端队列直接做 BZOJ-3401-仰望维护单调递减栈,在一个元素出栈的时候记录一下 BZOJ-1652-Treats for the Cows区间DP,f[l][r]=max(f[l+1][r]+v[l]x(n-len),f[l][r-1]+v[r]x(n-len))">
+<meta name="twitter:title" content="BZOJ-USACO划水">
+<meta name="twitter:description" content="BZOJ-3403-直线上的牛插入和弹出次数最多$O(2n)$,双端队列[deque]直接做BZOJ-3401-仰望维护单调递减栈,在一个元素出栈的时候记录一下BZOJ-1652-Treats for the Cows区间DP$$f[l][r]=max\left ( f[l+1][r]+v[l]\cdot \left ( n-len \right ),f[l][r-1]+v[r]\cdot \le">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/08/18/BZOJ-usaco刷水/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/08/18/BZOJ-USACO划水/"/>
 
 
 
@@ -136,7 +136,7 @@
   };
 </script>
 
-  <title>BZOJ-usaco刷水 | ZincSabian's Blog</title>
+  <title>BZOJ-USACO划水 | ZincSabian's Blog</title>
   
 
 
@@ -313,7 +313,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/18/BZOJ-usaco刷水/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/18/BZOJ-USACO划水/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZincSabian">
@@ -330,7 +330,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">BZOJ-usaco刷水
+          <h1 class="post-title" itemprop="name headline">BZOJ-USACO划水
               
             
           </h1>
@@ -355,12 +355,24 @@
                 
               
 
-              <time title="创建时间：2018-08-18 11:44:20 / 修改时间：13:38:43" itemprop="dateCreated datePublished" datetime="2018-08-18T11:44:20+08:00">2018-08-18</time>
+              <time title="创建时间：2018-08-18 11:44:20" itemprop="dateCreated datePublished" datetime="2018-08-18T11:44:20+08:00">2018-08-18</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-08-19 19:54:41" itemprop="dateModified" datetime="2018-08-19T19:54:41+08:00">2018-08-19</time>
               
             
           </span>
@@ -393,10 +405,7 @@
       
 
       
-        <p><center><a href="https://www.lydsy.com/JudgeOnline/problem.php?id=3403" target="_blank" rel="noopener">BZOJ-3403-直线上的牛</a><center><br>插入和弹出次数最多2*n,双端队列直接做</center></center></p>
-<p><center><a href="https://www.lydsy.com/JudgeOnline/problem.php?id=3401" target="_blank" rel="noopener">BZOJ-3401-仰望</a><center><br>维护单调递减栈,在一个元素出栈的时候记录一下</center></center></p>
-<p><center><a href="https://www.lydsy.com/JudgeOnline/problem.php?id=1652" target="_blank" rel="noopener">BZOJ-1652-Treats for the Cows</a><center><br>区间DP,f[l][r]=max(f[l+1][r]+v[l]x(n-len),f[l][r-1]+v[r]x(n-len))<br><a id="more"></a></center></center></p>
-
+        <center><br><strong><a href="https://www.lydsy.com/JudgeOnline/problem.php?id=3403" target="_blank" rel="noopener">BZOJ-3403-直线上的牛</a></strong><br>插入和弹出次数最多$O(2n)$,双端队列[deque]直接做<br></center><br><center><br><strong><a href="https://www.lydsy.com/JudgeOnline/problem.php?id=3401" target="_blank" rel="noopener">BZOJ-3401-仰望</a></strong><br>维护单调递减栈,在一个元素出栈的时候记录一下<br></center><br><center><br><strong><a href="https://www.lydsy.com/JudgeOnline/problem.php?id=1652" target="_blank" rel="noopener">BZOJ-1652-Treats for the Cows</a></strong><br>区间DP<br>$$f[l][r]=max\left ( f[l+1][r]+v[l]\cdot \left ( n-len \right ),f[l][r-1]+v[r]\cdot \left ( n-len \right ) \right )$$<br></center><br><a id="more"></a><br><center><strong><a href="https://www.lydsy.com/JudgeOnline/problem.php?id=1653" target="_blank" rel="noopener">BZOJ-1653-Backward Digit Sums</a></strong><br>看懂题意挺好做的…<br>写了个$O(n!n^2)$<br>大概是$O(n!)$的枚举全排列，再加上$O(n^2)$的dp判断</center>
       
     </div>
 
