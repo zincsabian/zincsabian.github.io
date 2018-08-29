@@ -309,6 +309,146 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/29/Bzoj-1635-最高的牛/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZincSabian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZincSabian's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/29/Bzoj-1635-最高的牛/" itemprop="url">
+                  Bzoj-1635-最高的牛
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-29 18:07:51 / 修改时间：18:44:58" itemprop="dateCreated datePublished" datetime="2018-08-29T18:07:51+08:00">2018-08-29</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>前言</strong><br>为啥可以不考虑h[a]&gt;=h[b]这个条件？不是很懂…<br><strong>题解</strong><br>给定了H=max{h}不如假设每一个点的值都为H<br>假设我们知道a能看到b<br>那就把a+1~b-1这中间的所有高度都-1。<br>最后的序列就是答案序列了。<br>把区间修改转成在差分序列里修改。<br>如果是[l,r]-1。就相当于b[l]-1,b[r+1]+1;<br><strong>代码</strong><br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> x=<span class="number">0</span>,f=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">char</span> ch=getchar();</span><br><span class="line">	<span class="keyword">while</span>(ch&lt;<span class="string">'0'</span>||ch&gt;<span class="string">'9'</span>) &#123;<span class="keyword">if</span>(ch==<span class="string">'-'</span>)f=-f;ch=getchar();&#125;</span><br><span class="line">	<span class="keyword">while</span>(ch&gt;=<span class="string">'0'</span>&amp;&amp;ch&lt;=<span class="string">'9'</span>)x=(x&lt;&lt;<span class="number">3</span>)+(x&lt;&lt;<span class="number">1</span>)+ch-<span class="string">'0'</span>,ch=getchar();</span><br><span class="line">	<span class="keyword">return</span> x*f;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">1e4</span>+<span class="number">5</span>;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span>&#123;</span></span><br><span class="line">	<span class="keyword">int</span> l,r;</span><br><span class="line">&#125;a[N];</span><br><span class="line"><span class="keyword">int</span> n,H,R,b[N];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	n=read();H=read();H=read();R=read();</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=R;i++) &#123;</span><br><span class="line">		a[i].l=read(),a[i].r=read();</span><br><span class="line">		<span class="keyword">if</span>(a[i].l&gt;a[i].r) swap(a[i].l,a[i].r);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=R;i++) &#123;</span><br><span class="line">		<span class="keyword">if</span>(a[i].l==a[i<span class="number">-1</span>].l&amp;&amp;a[i].r==a[i<span class="number">-1</span>].r) <span class="keyword">continue</span>;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			--b[a[i].l+<span class="number">1</span>]; ++b[a[i].r];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">int</span> res=H;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) 	</span><br><span class="line">		res+=b[i],<span class="built_in">printf</span>(<span class="string">"%d\n"</span>,res);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/27/BZOJ-1257-CQOI2007-余数之和/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -355,12 +495,24 @@
                 
               
 
-              <time title="创建时间：2018-08-27 00:10:36 / 修改时间：00:11:00" itemprop="dateCreated datePublished" datetime="2018-08-27T00:10:36+08:00">2018-08-27</time>
+              <time title="创建时间：2018-08-27 00:10:36" itemprop="dateCreated datePublished" datetime="2018-08-27T00:10:36+08:00">2018-08-27</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-08-29 18:44:23" itemprop="dateModified" datetime="2018-08-29T18:44:23+08:00">2018-08-29</time>
               
             
           </span>
@@ -394,7 +546,7 @@
 
       
         
-          <p><strong>前言</strong><br>我的数论好垃圾啊QAQ<br><strong>题解</strong><br>要求的其实就是：<br>    $$\sum_{i=1}^{n} k -\left \lfloor \frac{k}{i} \right \rfloor \cdot i$$<br>然后可以把k提出来：<br>    $$n\cdot k-\sum_{i=1}^{n} \left \lfloor \frac{k}{i} \right \rfloor \cdot i$$<br>然后呢？<br>要知道个结论：给定正整数i和k满足i&lt;=k。<br>有$$\frac{k}{i}=\frac{k}{\left \lfloor \frac{k}{i} \right \rfloor}$$<br><a href="https://zhuanlan.zhihu.com/p/26020672" target="_blank" rel="noopener">戳我看证明过程</a><br>然后我们来做一下后面这个东西。<br>因为i~k/(k/i)之间的取值都是相同的，所以满足乘法分配律<br>那么对于这一段区间，可以变成：<br>$$\left \lfloor \frac{k}{i} \right \rfloor \cdot \sum_{j=i}^{\frac{k}{\left \lfloor \frac{k}{i} \right \rfloor}} {j}$$<br>然后对于这道题，只需要注意j&lt;=n就可以了。<br>
+          <p><strong>题解</strong><br>要求的其实就是：<br>    $$\sum_{i=1}^{n} k -\left \lfloor \frac{k}{i} \right \rfloor \cdot i$$<br>然后可以把k提出来：<br>    $$n\cdot k-\sum_{i=1}^{n} \left \lfloor \frac{k}{i} \right \rfloor \cdot i$$<br>然后呢？<br>要知道个结论：给定正整数i和k满足i&lt;=k。<br>有$$\frac{k}{i}=\frac{k}{\left \lfloor \frac{k}{i} \right \rfloor}$$<br><a href="https://zhuanlan.zhihu.com/p/26020672" target="_blank" rel="noopener">戳我看证明过程</a><br>然后我们来做一下后面这个东西。<br>因为i~k/(k/i)之间的取值都是相同的，所以满足乘法分配律<br>那么对于这一段区间，可以变成：<br>$$\left \lfloor \frac{k}{i} \right \rfloor \cdot \sum_{j=i}^{\frac{k}{\left \lfloor \frac{k}{i} \right \rfloor}} {j}$$<br>然后对于这道题，只需要注意j&lt;=n就可以了。<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/08/27/BZOJ-1257-CQOI2007-余数之和/#more" rel="contents">
@@ -986,162 +1138,6 @@
             <p>大概是一个暑假的时间，就在BZOJ上水了这么一点题T_T。<br>勉强水到了100题。纪念一下沃有多弱智吧qwq…<br>接下来的目标是200题。<br>所以会逐步的更新这个博客啦pwp…<br>加油…QAQ</p>
 
           
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/18/BZOJ-USACO划水/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="ZincSabian">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ZincSabian's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/18/BZOJ-USACO划水/" itemprop="url">
-                  BZOJ-USACO划水
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-08-18 11:44:20" itemprop="dateCreated datePublished" datetime="2018-08-18T11:44:20+08:00">2018-08-18</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-08-26 17:04:02" itemprop="dateModified" datetime="2018-08-26T17:04:02+08:00">2018-08-26</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><strong><a href="https://www.lydsy.com/JudgeOnline/problem.php?id=3403" target="_blank" rel="noopener">BZOJ-3403-直线上的牛</a></strong><br>插入和弹出次数最多$O(2n)$,双端队列[deque]直接做<br><strong><a href="https://www.lydsy.com/JudgeOnline/problem.php?id=3401" target="_blank" rel="noopener">BZOJ-3401-仰望</a></strong><br>维护单调递减栈,在一个元素出栈的时候记录一下<br><strong><a href="https://www.lydsy.com/JudgeOnline/problem.php?id=1652" target="_blank" rel="noopener">BZOJ-1652-Treats for the Cows</a></strong><br>区间DP<br>$$f[l][r]=max\left ( f[l+1][r]+v[l]\cdot \left ( n-len \right ),f[l][r-1]+v[r]\cdot \left ( n-len \right ) \right )$$<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/08/18/BZOJ-USACO划水/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
         
       
     </div>
