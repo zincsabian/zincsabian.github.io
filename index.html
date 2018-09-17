@@ -309,6 +309,150 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/17/Bzoj-3382-洞穴里的牛之三/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZincSabian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZincSabian's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/17/Bzoj-3382-洞穴里的牛之三/" itemprop="url">
+                  Bzoj-3382-洞穴里的牛之三
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-09-17 13:27:12 / 修改时间：14:05:50" itemprop="dateCreated datePublished" datetime="2018-09-17T13:27:12+08:00">2018-09-17</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><strong> 前言：</strong><br>    一开始还以为要带至少一个log…<br>    就是那种排序啊然后二分什么的…<br>    突然发现行不通。<br><strong> 题解：</strong><br>    首先有一个明显的N^2做法…即直接枚举两个数…<br>    听codesonic说：二维线段树。<br>    …啥啊<br>    引入结论：<br>    0.切夫雪比距离：$max\left ( \left | x2-x1 \right |,\left | y2-y1 \right | \right )$<br>    1.将一个点$\left ( x,y \right )$的坐标变为$\left ( x+y,x-y \right )$后,原坐标系中的曼哈顿距离 =新坐标系中的切比雪夫距离<br>    2.将一个点$\left ( x,y \right )$的坐标变为$\left ( \frac{x+y}{2},\frac{x-y}{2} \right )$ 后,原坐标系中的切比雪夫距离 = 新坐标系中的曼哈顿距离<br>    <a href="https://www.cnblogs.com/zwfymqz/p/8253530.html" target="_blank" rel="noopener">参考资料</a><br>    然后就可以在线性时间内解决了<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/09/17/Bzoj-3382-洞穴里的牛之三/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/29/Bzoj-1635-最高的牛/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1537,7 +1681,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-count">9</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1566,7 +1710,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">7</span>
+                      
+                    
+                    <span class="site-state-item-count">8</span>
                     <span class="site-state-item-name">标签</span>
                   
                 </div>
@@ -1769,6 +1915,8 @@
 
   
   
+    
+      
     
       
     
