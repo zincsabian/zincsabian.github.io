@@ -108,25 +108,24 @@
 
 
 
-  <meta name="description" content="前言：  看到n很小感觉可以搞事情，但是不知道要怎么搞  虽然之前写过但是并不是很了解题解：  其实我是没想到直接深搜的  用dfs(x,y,n)表示大小为x*y的蛋糕，分成n块最小比值是多少  每次把n分成两部分，也就是每次把一块大蛋糕分成一大一小(也可能是一样大的)两块蛋糕  然后再分类讨论横切和纵切。  边界是n=1;">
-<meta name="keywords" content="BZOJ,深度优先搜索">
+  <meta name="description" content="title:’BZOJ-3714:[PA2014]Kuglarz’ date:2018-10-01 23:18:05 tags:[BZOJ,kruskal]��⣺  ��ʵ���ǿ���������…  “�ǲ��Ǹ���˵��С��������ͻ�����”  ��sum[i]Ϊ1~i����ż��  ��ôֻҪ֪��sum[1~n]�����Ϳ���֪��С��������ô��  “���">
 <meta property="og:type" content="article">
-<meta property="og:title" content="BZOJ-1024-生日快乐">
-<meta property="og:url" content="http://yoursite.com/2018/09/19/BZOJ-1024-生日快乐/index.html">
+<meta property="og:title" content="ZincSabian&#39;s Blog">
+<meta property="og:url" content="http://yoursite.com/2018/10/01/BZOJ-3714-PA2014-Kuglarz/index.html">
 <meta property="og:site_name" content="ZincSabian&#39;s Blog">
-<meta property="og:description" content="前言：  看到n很小感觉可以搞事情，但是不知道要怎么搞  虽然之前写过但是并不是很了解题解：  其实我是没想到直接深搜的  用dfs(x,y,n)表示大小为x*y的蛋糕，分成n块最小比值是多少  每次把n分成两部分，也就是每次把一块大蛋糕分成一大一小(也可能是一样大的)两块蛋糕  然后再分类讨论横切和纵切。  边界是n=1;">
+<meta property="og:description" content="title:’BZOJ-3714:[PA2014]Kuglarz’ date:2018-10-01 23:18:05 tags:[BZOJ,kruskal]��⣺  ��ʵ���ǿ���������…  “�ǲ��Ǹ���˵��С��������ͻ�����”  ��sum[i]Ϊ1~i����ż��  ��ôֻҪ֪��sum[1~n]�����Ϳ���֪��С��������ô��  “���">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-09-19T15:01:00.000Z">
+<meta property="og:updated_time" content="2018-10-01T15:37:02.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="BZOJ-1024-生日快乐">
-<meta name="twitter:description" content="前言：  看到n很小感觉可以搞事情，但是不知道要怎么搞  虽然之前写过但是并不是很了解题解：  其实我是没想到直接深搜的  用dfs(x,y,n)表示大小为x*y的蛋糕，分成n块最小比值是多少  每次把n分成两部分，也就是每次把一块大蛋糕分成一大一小(也可能是一样大的)两块蛋糕  然后再分类讨论横切和纵切。  边界是n=1;">
+<meta name="twitter:title" content="ZincSabian&#39;s Blog">
+<meta name="twitter:description" content="title:’BZOJ-3714:[PA2014]Kuglarz’ date:2018-10-01 23:18:05 tags:[BZOJ,kruskal]��⣺  ��ʵ���ǿ���������…  “�ǲ��Ǹ���˵��С��������ͻ�����”  ��sum[i]Ϊ1~i����ż��  ��ôֻҪ֪��sum[1~n]�����Ϳ���֪��С��������ô��  “���">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/09/19/BZOJ-1024-生日快乐/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/10/01/BZOJ-3714-PA2014-Kuglarz/"/>
 
 
 
@@ -136,7 +135,7 @@
   };
 </script>
 
-  <title>BZOJ-1024-生日快乐 | ZincSabian's Blog</title>
+  <title> | ZincSabian's Blog</title>
   
 
 
@@ -313,7 +312,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/19/BZOJ-1024-生日快乐/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/01/BZOJ-3714-PA2014-Kuglarz/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZincSabian">
@@ -330,7 +329,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">BZOJ-1024-生日快乐
+          <h1 class="post-title" itemprop="name headline">
               
             
           </h1>
@@ -355,7 +354,7 @@
                 
               
 
-              <time title="创建时间：2018-09-19 22:37:45 / 修改时间：23:01:00" itemprop="dateCreated datePublished" datetime="2018-09-19T22:37:45+08:00">2018-09-19</time>
+              <time title="创建时间：2018-10-01 23:18:06 / 修改时间：23:37:02" itemprop="dateCreated datePublished" datetime="2018-10-01T23:18:06+08:00">2018-10-01</time>
             
 
             
@@ -393,7 +392,10 @@
       
 
       
-        <p>前言：<br>  看到n很小感觉可以搞事情，但是不知道要怎么搞<br>  虽然之前写过但是并不是很了解<br>题解：<br>  其实我是没想到直接深搜的<br>  用dfs(x,y,n)表示大小为x*y的蛋糕，分成n块最小比值是多少<br>  每次把n分成两部分，也就是每次把一块大蛋糕分成一大一小(也可能是一样大的)两块蛋糕<br>  然后再分类讨论横切和纵切。<br>  边界是n=1;<br><a id="more"></a><br>代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> LL;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> ULL;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">int</span> uint;</span><br><span class="line"><span class="keyword">double</span> x,y;</span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">dfs</span><span class="params">(<span class="keyword">double</span> x,<span class="keyword">double</span> y,<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(n==<span class="number">1</span>)<span class="keyword">return</span> <span class="number">1.000000</span>*max(x,y)/min(x,y);</span><br><span class="line">	<span class="keyword">double</span> ans=<span class="number">1e9</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n/<span class="number">2</span>;i++) &#123;</span><br><span class="line">		ans=min(ans,max(dfs(<span class="number">1.000000</span>*x*i/n,y,i),dfs(<span class="number">1.000000</span>*x*(n-i)/n,y,n-i)));<span class="comment">//横切 </span></span><br><span class="line">		ans=min(ans,max(dfs(x,<span class="number">1.000000</span>*y*i/n,i),dfs(x,<span class="number">1.000000</span>*y*(n-i)/n,n-i)));<span class="comment">//纵切 </span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%lf%lf%d"</span>,&amp;x,&amp;y,&amp;n);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%.6lf"</span>,dfs(x,y,n));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+        <hr>
+<p>title:’BZOJ-3714:[PA2014]Kuglarz’</p>
+<p>date:2018-10-01 23:18:05</p>
+<h2 id="tags-BZOJ-kruskal"><a href="#tags-BZOJ-kruskal" class="headerlink" title="tags:[BZOJ,kruskal]"></a>tags:[BZOJ,kruskal]</h2><p>��⣺<br>  ��ʵ���ǿ���������…<br>  “�ǲ��Ǹ���˵��С��������ͻ�����”<br>  ��sum[i]Ϊ1~i����ż��<br>  ��ôֻҪ֪��sum[1~n]�����Ϳ���֪��С��������ô��<br>  “�����Ҷ�����������ô��”<br>  ������֪��sum[i]��֪��c[i+1][j]�����ҿ�����sum[i]+c[i+1][j]���sum[j]��<br>        sum[j]ͬ����֪��c[i+1][j]�����ҿ�����sum[j]-c[i+1][j]���sum[i]��<br>  ��ô����ͱ���ˡ�����Ҫ֪�����ٸ�c[i][j]���Ϳ������sum[];<br>  ���ǿ�������<br>  i-1 - &gt; j ��һ��c[i][j]�������<br>  ��������֪��sum[i-1]����sum[j]; ��ô���ǾͿ����Ƴ�sum[j]��sum[i-1]��<br>  Ȼ������С��������<br>���룺<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> LL;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> ULL;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">int</span> uint;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">2e3</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">int</span> f[N],n;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">find</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;<span class="keyword">return</span> f[x]==x?x:f[x]=find(f[x]);&#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">merge</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">	x=find(x); y=find(y);</span><br><span class="line">	<span class="keyword">if</span>(x!=y) &#123;f[y]=x; <span class="keyword">return</span> <span class="number">1</span>;&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Edge</span>&#123;</span></span><br><span class="line">	<span class="keyword">int</span> u,v,w;</span><br><span class="line">&#125;e[N*N];</span><br><span class="line"><span class="keyword">int</span> c[N][N],cnt;</span><br><span class="line">LL ans;</span><br><span class="line"><span class="keyword">bool</span> <span class="keyword">operator</span>&lt;(Edge a,Edge b)&#123;<span class="keyword">return</span> a.w&lt;b.w;&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</span><br><span class="line"><span class="comment">//	ans=2e9;</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=n;i++)f[i]=i;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>,x;i&lt;=n;i++)</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=i;j&lt;=n;j++) &#123;</span><br><span class="line">			<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;x);</span><br><span class="line">			e[++cnt]=(Edge)&#123;i<span class="number">-1</span>,j,x&#125;;</span><br><span class="line">		&#125;</span><br><span class="line">	sort(e+<span class="number">1</span>,e+cnt+<span class="number">1</span>);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=cnt;i++) ans=ans+(merge(e[i].u,e[i].v)?e[i].w:<span class="number">0</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%lld\n"</span>,ans);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -412,14 +414,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/BZOJ/" rel="tag"> <i class="fa fa-tag"></i> BZOJ</a>
-          
-            <a href="/tags/深度优先搜索/" rel="tag"> <i class="fa fa-tag"></i> 深度优先搜索</a>
-          
-        </div>
-      
 
       
       
@@ -429,8 +423,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/09/17/Bzoj-3382-洞穴里的牛之三/" rel="next" title="Bzoj-3382-洞穴里的牛之三">
-                <i class="fa fa-chevron-left"></i> Bzoj-3382-洞穴里的牛之三
+              <a href="/2018/10/01/Bzoj-1179-Apio2009-Atm/" rel="next" title="Bzoj-1179:[Apio2009]Atm">
+                <i class="fa fa-chevron-left"></i> Bzoj-1179:[Apio2009]Atm
               </a>
             
           </div>
@@ -438,10 +432,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/10/01/Bzoj-1179-Apio2009-Atm/" rel="prev" title="Bzoj-1179:[Apio2009]Atm">
-                Bzoj-1179:[Apio2009]Atm <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -486,8 +476,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -569,6 +568,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#tags-BZOJ-kruskal"><span class="nav-number">1.</span> <span class="nav-text">tags:[BZOJ,kruskal]</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
