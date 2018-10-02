@@ -108,18 +108,18 @@
 
 
 
-  <meta name="description" content="前言：    一开始还以为要带至少一个log…    就是那种排序啊然后二分什么的…    突然发现行不通。 题解：    首先有一个明显的N^2做法…即直接枚举两个数…    听codesonic说：二维线段树。    …啥啊    引入结论：    0.切夫雪比距离：$max\left ( \left | x2-x1 \right |,\left | y2-y1 \right | \righ">
+  <meta name="description" content="前言 一开始还以为要带至少一个log…就是那种排序啊然后二分什么的…突然发现行不通。  题解 首先有一个明显的N^2做法…即直接枚举两个数…听codesonic说：二维线段树。引入结论：0.切夫雪比距离：$max\left ( \left | x2-x1 \right |,\left | y2-y1 \right | \right )$1.将一个点$\left ( x,y \right )$的坐">
 <meta name="keywords" content="BZOJ,几何">
 <meta property="og:type" content="article">
 <meta property="og:title" content="BZOJ-3382-洞穴里的牛之三">
 <meta property="og:url" content="http://yoursite.com/2018/09/17/BZOJ-3382-洞穴里的牛之三/index.html">
 <meta property="og:site_name" content="ZincSabian&#39;s Blog">
-<meta property="og:description" content="前言：    一开始还以为要带至少一个log…    就是那种排序啊然后二分什么的…    突然发现行不通。 题解：    首先有一个明显的N^2做法…即直接枚举两个数…    听codesonic说：二维线段树。    …啥啊    引入结论：    0.切夫雪比距离：$max\left ( \left | x2-x1 \right |,\left | y2-y1 \right | \righ">
+<meta property="og:description" content="前言 一开始还以为要带至少一个log…就是那种排序啊然后二分什么的…突然发现行不通。  题解 首先有一个明显的N^2做法…即直接枚举两个数…听codesonic说：二维线段树。引入结论：0.切夫雪比距离：$max\left ( \left | x2-x1 \right |,\left | y2-y1 \right | \right )$1.将一个点$\left ( x,y \right )$的坐">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-02T00:25:22.000Z">
+<meta property="og:updated_time" content="2018-10-02T01:15:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="BZOJ-3382-洞穴里的牛之三">
-<meta name="twitter:description" content="前言：    一开始还以为要带至少一个log…    就是那种排序啊然后二分什么的…    突然发现行不通。 题解：    首先有一个明显的N^2做法…即直接枚举两个数…    听codesonic说：二维线段树。    …啥啊    引入结论：    0.切夫雪比距离：$max\left ( \left | x2-x1 \right |,\left | y2-y1 \right | \righ">
+<meta name="twitter:description" content="前言 一开始还以为要带至少一个log…就是那种排序啊然后二分什么的…突然发现行不通。  题解 首先有一个明显的N^2做法…即直接枚举两个数…听codesonic说：二维线段树。引入结论：0.切夫雪比距离：$max\left ( \left | x2-x1 \right |,\left | y2-y1 \right | \right )$1.将一个点$\left ( x,y \right )$的坐">
 
 
 
@@ -372,7 +372,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-10-02 08:25:22" itemprop="dateModified" datetime="2018-10-02T08:25:22+08:00">2018-10-02</time>
+                <time title="修改时间：2018-10-02 09:15:46" itemprop="dateModified" datetime="2018-10-02T09:15:46+08:00">2018-10-02</time>
               
             
           </span>
@@ -405,7 +405,9 @@
       
 
       
-        <p><strong> 前言：</strong><br>    一开始还以为要带至少一个log…<br>    就是那种排序啊然后二分什么的…<br>    突然发现行不通。<br><strong> 题解：</strong><br>    首先有一个明显的N^2做法…即直接枚举两个数…<br>    听codesonic说：二维线段树。<br>    …啥啊<br>    引入结论：<br>    0.切夫雪比距离：$max\left ( \left | x2-x1 \right |,\left | y2-y1 \right | \right )$<br>    1.将一个点$\left ( x,y \right )$的坐标变为$\left ( x+y,x-y \right )$后,原坐标系中的曼哈顿距离 =新坐标系中的切比雪夫距离<br>    2.将一个点$\left ( x,y \right )$的坐标变为$\left ( \frac{x+y}{2},\frac{x-y}{2} \right )$ 后,原坐标系中的切比雪夫距离 = 新坐标系中的曼哈顿距离<br>    <a href="https://www.cnblogs.com/zwfymqz/p/8253530.html" target="_blank" rel="noopener">参考资料</a><br>    然后就可以在线性时间内解决了<br><a id="more"></a><br><strong> 代码：</strong><br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> LL;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> ULL;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">int</span> uint;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> n,mxx=<span class="number">0</span>,mxy=<span class="number">0</span>,mnx=<span class="number">2e9</span>,mny=<span class="number">2e9</span>;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) &#123;</span><br><span class="line">		<span class="keyword">int</span> x,y;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;x,&amp;y);</span><br><span class="line">		<span class="keyword">int</span> x_=x+y,y_=x-y;<span class="comment">//--&gt; x=(x_+y_) &gt;&gt; 1; y=(x_-y_) &gt;&gt; 1;</span></span><br><span class="line">		mxx=max(mxx,x_);</span><br><span class="line">		mnx=min(mnx,x_);</span><br><span class="line">		mxy=max(mxy,y_);</span><br><span class="line">		mny=min(mny,y_);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%d\n"</span>,max(mxx-mnx,mxy-mny));<span class="comment">//切比雪夫距离</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+        <h1 id="前言"><a href="#前言" class="headerlink" title=" 前言 "></a><strong> 前言 </strong></h1><p>一开始还以为要带至少一个log…<br>就是那种排序啊然后二分什么的…<br>突然发现行不通。</p>
+<h1 id="题解"><a href="#题解" class="headerlink" title=" 题解 "></a><strong> 题解 </strong></h1><p>首先有一个明显的N^2做法…即直接枚举两个数…<br>听codesonic说：二维线段树。<br>引入结论：<br>0.切夫雪比距离：$max\left ( \left | x2-x1 \right |,\left | y2-y1 \right | \right )$<br>1.将一个点$\left ( x,y \right )$的坐标变为$\left ( x+y,x-y \right )$后,原坐标系中的曼哈顿距离 =新坐标系中的切比雪夫距离<br>2.将一个点$\left ( x,y \right )$的坐标变为$\left ( \frac{x+y}{2},\frac{x-y}{2} \right )$ 后,原坐标系中的切比雪夫距离 = 新坐标系中的曼哈顿距离<br><a href="https://www.cnblogs.com/zwfymqz/p/8253530.html" target="_blank" rel="noopener">参考资料</a><br>然后就可以在线性时间内解决了<br><a id="more"></a></p>
+<h1 id="Code"><a href="#Code" class="headerlink" title=" Code "></a><strong> Code </strong></h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> LL;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> ULL;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">int</span> uint;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> n,mxx=<span class="number">0</span>,mxy=<span class="number">0</span>,mnx=<span class="number">2e9</span>,mny=<span class="number">2e9</span>;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) &#123;</span><br><span class="line">		<span class="keyword">int</span> x,y;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;x,&amp;y);</span><br><span class="line">		<span class="keyword">int</span> x_=x+y,y_=x-y;<span class="comment">//--&gt; x=(x_+y_) &gt;&gt; 1; y=(x_-y_) &gt;&gt; 1;</span></span><br><span class="line">		mxx=max(mxx,x_);</span><br><span class="line">		mnx=min(mnx,x_);</span><br><span class="line">		mxy=max(mxy,y_);</span><br><span class="line">		mny=min(mny,y_);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%d\n"</span>,max(mxx-mnx,mxy-mny));<span class="comment">//切比雪夫距离</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -498,8 +500,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -557,7 +568,13 @@
                     
                       
                     
-                    <span class="site-state-item-count">12</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -583,6 +600,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text"> 前言 </span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#题解"><span class="nav-number">2.</span> <span class="nav-text"> 题解 </span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Code"><span class="nav-number">3.</span> <span class="nav-text"> Code </span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

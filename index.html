@@ -329,7 +329,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 <a class="post-title-link" href="/2018/10/02/BZOJ-3631-JLOI2014-松鼠的新家/" itemprop="url">
-                  未命名
+                  BZOJ-3631:[JLOI2014]松鼠的新家
                 </a>
               
             
@@ -355,7 +355,7 @@
                 
               
 
-              <time title="创建时间：2018-10-02 08:29:23 / 修改时间：08:58:22" itemprop="dateCreated datePublished" datetime="2018-10-02T08:29:23+08:00">2018-10-02</time>
+              <time title="创建时间：2018-10-02 09:07:34 / 修改时间：09:08:22" itemprop="dateCreated datePublished" datetime="2018-10-02T09:07:34+08:00">2018-10-02</time>
             
 
             
@@ -394,13 +394,15 @@
 
       
         
-          
-            <h1 id="收获"><a href="#收获" class="headerlink" title="收获"></a><strong>收获</strong></h1><p>纠正了一波树链剖分的姿势和求lca的姿势</p>
-<h1 id="题解"><a href="#题解" class="headerlink" title="题解"></a><strong>题解</strong></h1><p>注意到这是在树上…<br>所以u - &gt; v的最短路就可以拆成u-&gt; lca(u,v) 和 lca(u,v) - &gt; v 两条链的和<br>那就，写一个资瓷路径加，和查询节点权值的数据结构来维护？<br>树链剖分？<br>但是树链剖分又臭又长（相对而言）<br>有没有什么简单的方法呢？<br>想起了这道题<a href="https://www.lydsy.com/JudgeOnline/problem.php?id=4390" target="_blank" rel="noopener">BZOJ-4390</a><br>诶，路径上+1，查询节点的权值？<br>树上差分！<br>然后深搜一遍统计子树和就可以知道节点的权值了。<br>诶，我对$(a_i,a_{i+1})$+1然后又要对$(a_{i+1},a_{i+2})$+1<br>那$a_{i+1}$这个点岂不是多加了一次？<br>发掘隐含条件。对任意$i≠j$，都有$a_i≠a_j$（这不是废话）<br>也就是说，只有$a_i(2≤i&lt;n)$才会被多加一次。</p>
-<h1 id="Code"><a href="#Code" class="headerlink" title="Code"></a><strong>Code</strong></h1><p>树上差分：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> LL;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> ULL;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">int</span> uint;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">300005</span>;</span><br><span class="line"><span class="keyword">int</span> n,m;</span><br><span class="line"><span class="keyword">int</span> siz[N],dep[N],f[N],son[N],top[N],a[N],val[N],sum[N];</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Edge</span>&#123;</span></span><br><span class="line">    <span class="keyword">int</span> to,nxt;</span><br><span class="line">&#125;e[N &lt;&lt; <span class="number">1</span>];</span><br><span class="line"><span class="keyword">int</span> head[N],edge;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> v)</span> </span>&#123;</span><br><span class="line">    e[++edge]=(Edge)&#123;v,head[u]&#125;;</span><br><span class="line">    head[u]=edge;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">dfs1</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> fa)</span></span>&#123;</span><br><span class="line">    siz[x]=<span class="number">1</span>; dep[x]=dep[fa]+<span class="number">1</span>; f[x]=fa;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=head[x];i;i=e[i].nxt) &#123;</span><br><span class="line">        <span class="keyword">if</span>(e[i].to!=fa) &#123;</span><br><span class="line">            dfs1(e[i].to,x);</span><br><span class="line">            siz[x]+=siz[e[i].to];</span><br><span class="line">            <span class="keyword">if</span>(siz[son[x]]&lt;siz[e[i].to])son[x]=e[i].to;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">dfs2</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(x==son[f[x]])top[x]=top[f[x]];</span><br><span class="line">    <span class="keyword">else</span> top[x]=x;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=head[x];i;i=e[i].nxt)</span><br><span class="line">        <span class="keyword">if</span>(f[e[i].to]==x)dfs2(e[i].to);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">lca</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(top[x]!=top[y]) &#123;</span><br><span class="line">        <span class="keyword">if</span>(dep[top[x]]&gt;dep[top[y]]) x=f[top[x]];</span><br><span class="line">        <span class="keyword">else</span> y=f[top[y]];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(dep[x]&gt;dep[y])swap(x,y);</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">chafen</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y,<span class="keyword">int</span> v)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> z=lca(x,y);</span><br><span class="line">    val[f[z]]-=v; val[z]-=v; val[x]+=v; val[y]+=v;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">dfs3</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    sum[x]=val[x];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=head[x];i;i=e[i].nxt) &#123;</span><br><span class="line">        <span class="keyword">if</span>(e[i].to==f[x])<span class="keyword">continue</span>;</span><br><span class="line">        dfs3(e[i].to);</span><br><span class="line">        sum[x]+=sum[e[i].to];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;a[i]);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>,u,v;i&lt;n;i++) &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;u,&amp;v);</span><br><span class="line">        add(u,v); add(v,u);</span><br><span class="line">    &#125;</span><br><span class="line">    dfs1(a[<span class="number">1</span>],<span class="number">0</span>);</span><br><span class="line"> 	dfs2(a[<span class="number">1</span>]);</span><br><span class="line"><span class="comment">// 	printf("%d\n",lca(5,3));</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;=n;i++) &#123;</span><br><span class="line">        chafen(a[i<span class="number">-1</span>],a[i],<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    dfs3(a[<span class="number">1</span>]);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="built_in">printf</span>(<span class="string">"%d\n"</span>,i==a[<span class="number">1</span>]?sum[i]:sum[i]<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>树链剖分以后补（flag）</p>
-
-          
+          <h1 id="收获"><a href="#收获" class="headerlink" title="收获"></a><strong>收获</strong></h1><p>纠正了一波树链剖分的姿势和求lca的姿势</p>
+<h1 id="题解"><a href="#题解" class="headerlink" title="题解"></a><strong>题解</strong></h1><p>注意到这是在树上…<br>所以u - &gt; v的最短路就可以拆成u-&gt; lca(u,v) 和 lca(u,v) - &gt; v 两条链的和<br>那就，写一个资瓷路径加，和查询节点权值的数据结构来维护？<br>树链剖分？<br>但是树链剖分又臭又长（相对而言）<br>有没有什么简单的方法呢？<br>想起了这道题<a href="https://www.lydsy.com/JudgeOnline/problem.php?id=4390" target="_blank" rel="noopener">BZOJ-4390</a><br>诶，路径上+1，查询节点的权值？<br>树上差分！<br>然后深搜一遍统计子树和就可以知道节点的权值了。<br>诶，我对$(a_i,a_{i+1})$+1然后又要对$(a_{i+1},a_{i+2})$+1<br>那$a_{i+1}$这个点岂不是多加了一次？<br>发掘隐含条件。对任意$i≠j$，都有$a_i≠a_j$（这不是废话）<br>也就是说，只有$a_i(2≤i&lt;n)$才会被多加一次。
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/10/02/BZOJ-3631-JLOI2014-松鼠的新家/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -498,12 +500,24 @@
                 
               
 
-              <time title="创建时间：2018-10-01 23:18:05 / 修改时间：23:48:50" itemprop="dateCreated datePublished" datetime="2018-10-01T23:18:05+08:00">2018-10-01</time>
+              <time title="创建时间：2018-10-01 23:18:05" itemprop="dateCreated datePublished" datetime="2018-10-01T23:18:05+08:00">2018-10-01</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-02 09:06:34" itemprop="dateModified" datetime="2018-10-02T09:06:34+08:00">2018-10-02</time>
               
             
           </span>
@@ -537,7 +551,7 @@
 
       
         
-          <p><strong> 题解：</strong><br>  其实我是看别人题解的…<br>  “是不是跟你说最小生成树你就会做了”<br>  设sum[i]为1~i的奇偶性<br>  那么只要知道sum[1~n]，不就可以知道小球在哪了么？<br>  “道理我都懂，可是怎么做”<br>  假设我知道sum[i]。知道c[i+1][j]。那我可以用sum[i]+c[i+1][j]求出sum[j]。<br>        sum[j]同理。知道c[i+1][j]。那我可以用sum[j]-c[i+1][j]求出sum[i]。<br>  那么问题就变成了。我需要知道多少个c[i][j]。就可以求出sum[];<br>  于是可以连边<br>  i-1 - &gt; j 连一条c[i][j]的无向边<br>  假设我们知道sum[i-1]或者sum[j]; 那么我们就可以推出sum[j]或sum[i-1]了<br>  然后跑最小生成树。<br>
+          <h1 id="题解"><a href="#题解" class="headerlink" title=" 题解 "></a><strong> 题解 </strong></h1><p>  其实我是看别人题解的…<br>  “是不是跟你说最小生成树你就会做了”<br>  设sum[i]为1~i的奇偶性<br>  那么只要知道sum[1~n]，不就可以知道小球在哪了么？<br>  “道理我都懂，可是怎么做”<br>  假设我知道sum[i]。知道c[i+1][j]。那我可以用sum[i]+c[i+1][j]求出sum[j]。<br>        sum[j]同理。知道c[i+1][j]。那我可以用sum[j]-c[i+1][j]求出sum[i]。<br>  那么问题就变成了。我需要知道多少个c[i][j]。就可以求出sum[];<br>  于是可以连边<br>  i-1 - &gt; j 连一条c[i][j]的无向边<br>  假设我们知道sum[i-1]或者sum[j]; 那么我们就可以推出sum[j]或sum[i-1]了<br>  然后跑最小生成树。<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/10/01/BZOJ-3714-PA2014-Kuglarz/#more" rel="contents">
@@ -659,7 +673,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-10-02 08:24:46" itemprop="dateModified" datetime="2018-10-02T08:24:46+08:00">2018-10-02</time>
+                <time title="修改时间：2018-10-02 09:11:02" itemprop="dateModified" datetime="2018-10-02T09:11:02+08:00">2018-10-02</time>
               
             
           </span>
@@ -693,7 +707,7 @@
 
       
         
-          <p><strong> 题解：</strong><br>  先缩点，然后跑spfa最长路。<br>值得注意的东西：<br>  Bzoj上堆优化和朴素的spfa都能过，不过洛谷堆优化会被卡掉一个点<br>  用堆优化的spfa跑最长路实际效率貌似比不上朴素的spfa…<br>
+          <h1 id="题解："><a href="#题解：" class="headerlink" title=" 题解："></a><strong> 题解：</strong></h1><p>  先缩点，然后跑spfa最长路。<br>值得注意的东西：<br>  Bzoj上堆优化和朴素的spfa都能过，不过洛谷堆优化会被卡掉一个点<br>  用堆优化的spfa跑最长路实际效率貌似比不上朴素的spfa…<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/10/01/BZOJ-1179-Apio2009-Atm/#more" rel="contents">
@@ -815,7 +829,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-10-01 23:49:26" itemprop="dateModified" datetime="2018-10-01T23:49:26+08:00">2018-10-01</time>
+                <time title="修改时间：2018-10-02 09:10:30" itemprop="dateModified" datetime="2018-10-02T09:10:30+08:00">2018-10-02</time>
               
             
           </span>
@@ -849,7 +863,8 @@
 
       
         
-          <p><strong> 前言：</strong><br>  看到n很小感觉可以搞事情，但是不知道要怎么搞<br>  虽然之前写过但是并不是很了解<br><strong> 题解：</strong><br>  其实我是没想到直接深搜的<br>  用dfs(x,y,n)表示大小为x*y的蛋糕，分成n块最小比值是多少<br>  每次把n分成两部分，也就是每次把一块大蛋糕分成一大一小(也可能是一样大的)两块蛋糕<br>  然后再分类讨论横切和纵切。<br>  边界是n=1;<br>
+          <h1 id="前言"><a href="#前言" class="headerlink" title=" 前言 "></a><strong> 前言 </strong></h1><p>  看到n很小感觉可以搞事情，但是不知道要怎么搞<br>  虽然之前写过但是并不是很了解</p>
+<h1 id="题解"><a href="#题解" class="headerlink" title=" 题解 "></a><strong> 题解 </strong></h1><p>  其实我是没想到直接深搜的<br>  用dfs(x,y,n)表示大小为x*y的蛋糕，分成n块最小比值是多少<br>  每次把n分成两部分，也就是每次把一块大蛋糕分成一大一小(也可能是一样大的)两块蛋糕<br>  然后再分类讨论横切和纵切。<br>  边界是n=1;<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/09/19/BZOJ-1024-生日快乐/#more" rel="contents">
@@ -971,7 +986,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-10-02 08:25:22" itemprop="dateModified" datetime="2018-10-02T08:25:22+08:00">2018-10-02</time>
+                <time title="修改时间：2018-10-02 09:15:46" itemprop="dateModified" datetime="2018-10-02T09:15:46+08:00">2018-10-02</time>
               
             
           </span>
@@ -1005,7 +1020,8 @@
 
       
         
-          <p><strong> 前言：</strong><br>    一开始还以为要带至少一个log…<br>    就是那种排序啊然后二分什么的…<br>    突然发现行不通。<br><strong> 题解：</strong><br>    首先有一个明显的N^2做法…即直接枚举两个数…<br>    听codesonic说：二维线段树。<br>    …啥啊<br>    引入结论：<br>    0.切夫雪比距离：$max\left ( \left | x2-x1 \right |,\left | y2-y1 \right | \right )$<br>    1.将一个点$\left ( x,y \right )$的坐标变为$\left ( x+y,x-y \right )$后,原坐标系中的曼哈顿距离 =新坐标系中的切比雪夫距离<br>    2.将一个点$\left ( x,y \right )$的坐标变为$\left ( \frac{x+y}{2},\frac{x-y}{2} \right )$ 后,原坐标系中的切比雪夫距离 = 新坐标系中的曼哈顿距离<br>    <a href="https://www.cnblogs.com/zwfymqz/p/8253530.html" target="_blank" rel="noopener">参考资料</a><br>    然后就可以在线性时间内解决了<br>
+          <h1 id="前言"><a href="#前言" class="headerlink" title=" 前言 "></a><strong> 前言 </strong></h1><p>一开始还以为要带至少一个log…<br>就是那种排序啊然后二分什么的…<br>突然发现行不通。</p>
+<h1 id="题解"><a href="#题解" class="headerlink" title=" 题解 "></a><strong> 题解 </strong></h1><p>首先有一个明显的N^2做法…即直接枚举两个数…<br>听codesonic说：二维线段树。<br>引入结论：<br>0.切夫雪比距离：$max\left ( \left | x2-x1 \right |,\left | y2-y1 \right | \right )$<br>1.将一个点$\left ( x,y \right )$的坐标变为$\left ( x+y,x-y \right )$后,原坐标系中的曼哈顿距离 =新坐标系中的切比雪夫距离<br>2.将一个点$\left ( x,y \right )$的坐标变为$\left ( \frac{x+y}{2},\frac{x-y}{2} \right )$ 后,原坐标系中的切比雪夫距离 = 新坐标系中的曼哈顿距离<br><a href="https://www.cnblogs.com/zwfymqz/p/8253530.html" target="_blank" rel="noopener">参考资料</a><br>然后就可以在线性时间内解决了<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/09/17/BZOJ-3382-洞穴里的牛之三/#more" rel="contents">
@@ -1127,7 +1143,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-10-02 08:25:04" itemprop="dateModified" datetime="2018-10-02T08:25:04+08:00">2018-10-02</time>
+                <time title="修改时间：2018-10-02 09:16:20" itemprop="dateModified" datetime="2018-10-02T09:16:20+08:00">2018-10-02</time>
               
             
           </span>
@@ -1161,7 +1177,8 @@
 
       
         
-          <p><strong>前言</strong><br>为啥可以不考虑h[a]&gt;=h[b]这个条件？不是很懂…<br><strong>题解</strong><br>给定了H=max{h}不如假设每一个点的值都为H<br>假设我们知道a能看到b<br>那就把a+1~b-1这中间的所有高度都-1。<br>最后的序列就是答案序列了。<br>把区间修改转成在差分序列里修改。<br>如果是[l,r]-1。就相当于b[l]-1,b[r+1]+1;<br>
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h1><p>为啥可以不考虑h[a]&gt;=h[b]这个条件？不是很懂…</p>
+<h1 id="题解"><a href="#题解" class="headerlink" title="题解"></a><strong>题解</strong></h1><p>给定了H=max{h}不如假设每一个点的值都为H<br>假设我们知道a能看到b<br>那就把a+1~b-1这中间的所有高度都-1。<br>最后的序列就是答案序列了。<br>把区间修改转成在差分序列里修改。<br>如果是[l,r]-1。就相当于b[l]-1,b[r+1]+1;<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/08/29/BZOJ-1635-最高的牛/#more" rel="contents">
@@ -1283,7 +1300,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-08-29 18:44:24" itemprop="dateModified" datetime="2018-08-29T18:44:24+08:00">2018-08-29</time>
+                <time title="修改时间：2018-10-02 09:11:52" itemprop="dateModified" datetime="2018-10-02T09:11:52+08:00">2018-10-02</time>
               
             
           </span>
@@ -1317,7 +1334,7 @@
 
       
         
-          <p><strong>题解</strong><br>要求的其实就是：<br>    $$\sum_{i=1}^{n} k -\left \lfloor \frac{k}{i} \right \rfloor \cdot i$$<br>然后可以把k提出来：<br>    $$n\cdot k-\sum_{i=1}^{n} \left \lfloor \frac{k}{i} \right \rfloor \cdot i$$<br>然后呢？<br>要知道个结论：给定正整数i和k满足i&lt;=k。<br>有$$\frac{k}{i}=\frac{k}{\left \lfloor \frac{k}{i} \right \rfloor}$$<br><a href="https://zhuanlan.zhihu.com/p/26020672" target="_blank" rel="noopener">戳我看证明过程</a><br>然后我们来做一下后面这个东西。<br>因为i~k/(k/i)之间的取值都是相同的，所以满足乘法分配律<br>那么对于这一段区间，可以变成：<br>$$\left \lfloor \frac{k}{i} \right \rfloor \cdot \sum_{j=i}^{\frac{k}{\left \lfloor \frac{k}{i} \right \rfloor}} {j}$$<br>然后对于这道题，只需要注意j&lt;=n就可以了。<br>
+          <h1 id="题解"><a href="#题解" class="headerlink" title="题解"></a><strong>题解</strong></h1><p>要求的其实就是：<br>    $$\sum_{i=1}^{n} k -\left \lfloor \frac{k}{i} \right \rfloor \cdot i$$<br>然后可以把k提出来：<br>    $$n\cdot k-\sum_{i=1}^{n} \left \lfloor \frac{k}{i} \right \rfloor \cdot i$$<br>然后呢？<br>要知道个结论：给定正整数i和k满足i&lt;=k。<br>有$$\frac{k}{i}=\frac{k}{\left \lfloor \frac{k}{i} \right \rfloor}$$<br><a href="https://zhuanlan.zhihu.com/p/26020672" target="_blank" rel="noopener">证明过程</a><br>然后我们来做一下后面这个东西。<br>因为i~k/(k/i)之间的取值都是相同的，所以满足乘法分配律<br>那么对于这一段区间，可以变成：<br>$$\left \lfloor \frac{k}{i} \right \rfloor \cdot \sum_{j=i}^{\frac{k}{\left \lfloor \frac{k}{i} \right \rfloor}} {j}$$<br>然后对于这道题，只需要注意j&lt;=n就可以了。<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/08/27/BZOJ-1257-CQOI2007-余数之和/#more" rel="contents">
@@ -1439,7 +1456,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-08-27 00:04:00" itemprop="dateModified" datetime="2018-08-27T00:04:00+08:00">2018-08-27</time>
+                <time title="修改时间：2018-10-02 09:11:16" itemprop="dateModified" datetime="2018-10-02T09:11:16+08:00">2018-10-02</time>
               
             
           </span>
@@ -1473,7 +1490,8 @@
 
       
         
-          <p><strong>前言</strong><br>第一次接触字符串hash…<br>本来有个很美妙的想法：去掉某个字符的话，那么就是用总的hash值减去$s_i \cdot base^{i}$<br>啊！妙啊。<br>但是发现如果是删除一个子串，复杂度就爆炸了。<br>然后就学习了一下hzwer的双向hash<br><strong>题解</strong><br>正反跑一遍记录一下字符串hash值。<br>然后对于一个串删掉第i个字符的话。<br>就记录一下正向的hash值$H1[i-1]\cdot base1+$反向的hash值$H2[i+1]\cdot base2$<br>排下序。如果两个相等的话，那么拍序完肯定堆在一起<br>注意下base1!=base2…不然容易卡<br>
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h1><p>第一次接触字符串hash…<br>本来有个很美妙的想法：去掉某个字符的话，那么就是用总的hash值减去$s_i \cdot base^{i}$<br>啊！妙啊。<br>但是发现如果是删除一个子串，复杂度就爆炸了。<br>然后就学习了一下hzwer的双向hash</p>
+<h1 id="题解"><a href="#题解" class="headerlink" title="题解"></a><strong>题解</strong></h1><p>正反跑一遍记录一下字符串hash值。<br>然后对于一个串删掉第i个字符的话。<br>就记录一下正向的hash值$H1[i-1]\cdot base1+$反向的hash值$H2[i+1]\cdot base2$<br>排下序。如果两个相等的话，那么拍序完肯定堆在一起<br>注意下base1!=base2…不然容易卡<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/08/26/BZOJ-3555-Ctsc2014-企鹅QQ/#more" rel="contents">
@@ -1578,12 +1596,24 @@
                 
               
 
-              <time title="创建时间：2018-08-26 23:38:39 / 修改时间：23:48:54" itemprop="dateCreated datePublished" datetime="2018-08-26T23:38:39+08:00">2018-08-26</time>
+              <time title="创建时间：2018-08-26 23:38:39" itemprop="dateCreated datePublished" datetime="2018-08-26T23:38:39+08:00">2018-08-26</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-02 09:10:44" itemprop="dateModified" datetime="2018-10-02T09:10:44+08:00">2018-10-02</time>
               
             
           </span>
@@ -1617,7 +1647,8 @@
 
       
         
-          <p><strong>前言</strong><br>这道题做了两次。<br>第一次做的懵懵懂懂。好像是QuartZ_Z说了个公式然后就直接抄了<br>第二次自己推的。也就是这次了。<br><strong>题解</strong><br>怎么推？<br>要怎么算会发生越狱的情况？<br>好像不能直接算…<br>转换一下思路<br>要不变成可能的所有情况-不可能发生越狱的情况。<br>诶，好像可以做了<br>所有可能的情况是：<br>$${n}^{m}$$<br>不可能发生越狱当然就是第i个数和第(i+1)个数和第(i-1)个数都不相等的时候了<br>那么，第一个数可能有m种情况，然后第2~n个数，每一个都和前一个不相同，那就有m-1种取值<br>所以不可能越狱的情况是：<br>$$m \cdot \left ( n-1 \right )^{m-1}$$<br>注意下取膜就没了<br>
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h1><p>这道题做了两次。<br>第一次做的懵懵懂懂。好像是QuartZ_Z说了个公式然后就直接抄了<br>第二次自己推的。也就是这次了。</p>
+<h1 id="题解"><a href="#题解" class="headerlink" title="题解"></a><strong>题解</strong></h1><p>怎么推？<br>要怎么算会发生越狱的情况？<br>好像不能直接算…<br>转换一下思路<br>要不变成可能的所有情况-不可能发生越狱的情况。<br>诶，好像可以做了<br>所有可能的情况是：<br>$${n}^{m}$$<br>不可能发生越狱当然就是第i个数和第(i+1)个数和第(i-1)个数都不相等的时候了<br>那么，第一个数可能有m种情况，然后第2~n个数，每一个都和前一个不相同，那就有m-1种取值<br>所以不可能越狱的情况是：<br>$$m \cdot \left ( n-1 \right )^{m-1}$$<br>注意下取膜就没了<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/08/26/BZOJ-1008-HNOI2008-越狱/#more" rel="contents">
@@ -1722,12 +1753,24 @@
                 
               
 
-              <time title="创建时间：2018-08-25 12:13:07 / 修改时间：12:40:38" itemprop="dateCreated datePublished" datetime="2018-08-25T12:13:07+08:00">2018-08-25</time>
+              <time title="创建时间：2018-08-25 12:13:07" itemprop="dateCreated datePublished" datetime="2018-08-25T12:13:07+08:00">2018-08-25</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-02 09:10:04" itemprop="dateModified" datetime="2018-10-02T09:10:04+08:00">2018-10-02</time>
               
             
           </span>
@@ -1761,7 +1804,7 @@
 
       
         
-          <p><strong>前言</strong>：<br>  我真的是菜爆了<br>  C/E让我明白我是个傻叉。<br>  刷题量还是不够啊<br>
+          <h1 id="前言："><a href="#前言：" class="headerlink" title="前言："></a><strong>前言</strong>：</h1><p>  我真的是菜爆了<br>  C/E让我明白我是个傻叉。<br>  刷题量还是不够啊<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/08/25/Codeforces-Round-506-Div-3/#more" rel="contents">
@@ -1895,7 +1938,13 @@
                     
                       
                     
-                    <span class="site-state-item-count">12</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

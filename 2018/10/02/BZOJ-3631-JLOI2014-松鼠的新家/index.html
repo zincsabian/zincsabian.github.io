@@ -109,15 +109,16 @@
 
 
   <meta name="description" content="收获纠正了一波树链剖分的姿势和求lca的姿势 题解注意到这是在树上…所以u - &amp;gt; v的最短路就可以拆成u-&amp;gt; lca(u,v) 和 lca(u,v) - &amp;gt; v 两条链的和那就，写一个资瓷路径加，和查询节点权值的数据结构来维护？树链剖分？但是树链剖分又臭又长（相对而言）有没有什么简单的方法呢？想起了这道题BZOJ-4390诶，路径上+1，查询节点的权值？树上差分！然后深搜一遍统">
+<meta name="keywords" content="BZOJ,树上差分,树链剖分">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ZincSabian&#39;s Blog">
+<meta property="og:title" content="BZOJ-3631:[JLOI2014]松鼠的新家">
 <meta property="og:url" content="http://yoursite.com/2018/10/02/BZOJ-3631-JLOI2014-松鼠的新家/index.html">
 <meta property="og:site_name" content="ZincSabian&#39;s Blog">
 <meta property="og:description" content="收获纠正了一波树链剖分的姿势和求lca的姿势 题解注意到这是在树上…所以u - &amp;gt; v的最短路就可以拆成u-&amp;gt; lca(u,v) 和 lca(u,v) - &amp;gt; v 两条链的和那就，写一个资瓷路径加，和查询节点权值的数据结构来维护？树链剖分？但是树链剖分又臭又长（相对而言）有没有什么简单的方法呢？想起了这道题BZOJ-4390诶，路径上+1，查询节点的权值？树上差分！然后深搜一遍统">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-02T00:58:22.000Z">
+<meta property="og:updated_time" content="2018-10-02T01:08:22.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ZincSabian&#39;s Blog">
+<meta name="twitter:title" content="BZOJ-3631:[JLOI2014]松鼠的新家">
 <meta name="twitter:description" content="收获纠正了一波树链剖分的姿势和求lca的姿势 题解注意到这是在树上…所以u - &amp;gt; v的最短路就可以拆成u-&amp;gt; lca(u,v) 和 lca(u,v) - &amp;gt; v 两条链的和那就，写一个资瓷路径加，和查询节点权值的数据结构来维护？树链剖分？但是树链剖分又臭又长（相对而言）有没有什么简单的方法呢？想起了这道题BZOJ-4390诶，路径上+1，查询节点的权值？树上差分！然后深搜一遍统">
 
 
@@ -135,7 +136,7 @@
   };
 </script>
 
-  <title> | ZincSabian's Blog</title>
+  <title>BZOJ-3631:[JLOI2014]松鼠的新家 | ZincSabian's Blog</title>
   
 
 
@@ -329,7 +330,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
+          <h1 class="post-title" itemprop="name headline">BZOJ-3631:[JLOI2014]松鼠的新家
               
             
           </h1>
@@ -354,7 +355,7 @@
                 
               
 
-              <time title="创建时间：2018-10-02 08:29:23 / 修改时间：08:58:22" itemprop="dateCreated datePublished" datetime="2018-10-02T08:29:23+08:00">2018-10-02</time>
+              <time title="创建时间：2018-10-02 09:07:34 / 修改时间：09:08:22" itemprop="dateCreated datePublished" datetime="2018-10-02T09:07:34+08:00">2018-10-02</time>
             
 
             
@@ -393,7 +394,7 @@
 
       
         <h1 id="收获"><a href="#收获" class="headerlink" title="收获"></a><strong>收获</strong></h1><p>纠正了一波树链剖分的姿势和求lca的姿势</p>
-<h1 id="题解"><a href="#题解" class="headerlink" title="题解"></a><strong>题解</strong></h1><p>注意到这是在树上…<br>所以u - &gt; v的最短路就可以拆成u-&gt; lca(u,v) 和 lca(u,v) - &gt; v 两条链的和<br>那就，写一个资瓷路径加，和查询节点权值的数据结构来维护？<br>树链剖分？<br>但是树链剖分又臭又长（相对而言）<br>有没有什么简单的方法呢？<br>想起了这道题<a href="https://www.lydsy.com/JudgeOnline/problem.php?id=4390" target="_blank" rel="noopener">BZOJ-4390</a><br>诶，路径上+1，查询节点的权值？<br>树上差分！<br>然后深搜一遍统计子树和就可以知道节点的权值了。<br>诶，我对$(a_i,a_{i+1})$+1然后又要对$(a_{i+1},a_{i+2})$+1<br>那$a_{i+1}$这个点岂不是多加了一次？<br>发掘隐含条件。对任意$i≠j$，都有$a_i≠a_j$（这不是废话）<br>也就是说，只有$a_i(2≤i&lt;n)$才会被多加一次。</p>
+<h1 id="题解"><a href="#题解" class="headerlink" title="题解"></a><strong>题解</strong></h1><p>注意到这是在树上…<br>所以u - &gt; v的最短路就可以拆成u-&gt; lca(u,v) 和 lca(u,v) - &gt; v 两条链的和<br>那就，写一个资瓷路径加，和查询节点权值的数据结构来维护？<br>树链剖分？<br>但是树链剖分又臭又长（相对而言）<br>有没有什么简单的方法呢？<br>想起了这道题<a href="https://www.lydsy.com/JudgeOnline/problem.php?id=4390" target="_blank" rel="noopener">BZOJ-4390</a><br>诶，路径上+1，查询节点的权值？<br>树上差分！<br>然后深搜一遍统计子树和就可以知道节点的权值了。<br>诶，我对$(a_i,a_{i+1})$+1然后又要对$(a_{i+1},a_{i+2})$+1<br>那$a_{i+1}$这个点岂不是多加了一次？<br>发掘隐含条件。对任意$i≠j$，都有$a_i≠a_j$（这不是废话）<br>也就是说，只有$a_i(2≤i&lt;n)$才会被多加一次。<a id="more"></a></p>
 <h1 id="Code"><a href="#Code" class="headerlink" title="Code"></a><strong>Code</strong></h1><p>树上差分：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> LL;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> ULL;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">int</span> uint;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">300005</span>;</span><br><span class="line"><span class="keyword">int</span> n,m;</span><br><span class="line"><span class="keyword">int</span> siz[N],dep[N],f[N],son[N],top[N],a[N],val[N],sum[N];</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Edge</span>&#123;</span></span><br><span class="line">    <span class="keyword">int</span> to,nxt;</span><br><span class="line">&#125;e[N &lt;&lt; <span class="number">1</span>];</span><br><span class="line"><span class="keyword">int</span> head[N],edge;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> v)</span> </span>&#123;</span><br><span class="line">    e[++edge]=(Edge)&#123;v,head[u]&#125;;</span><br><span class="line">    head[u]=edge;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">dfs1</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> fa)</span></span>&#123;</span><br><span class="line">    siz[x]=<span class="number">1</span>; dep[x]=dep[fa]+<span class="number">1</span>; f[x]=fa;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=head[x];i;i=e[i].nxt) &#123;</span><br><span class="line">        <span class="keyword">if</span>(e[i].to!=fa) &#123;</span><br><span class="line">            dfs1(e[i].to,x);</span><br><span class="line">            siz[x]+=siz[e[i].to];</span><br><span class="line">            <span class="keyword">if</span>(siz[son[x]]&lt;siz[e[i].to])son[x]=e[i].to;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">dfs2</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(x==son[f[x]])top[x]=top[f[x]];</span><br><span class="line">    <span class="keyword">else</span> top[x]=x;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=head[x];i;i=e[i].nxt)</span><br><span class="line">        <span class="keyword">if</span>(f[e[i].to]==x)dfs2(e[i].to);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">lca</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(top[x]!=top[y]) &#123;</span><br><span class="line">        <span class="keyword">if</span>(dep[top[x]]&gt;dep[top[y]]) x=f[top[x]];</span><br><span class="line">        <span class="keyword">else</span> y=f[top[y]];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(dep[x]&gt;dep[y])swap(x,y);</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">chafen</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y,<span class="keyword">int</span> v)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> z=lca(x,y);</span><br><span class="line">    val[f[z]]-=v; val[z]-=v; val[x]+=v; val[y]+=v;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">dfs3</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    sum[x]=val[x];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=head[x];i;i=e[i].nxt) &#123;</span><br><span class="line">        <span class="keyword">if</span>(e[i].to==f[x])<span class="keyword">continue</span>;</span><br><span class="line">        dfs3(e[i].to);</span><br><span class="line">        sum[x]+=sum[e[i].to];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;a[i]);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>,u,v;i&lt;n;i++) &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;u,&amp;v);</span><br><span class="line">        add(u,v); add(v,u);</span><br><span class="line">    &#125;</span><br><span class="line">    dfs1(a[<span class="number">1</span>],<span class="number">0</span>);</span><br><span class="line"> 	dfs2(a[<span class="number">1</span>]);</span><br><span class="line"><span class="comment">// 	printf("%d\n",lca(5,3));</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;=n;i++) &#123;</span><br><span class="line">        chafen(a[i<span class="number">-1</span>],a[i],<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    dfs3(a[<span class="number">1</span>]);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="built_in">printf</span>(<span class="string">"%d\n"</span>,i==a[<span class="number">1</span>]?sum[i]:sum[i]<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>树链剖分以后补（flag）</p>
 
@@ -413,6 +414,16 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/BZOJ/" rel="tag"> <i class="fa fa-tag"></i> BZOJ</a>
+          
+            <a href="/tags/树上差分/" rel="tag"> <i class="fa fa-tag"></i> 树上差分</a>
+          
+            <a href="/tags/树链剖分/" rel="tag"> <i class="fa fa-tag"></i> 树链剖分</a>
+          
+        </div>
       
 
       
@@ -544,7 +555,13 @@
                     
                       
                     
-                    <span class="site-state-item-count">12</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

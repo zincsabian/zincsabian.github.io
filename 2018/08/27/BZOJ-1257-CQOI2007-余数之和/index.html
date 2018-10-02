@@ -116,7 +116,7 @@
 <meta property="og:site_name" content="ZincSabian&#39;s Blog">
 <meta property="og:description" content="题解要求的其实就是：    $$\sum_{i=1}^{n} k -\left \lfloor \frac{k}{i} \right \rfloor \cdot i$$然后可以把k提出来：    $$n\cdot k-\sum_{i=1}^{n} \left \lfloor \frac{k}{i} \right \rfloor \cdot i$$然后呢？要知道个结论：给定正整数i和k满足i&amp;lt;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-08-29T10:44:24.000Z">
+<meta property="og:updated_time" content="2018-10-02T01:11:52.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="BZOJ-1257:[CQOI2007]余数之和">
 <meta name="twitter:description" content="题解要求的其实就是：    $$\sum_{i=1}^{n} k -\left \lfloor \frac{k}{i} \right \rfloor \cdot i$$然后可以把k提出来：    $$n\cdot k-\sum_{i=1}^{n} \left \lfloor \frac{k}{i} \right \rfloor \cdot i$$然后呢？要知道个结论：给定正整数i和k满足i&amp;lt;">
@@ -372,7 +372,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-08-29 18:44:24" itemprop="dateModified" datetime="2018-08-29T18:44:24+08:00">2018-08-29</time>
+                <time title="修改时间：2018-10-02 09:11:52" itemprop="dateModified" datetime="2018-10-02T09:11:52+08:00">2018-10-02</time>
               
             
           </span>
@@ -405,8 +405,8 @@
       
 
       
-        <p><strong>题解</strong><br>要求的其实就是：<br>    $$\sum_{i=1}^{n} k -\left \lfloor \frac{k}{i} \right \rfloor \cdot i$$<br>然后可以把k提出来：<br>    $$n\cdot k-\sum_{i=1}^{n} \left \lfloor \frac{k}{i} \right \rfloor \cdot i$$<br>然后呢？<br>要知道个结论：给定正整数i和k满足i&lt;=k。<br>有$$\frac{k}{i}=\frac{k}{\left \lfloor \frac{k}{i} \right \rfloor}$$<br><a href="https://zhuanlan.zhihu.com/p/26020672" target="_blank" rel="noopener">戳我看证明过程</a><br>然后我们来做一下后面这个东西。<br>因为i~k/(k/i)之间的取值都是相同的，所以满足乘法分配律<br>那么对于这一段区间，可以变成：<br>$$\left \lfloor \frac{k}{i} \right \rfloor \cdot \sum_{j=i}^{\frac{k}{\left \lfloor \frac{k}{i} \right \rfloor}} {j}$$<br>然后对于这道题，只需要注意j&lt;=n就可以了。<br><a id="more"></a><br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> n,k,ans,j;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;n&gt;&gt;k;</span><br><span class="line">    <span class="keyword">if</span>(n&gt;=k)ans=(n-k)*k,n=k;</span><br><span class="line">    ans+=k*n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">long</span> <span class="keyword">long</span> i=<span class="number">1</span>;i&lt;=n;i=j+<span class="number">1</span>) &#123;</span><br><span class="line">        j=k/(k/i);</span><br><span class="line">        ans-=(k/i)*((min(j,n)-i+<span class="number">1</span>)*(i+(min(j,n)))&gt;&gt;<span class="number">1l</span>l);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;ans&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
+        <h1 id="题解"><a href="#题解" class="headerlink" title="题解"></a><strong>题解</strong></h1><p>要求的其实就是：<br>    $$\sum_{i=1}^{n} k -\left \lfloor \frac{k}{i} \right \rfloor \cdot i$$<br>然后可以把k提出来：<br>    $$n\cdot k-\sum_{i=1}^{n} \left \lfloor \frac{k}{i} \right \rfloor \cdot i$$<br>然后呢？<br>要知道个结论：给定正整数i和k满足i&lt;=k。<br>有$$\frac{k}{i}=\frac{k}{\left \lfloor \frac{k}{i} \right \rfloor}$$<br><a href="https://zhuanlan.zhihu.com/p/26020672" target="_blank" rel="noopener">证明过程</a><br>然后我们来做一下后面这个东西。<br>因为i~k/(k/i)之间的取值都是相同的，所以满足乘法分配律<br>那么对于这一段区间，可以变成：<br>$$\left \lfloor \frac{k}{i} \right \rfloor \cdot \sum_{j=i}^{\frac{k}{\left \lfloor \frac{k}{i} \right \rfloor}} {j}$$<br>然后对于这道题，只需要注意j&lt;=n就可以了。<br><a id="more"></a></p>
+<h1 id="Code"><a href="#Code" class="headerlink" title="Code"></a><strong>Code</strong></h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> n,k,ans,j;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;n&gt;&gt;k;</span><br><span class="line">    <span class="keyword">if</span>(n&gt;=k)ans=(n-k)*k,n=k;</span><br><span class="line">    ans+=k*n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">long</span> <span class="keyword">long</span> i=<span class="number">1</span>;i&lt;=n;i=j+<span class="number">1</span>) &#123;</span><br><span class="line">        j=k/(k/i);</span><br><span class="line">        ans-=(k/i)*((min(j,n)-i+<span class="number">1</span>)*(i+(min(j,n)))&gt;&gt;<span class="number">1l</span>l);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;ans&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -498,8 +498,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -557,7 +566,13 @@
                     
                       
                     
-                    <span class="site-state-item-count">12</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -583,6 +598,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#题解"><span class="nav-number">1.</span> <span class="nav-text">题解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Code"><span class="nav-number">2.</span> <span class="nav-text">Code</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
