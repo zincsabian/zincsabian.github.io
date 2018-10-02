@@ -309,6 +309,149 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/02/BZOJ-3631-JLOI2014-松鼠的新家/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZincSabian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZincSabian's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/02/BZOJ-3631-JLOI2014-松鼠的新家/" itemprop="url">
+                  未命名
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-10-02 08:29:23 / 修改时间：08:58:22" itemprop="dateCreated datePublished" datetime="2018-10-02T08:29:23+08:00">2018-10-02</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="收获"><a href="#收获" class="headerlink" title="收获"></a><strong>收获</strong></h1><p>纠正了一波树链剖分的姿势和求lca的姿势</p>
+<h1 id="题解"><a href="#题解" class="headerlink" title="题解"></a><strong>题解</strong></h1><p>注意到这是在树上…<br>所以u - &gt; v的最短路就可以拆成u-&gt; lca(u,v) 和 lca(u,v) - &gt; v 两条链的和<br>那就，写一个资瓷路径加，和查询节点权值的数据结构来维护？<br>树链剖分？<br>但是树链剖分又臭又长（相对而言）<br>有没有什么简单的方法呢？<br>想起了这道题<a href="https://www.lydsy.com/JudgeOnline/problem.php?id=4390" target="_blank" rel="noopener">BZOJ-4390</a><br>诶，路径上+1，查询节点的权值？<br>树上差分！<br>然后深搜一遍统计子树和就可以知道节点的权值了。<br>诶，我对$(a_i,a_{i+1})$+1然后又要对$(a_{i+1},a_{i+2})$+1<br>那$a_{i+1}$这个点岂不是多加了一次？<br>发掘隐含条件。对任意$i≠j$，都有$a_i≠a_j$（这不是废话）<br>也就是说，只有$a_i(2≤i&lt;n)$才会被多加一次。</p>
+<h1 id="Code"><a href="#Code" class="headerlink" title="Code"></a><strong>Code</strong></h1><p>树上差分：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> LL;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> ULL;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">int</span> uint;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">300005</span>;</span><br><span class="line"><span class="keyword">int</span> n,m;</span><br><span class="line"><span class="keyword">int</span> siz[N],dep[N],f[N],son[N],top[N],a[N],val[N],sum[N];</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Edge</span>&#123;</span></span><br><span class="line">    <span class="keyword">int</span> to,nxt;</span><br><span class="line">&#125;e[N &lt;&lt; <span class="number">1</span>];</span><br><span class="line"><span class="keyword">int</span> head[N],edge;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> v)</span> </span>&#123;</span><br><span class="line">    e[++edge]=(Edge)&#123;v,head[u]&#125;;</span><br><span class="line">    head[u]=edge;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">dfs1</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> fa)</span></span>&#123;</span><br><span class="line">    siz[x]=<span class="number">1</span>; dep[x]=dep[fa]+<span class="number">1</span>; f[x]=fa;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=head[x];i;i=e[i].nxt) &#123;</span><br><span class="line">        <span class="keyword">if</span>(e[i].to!=fa) &#123;</span><br><span class="line">            dfs1(e[i].to,x);</span><br><span class="line">            siz[x]+=siz[e[i].to];</span><br><span class="line">            <span class="keyword">if</span>(siz[son[x]]&lt;siz[e[i].to])son[x]=e[i].to;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">dfs2</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(x==son[f[x]])top[x]=top[f[x]];</span><br><span class="line">    <span class="keyword">else</span> top[x]=x;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=head[x];i;i=e[i].nxt)</span><br><span class="line">        <span class="keyword">if</span>(f[e[i].to]==x)dfs2(e[i].to);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">lca</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(top[x]!=top[y]) &#123;</span><br><span class="line">        <span class="keyword">if</span>(dep[top[x]]&gt;dep[top[y]]) x=f[top[x]];</span><br><span class="line">        <span class="keyword">else</span> y=f[top[y]];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(dep[x]&gt;dep[y])swap(x,y);</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">chafen</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y,<span class="keyword">int</span> v)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> z=lca(x,y);</span><br><span class="line">    val[f[z]]-=v; val[z]-=v; val[x]+=v; val[y]+=v;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">dfs3</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    sum[x]=val[x];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=head[x];i;i=e[i].nxt) &#123;</span><br><span class="line">        <span class="keyword">if</span>(e[i].to==f[x])<span class="keyword">continue</span>;</span><br><span class="line">        dfs3(e[i].to);</span><br><span class="line">        sum[x]+=sum[e[i].to];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;a[i]);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>,u,v;i&lt;n;i++) &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;u,&amp;v);</span><br><span class="line">        add(u,v); add(v,u);</span><br><span class="line">    &#125;</span><br><span class="line">    dfs1(a[<span class="number">1</span>],<span class="number">0</span>);</span><br><span class="line"> 	dfs2(a[<span class="number">1</span>]);</span><br><span class="line"><span class="comment">// 	printf("%d\n",lca(5,3));</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;=n;i++) &#123;</span><br><span class="line">        chafen(a[i<span class="number">-1</span>],a[i],<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    dfs3(a[<span class="number">1</span>]);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="built_in">printf</span>(<span class="string">"%d\n"</span>,i==a[<span class="number">1</span>]?sum[i]:sum[i]<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>树链剖分以后补（flag）</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/01/BZOJ-3714-PA2014-Kuglarz/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -453,7 +596,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/01/Bzoj-1179-Apio2009-Atm/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/01/BZOJ-1179-Apio2009-Atm/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZincSabian">
@@ -472,8 +615,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/10/01/Bzoj-1179-Apio2009-Atm/" itemprop="url">
-                  Bzoj-1179:[Apio2009]Atm
+                <a class="post-title-link" href="/2018/10/01/BZOJ-1179-Apio2009-Atm/" itemprop="url">
+                  BZOJ-1179:[Apio2009]Atm
                 </a>
               
             
@@ -499,12 +642,24 @@
                 
               
 
-              <time title="创建时间：2018-10-01 10:17:17 / 修改时间：23:48:38" itemprop="dateCreated datePublished" datetime="2018-10-01T10:17:17+08:00">2018-10-01</time>
+              <time title="创建时间：2018-10-01 10:17:17" itemprop="dateCreated datePublished" datetime="2018-10-01T10:17:17+08:00">2018-10-01</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-02 08:24:46" itemprop="dateModified" datetime="2018-10-02T08:24:46+08:00">2018-10-02</time>
               
             
           </span>
@@ -541,7 +696,7 @@
           <p><strong> 题解：</strong><br>  先缩点，然后跑spfa最长路。<br>值得注意的东西：<br>  Bzoj上堆优化和朴素的spfa都能过，不过洛谷堆优化会被卡掉一个点<br>  用堆优化的spfa跑最长路实际效率貌似比不上朴素的spfa…<br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/10/01/Bzoj-1179-Apio2009-Atm/#more" rel="contents">
+            <a class="btn" href="/2018/10/01/BZOJ-1179-Apio2009-Atm/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -753,7 +908,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/17/Bzoj-3382-洞穴里的牛之三/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/17/BZOJ-3382-洞穴里的牛之三/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZincSabian">
@@ -772,8 +927,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/09/17/Bzoj-3382-洞穴里的牛之三/" itemprop="url">
-                  Bzoj-3382-洞穴里的牛之三
+                <a class="post-title-link" href="/2018/09/17/BZOJ-3382-洞穴里的牛之三/" itemprop="url">
+                  BZOJ-3382-洞穴里的牛之三
                 </a>
               
             
@@ -816,7 +971,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-09-19 23:00:48" itemprop="dateModified" datetime="2018-09-19T23:00:48+08:00">2018-09-19</time>
+                <time title="修改时间：2018-10-02 08:25:22" itemprop="dateModified" datetime="2018-10-02T08:25:22+08:00">2018-10-02</time>
               
             
           </span>
@@ -853,7 +1008,7 @@
           <p><strong> 前言：</strong><br>    一开始还以为要带至少一个log…<br>    就是那种排序啊然后二分什么的…<br>    突然发现行不通。<br><strong> 题解：</strong><br>    首先有一个明显的N^2做法…即直接枚举两个数…<br>    听codesonic说：二维线段树。<br>    …啥啊<br>    引入结论：<br>    0.切夫雪比距离：$max\left ( \left | x2-x1 \right |,\left | y2-y1 \right | \right )$<br>    1.将一个点$\left ( x,y \right )$的坐标变为$\left ( x+y,x-y \right )$后,原坐标系中的曼哈顿距离 =新坐标系中的切比雪夫距离<br>    2.将一个点$\left ( x,y \right )$的坐标变为$\left ( \frac{x+y}{2},\frac{x-y}{2} \right )$ 后,原坐标系中的切比雪夫距离 = 新坐标系中的曼哈顿距离<br>    <a href="https://www.cnblogs.com/zwfymqz/p/8253530.html" target="_blank" rel="noopener">参考资料</a><br>    然后就可以在线性时间内解决了<br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/09/17/Bzoj-3382-洞穴里的牛之三/#more" rel="contents">
+            <a class="btn" href="/2018/09/17/BZOJ-3382-洞穴里的牛之三/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -909,7 +1064,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/29/Bzoj-1635-最高的牛/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/29/BZOJ-1635-最高的牛/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZincSabian">
@@ -928,8 +1083,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/08/29/Bzoj-1635-最高的牛/" itemprop="url">
-                  Bzoj-1635-最高的牛
+                <a class="post-title-link" href="/2018/08/29/BZOJ-1635-最高的牛/" itemprop="url">
+                  BZOJ-1635-最高的牛
                 </a>
               
             
@@ -955,12 +1110,24 @@
                 
               
 
-              <time title="创建时间：2018-08-29 18:07:51 / 修改时间：18:47:32" itemprop="dateCreated datePublished" datetime="2018-08-29T18:07:51+08:00">2018-08-29</time>
+              <time title="创建时间：2018-08-29 18:07:51" itemprop="dateCreated datePublished" datetime="2018-08-29T18:07:51+08:00">2018-08-29</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-02 08:25:04" itemprop="dateModified" datetime="2018-10-02T08:25:04+08:00">2018-10-02</time>
               
             
           </span>
@@ -997,7 +1164,7 @@
           <p><strong>前言</strong><br>为啥可以不考虑h[a]&gt;=h[b]这个条件？不是很懂…<br><strong>题解</strong><br>给定了H=max{h}不如假设每一个点的值都为H<br>假设我们知道a能看到b<br>那就把a+1~b-1这中间的所有高度都-1。<br>最后的序列就是答案序列了。<br>把区间修改转成在差分序列里修改。<br>如果是[l,r]-1。就相当于b[l]-1,b[r+1]+1;<br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/08/29/Bzoj-1635-最高的牛/#more" rel="contents">
+            <a class="btn" href="/2018/08/29/BZOJ-1635-最高的牛/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1638,146 +1805,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/21/BZOJ百题祭/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="ZincSabian">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ZincSabian's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/21/BZOJ百题祭/" itemprop="url">
-                  BZOJ百题祭
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-08-21 19:29:23 / 修改时间：20:40:54" itemprop="dateCreated datePublished" datetime="2018-08-21T19:29:23+08:00">2018-08-21</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>大概是一个暑假的时间，就在BZOJ上水了这么一点题T_T。<br>勉强水到了100题。纪念一下沃有多弱智吧qwq…<br>接下来的目标是200题。<br>所以会逐步的更新这个博客啦pwp…<br>加油…QAQ</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1829,7 +1856,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-count">13</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
