@@ -108,25 +108,25 @@
 
 
 
-  <meta name="description" content="大概是一个暑假的时间，就在BZOJ上水了这么一点题T_T。勉强水到了100题。纪念一下沃有多弱智吧qwq…接下来的目标是200题。所以会逐步的更新这个博客啦pwp…加油…QAQ">
-<meta name="keywords" content="杂谈">
+  <meta name="description" content="收获妈妈再也不担心我的spfa被卡掉了因为我终于学了dijkstra… 题解假设我们按照题意任意的两座城N^2建边。会发现，其中有一些边可以被取代譬如：(1,4)=5 可以被(1,5)=4和(5,4)=1取代。PS：(u,v)=w 表示u到v有一条为w的有(无)向边也就是说。我们仅仅需要那些边权为$2^{i}$然后挖掘一下异或的性质若a xor b=c，可以推导出 c xor b=a 和 c xo">
+<meta name="keywords" content="dijkstra,LOJ">
 <meta property="og:type" content="article">
-<meta property="og:title" content="BZOJ百题祭">
-<meta property="og:url" content="http://yoursite.com/2018/08/21/BZOJ百题祭/index.html">
+<meta property="og:title" content="LOJ-6354-最短路">
+<meta property="og:url" content="http://yoursite.com/2018/10/02/LOJ-6354-最短路/index.html">
 <meta property="og:site_name" content="ZincSabian&#39;s Blog">
-<meta property="og:description" content="大概是一个暑假的时间，就在BZOJ上水了这么一点题T_T。勉强水到了100题。纪念一下沃有多弱智吧qwq…接下来的目标是200题。所以会逐步的更新这个博客啦pwp…加油…QAQ">
+<meta property="og:description" content="收获妈妈再也不担心我的spfa被卡掉了因为我终于学了dijkstra… 题解假设我们按照题意任意的两座城N^2建边。会发现，其中有一些边可以被取代譬如：(1,4)=5 可以被(1,5)=4和(5,4)=1取代。PS：(u,v)=w 表示u到v有一条为w的有(无)向边也就是说。我们仅仅需要那些边权为$2^{i}$然后挖掘一下异或的性质若a xor b=c，可以推导出 c xor b=a 和 c xo">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-08-21T12:40:54.000Z">
+<meta property="og:updated_time" content="2018-10-02T10:30:52.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="BZOJ百题祭">
-<meta name="twitter:description" content="大概是一个暑假的时间，就在BZOJ上水了这么一点题T_T。勉强水到了100题。纪念一下沃有多弱智吧qwq…接下来的目标是200题。所以会逐步的更新这个博客啦pwp…加油…QAQ">
+<meta name="twitter:title" content="LOJ-6354-最短路">
+<meta name="twitter:description" content="收获妈妈再也不担心我的spfa被卡掉了因为我终于学了dijkstra… 题解假设我们按照题意任意的两座城N^2建边。会发现，其中有一些边可以被取代譬如：(1,4)=5 可以被(1,5)=4和(5,4)=1取代。PS：(u,v)=w 表示u到v有一条为w的有(无)向边也就是说。我们仅仅需要那些边权为$2^{i}$然后挖掘一下异或的性质若a xor b=c，可以推导出 c xor b=a 和 c xo">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/08/21/BZOJ百题祭/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/10/02/LOJ-6354-最短路/"/>
 
 
 
@@ -136,7 +136,7 @@
   };
 </script>
 
-  <title>BZOJ百题祭 | ZincSabian's Blog</title>
+  <title>LOJ-6354-最短路 | ZincSabian's Blog</title>
   
 
 
@@ -313,7 +313,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/21/BZOJ百题祭/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/02/LOJ-6354-最短路/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZincSabian">
@@ -330,7 +330,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">BZOJ百题祭
+          <h1 class="post-title" itemprop="name headline">LOJ-6354-最短路
               
             
           </h1>
@@ -355,7 +355,7 @@
                 
               
 
-              <time title="创建时间：2018-08-21 19:29:23 / 修改时间：20:40:54" itemprop="dateCreated datePublished" datetime="2018-08-21T19:29:23+08:00">2018-08-21</time>
+              <time title="创建时间：2018-10-02 17:48:34 / 修改时间：18:30:52" itemprop="dateCreated datePublished" datetime="2018-10-02T17:48:34+08:00">2018-10-02</time>
             
 
             
@@ -393,7 +393,10 @@
       
 
       
-        <p>大概是一个暑假的时间，就在BZOJ上水了这么一点题T_T。<br>勉强水到了100题。纪念一下沃有多弱智吧qwq…<br>接下来的目标是200题。<br>所以会逐步的更新这个博客啦pwp…<br>加油…QAQ</p>
+        <h1 id="收获"><a href="#收获" class="headerlink" title="收获"></a><strong>收获</strong></h1><p>妈妈再也不担心我的spfa被卡掉了<br>因为我终于学了dijkstra…</p>
+<h1 id="题解"><a href="#题解" class="headerlink" title="题解"></a><strong>题解</strong></h1><p>假设我们按照题意任意的两座城N^2建边。<br>会发现，其中有一些边可以被取代<br>譬如：(1,4)=5 可以被(1,5)=4和(5,4)=1取代。<br>PS：(u,v)=w 表示u到v有一条为w的有(无)向边<br>也就是说。我们仅仅需要那些边权为$2^{i}$<br>然后挖掘一下异或的性质<br>若a xor b=c，可以推导出 c xor b=a 和 c xor a=b<br>↑↑大佬请忽略这两行↑↑<br>那也就是说，除了本来就存在的m条边，我还需要的若干条边我可以这么建<br>枚举起点i : 1 ~ n。<br>枚举边权v：$2^{0}$ ~ $2^{17}$ 为了保守起见每个点我连到了$2^{17}$=<br>那么终点j：i xor v。<br>然后连边跑Dijkstra就行了。</p>
+<h1 id="我到底有多弱？"><a href="#我到底有多弱？" class="headerlink" title="我到底有多弱？"></a><strong>我到底有多弱？</strong></h1><p>堆优化的spfa在LOJ上卡不过最后一个子任务<br>然后堆优化的Dijkstra在LOJ上几乎是跑的最慢的一个<a id="more"></a></p>
+<h1 id="Code"><a href="#Code" class="headerlink" title="Code"></a><strong>Code</strong></h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> LL;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> ULL;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">int</span> uint;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">3e5</span>+<span class="number">5</span>,M=<span class="number">5e6</span>+<span class="number">5</span>;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Edge</span>&#123;</span></span><br><span class="line">    <span class="keyword">int</span> to,nxt,w;</span><br><span class="line">&#125;e[M];</span><br><span class="line"><span class="keyword">int</span> head[N],edge;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> v,<span class="keyword">int</span> w)</span> </span>&#123;</span><br><span class="line">    e[++edge]=(Edge)&#123;v,head[u],w&#125;;</span><br><span class="line">    head[u]=edge;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span>&#123;</span><span class="keyword">int</span> dis,pos;&#125;;</span><br><span class="line"><span class="keyword">bool</span> <span class="keyword">operator</span> &lt;(node a,node b) &#123;</span><br><span class="line">    <span class="keyword">return</span> a.dis&gt;b.dis;</span><br><span class="line">&#125;</span><br><span class="line">priority_queue&lt;node&gt; q;</span><br><span class="line"><span class="keyword">bool</span> vis[N];</span><br><span class="line"><span class="keyword">int</span> dis[N],n,m,c; </span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">dijkstra</span><span class="params">(<span class="keyword">int</span> u)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;N;i++)</span><br><span class="line">        dis[i]=<span class="number">2e9</span>,vis[i]=<span class="number">0</span>;</span><br><span class="line">    dis[u]=<span class="number">0</span>;</span><br><span class="line">    q.push((node)&#123;dis[u],u&#125;);</span><br><span class="line">    <span class="keyword">while</span>(!q.empty()) &#123;</span><br><span class="line">        node now=q.top(); q.pop();</span><br><span class="line">        <span class="keyword">int</span> pos=now.pos;</span><br><span class="line">        <span class="keyword">if</span>(vis[pos])<span class="keyword">continue</span>;</span><br><span class="line">        vis[pos]=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=head[pos];i;i=e[i].nxt)</span><br><span class="line">            <span class="keyword">if</span>(now.dis+e[i].w&lt;dis[e[i].to])  &#123;</span><br><span class="line">                    dis[e[i].to]=now.dis+e[i].w;</span><br><span class="line">                    q.push((node)&#123;dis[e[i].to],e[i].to&#125;);</span><br><span class="line">        	&#125; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d%d%d"</span>,&amp;n,&amp;m,&amp;c);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=(<span class="number">1</span> &lt;&lt; <span class="number">17</span>);(j=j&lt;&lt;<span class="number">1</span>))</span><br><span class="line">            add(i,(i^j),(j*c)),add((j^i),i,(j*c));</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>,u,v,w;i&lt;=m;i++) &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d%d%d"</span>,&amp;u,&amp;v,&amp;w);</span><br><span class="line">        add(u,v,w);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//	for(int i=1;i&lt;=n;i++)</span></span><br><span class="line"><span class="comment">//		for(int j=head[i];j;j=e[j].nxt) </span></span><br><span class="line"><span class="comment">//			printf("%d %d %d\n",i,e[j].to,e[j].w);</span></span><br><span class="line">    <span class="keyword">int</span> st,ed;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;st,&amp;ed);</span><br><span class="line">    dijkstra(st);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,dis[ed]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -414,7 +417,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/杂谈/" rel="tag"> <i class="fa fa-tag"></i> 杂谈</a>
+            <a href="/tags/dijkstra/" rel="tag"> <i class="fa fa-tag"></i> dijkstra</a>
+          
+            <a href="/tags/LOJ/" rel="tag"> <i class="fa fa-tag"></i> LOJ</a>
           
         </div>
       
@@ -427,8 +432,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/08/16/51nod1102/" rel="next" title="51nod 1102">
-                <i class="fa fa-chevron-left"></i> 51nod 1102
+              <a href="/2018/10/02/BZOJ-1179-Apio2009-Atm/" rel="next" title="BZOJ-1179:[Apio2009]Atm">
+                <i class="fa fa-chevron-left"></i> BZOJ-1179:[Apio2009]Atm
               </a>
             
           </div>
@@ -436,10 +441,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/08/25/Codeforces-Round-506-Div-3/" rel="prev" title="Codeforces-Round-#506-(Div.3)">
-                Codeforces-Round-#506-(Div.3) <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -484,8 +485,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -579,6 +589,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#收获"><span class="nav-number">1.</span> <span class="nav-text">收获</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#题解"><span class="nav-number">2.</span> <span class="nav-text">题解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#我到底有多弱？"><span class="nav-number">3.</span> <span class="nav-text">我到底有多弱？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Code"><span class="nav-number">4.</span> <span class="nav-text">Code</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
