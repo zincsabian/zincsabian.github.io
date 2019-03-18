@@ -126,7 +126,7 @@
 <meta property="og:description" content="一道不错的数位dp 这种问$[l,r]$中满足条件的一般是数位dp 那就可以转换成[0,r]中的答案-[0,l)中的答案 我们可以把问题转换成[l,r]中有多少个数x满足x%lcm{pi}==0 pi表示数位上非0的数 然后发现sum太大存不下，可以对sum%504,即lcm[1..9]，存一下lcm $f[x][sum][lcm]$表示到从上往下第x位，前缀和是sum，前缀的最小公倍数是lcm有">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://i.loli.net/2019/03/18/5c8fa7ac26136.png">
-<meta property="og:updated_time" content="2019-03-18T14:15:45.042Z">
+<meta property="og:updated_time" content="2019-03-18T14:17:25.791Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CF55D">
 <meta name="twitter:description" content="一道不错的数位dp 这种问$[l,r]$中满足条件的一般是数位dp 那就可以转换成[0,r]中的答案-[0,l)中的答案 我们可以把问题转换成[l,r]中有多少个数x满足x%lcm{pi}==0 pi表示数位上非0的数 然后发现sum太大存不下，可以对sum%504,即lcm[1..9]，存一下lcm $f[x][sum][lcm]$表示到从上往下第x位，前缀和是sum，前缀的最小公倍数是lcm有">
@@ -366,7 +366,7 @@
                 
               
 
-              <time title="创建时间：2019-03-18 20:18:50 / 修改时间：22:15:45" itemprop="dateCreated datePublished" datetime="2019-03-18T20:18:50+08:00">2019-03-18</time>
+              <time title="创建时间：2019-03-18 20:18:50 / 修改时间：22:17:25" itemprop="dateCreated datePublished" datetime="2019-03-18T20:18:50+08:00">2019-03-18</time>
             
 
             
@@ -414,6 +414,7 @@
 <p>然后用记忆化搜索跑一跑。</p>
 <p>发现lcm其实只有48个。可以优化一下空间。</p>
 <p>然后就很愉快的解决这道题了。</p>
+<a id="more"></a>
 <p><img src="https://i.loli.net/2019/03/18/5c8fa7ac26136.png" alt="数位dp技巧.png"></p>
 <p><a href="https://codeforces.com/contest/55/submission/51447427" target="_blank" rel="noopener">Code</a></p>
 
