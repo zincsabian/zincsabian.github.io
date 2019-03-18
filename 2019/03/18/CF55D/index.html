@@ -117,20 +117,27 @@
 
 
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="ZincSabian&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/tags/dp/index.html">
+  <meta name="description" content="一道不错的数位dp 这种问$[l,r]$中满足条件的一般是数位dp 那就可以转换成[0,r]中的答案-[0,l)中的答案 我们可以把问题转换成[l,r]中有多少个数x满足x%lcm{pi}==0 pi表示数位上非0的数 然后发现sum太大存不下，可以对sum%504,即lcm[1..9]，存一下lcm $f[x][sum][lcm]$表示到从上往下第x位，前缀和是sum，前缀的最小公倍数是lcm有">
+<meta name="keywords" content="CodeForces,数位dp,dp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CF55D">
+<meta property="og:url" content="http://yoursite.com/2019/03/18/CF55D/index.html">
 <meta property="og:site_name" content="ZincSabian&#39;s Blog">
+<meta property="og:description" content="一道不错的数位dp 这种问$[l,r]$中满足条件的一般是数位dp 那就可以转换成[0,r]中的答案-[0,l)中的答案 我们可以把问题转换成[l,r]中有多少个数x满足x%lcm{pi}==0 pi表示数位上非0的数 然后发现sum太大存不下，可以对sum%504,即lcm[1..9]，存一下lcm $f[x][sum][lcm]$表示到从上往下第x位，前缀和是sum，前缀的最小公倍数是lcm有">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.loli.net/2019/03/18/5c8fa7ac26136.png">
+<meta property="og:updated_time" content="2019-03-18T14:15:45.042Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ZincSabian&#39;s Blog">
+<meta name="twitter:title" content="CF55D">
+<meta name="twitter:description" content="一道不错的数位dp 这种问$[l,r]$中满足条件的一般是数位dp 那就可以转换成[0,r]中的答案-[0,l)中的答案 我们可以把问题转换成[l,r]中有多少个数x满足x%lcm{pi}==0 pi表示数位上非0的数 然后发现sum太大存不下，可以对sum%504,即lcm[1..9]，存一下lcm $f[x][sum][lcm]$表示到从上往下第x位，前缀和是sum，前缀的最小公倍数是lcm有">
+<meta name="twitter:image" content="https://i.loli.net/2019/03/18/5c8fa7ac26136.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/dp/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/03/18/CF55D/"/>
 
 
 
@@ -140,7 +147,7 @@
   };
 </script>
 
-  <title>标签: dp | ZincSabian's Blog</title>
+  <title>CF55D | ZincSabian's Blog</title>
   
 
 
@@ -187,7 +194,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -240,7 +247,7 @@
         
         
           
-          <li class="menu-item menu-item-tags menu-item-active">
+          <li class="menu-item menu-item-tags">
     <a href="/tags/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
   </li>
@@ -297,115 +304,188 @@
           
             
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
           
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>dp<small>标签</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
+
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/18/CF55D/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZincSabian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZincSabian's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/03/18/CF55D/" itemprop="url">
-              
-                <span itemprop="name">CF55D</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">CF55D
+              
+            
+          </h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-03-18T20:18:50+08:00"
-              content="2019-03-18" >
-          03-18
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
 
-    </header>
-  </article>
+            
+            
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-18 20:18:50 / 修改时间：22:15:45" itemprop="dateCreated datePublished" datetime="2019-03-18T20:18:50+08:00">2019-03-18</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
+      
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/03/15/BZOJ1090/" itemprop="url">
-              
-                <span itemprop="name">BZOJ:1090</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-03-15T14:48:26+08:00"
-              content="2019-03-15" >
-          03-15
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
+        <p>一道不错的数位dp</p>
+<p>这种问$[l,r]$中满足条件的一般是数位dp</p>
+<p>那就可以转换成[0,r]中的答案-[0,l)中的答案</p>
+<p>我们可以把问题转换成[l,r]中有多少个数x满足x%lcm{pi}==0</p>
+<p>pi表示数位上非0的数</p>
+<p>然后发现sum太大存不下，可以对sum%504,即lcm[1..9]，存一下lcm</p>
+<p>$f[x][sum][lcm]$表示到从上往下第x位，前缀和是sum，前缀的最小公倍数是lcm有多少个数。</p>
+<p>然后用记忆化搜索跑一跑。</p>
+<p>发现lcm其实只有48个。可以优化一下空间。</p>
+<p>然后就很愉快的解决这道题了。</p>
+<p><img src="https://i.loli.net/2019/03/18/5c8fa7ac26136.png" alt="数位dp技巧.png"></p>
+<p><a href="https://codeforces.com/contest/55/submission/51447427" target="_blank" rel="noopener">Code</a></p>
 
       
     </div>
 
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CodeForces/" rel="tag"> <i class="fa fa-tag"></i> CodeForces</a>
+          
+            <a href="/tags/数位dp/" rel="tag"> <i class="fa fa-tag"></i> 数位dp</a>
+          
+            <a href="/tags/dp/" rel="tag"> <i class="fa fa-tag"></i> dp</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/18/agc031/" rel="next" title="agc031">
+                <i class="fa fa-chevron-left"></i> agc031
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+  </div>
 
 
           </div>
           
+
+  
+
+
 
         </div>
         
@@ -637,6 +717,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.0"></script>
+
+
 
   
 
