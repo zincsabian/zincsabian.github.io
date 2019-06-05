@@ -117,25 +117,25 @@
 
 
 
-  <meta name="description" content="因为人太弱所以只会俩签到题。">
-<meta name="keywords" content="AtCoder">
+  <meta name="description" content="其实oi-wiki讲的挺详细的。 所以就当做复习了，顺便看看哪里不是很熟的 定义什么的oi-wiki讲的很清楚了 先放全部的代码(代码来自oi-wiki) 1234567891011121314151617for(int i=1;i&amp;lt;=n;i++)for(int j=1;j&amp;lt;=m;j++)scanf(&quot; %c&quot;,s[i]+j),lft[i][j]=rgt[i][j]=j,up[i][j">
+<meta name="keywords" content="学习笔记">
 <meta property="og:type" content="article">
-<meta property="og:title" content="agc031">
-<meta property="og:url" content="http://yoursite.com/2019/03/18/agc031/index.html">
+<meta property="og:title" content="[学习笔记]悬线法">
+<meta property="og:url" content="http://yoursite.com/2019/06/05/学习笔记-悬线法/index.html">
 <meta property="og:site_name" content="ZincSabian&#39;s Blog">
-<meta property="og:description" content="因为人太弱所以只会俩签到题。">
+<meta property="og:description" content="其实oi-wiki讲的挺详细的。 所以就当做复习了，顺便看看哪里不是很熟的 定义什么的oi-wiki讲的很清楚了 先放全部的代码(代码来自oi-wiki) 1234567891011121314151617for(int i=1;i&amp;lt;=n;i++)for(int j=1;j&amp;lt;=m;j++)scanf(&quot; %c&quot;,s[i]+j),lft[i][j]=rgt[i][j]=j,up[i][j">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-18T14:17:08.463Z">
+<meta property="og:updated_time" content="2019-06-05T07:42:06.391Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="agc031">
-<meta name="twitter:description" content="因为人太弱所以只会俩签到题。">
+<meta name="twitter:title" content="[学习笔记]悬线法">
+<meta name="twitter:description" content="其实oi-wiki讲的挺详细的。 所以就当做复习了，顺便看看哪里不是很熟的 定义什么的oi-wiki讲的很清楚了 先放全部的代码(代码来自oi-wiki) 1234567891011121314151617for(int i=1;i&amp;lt;=n;i++)for(int j=1;j&amp;lt;=m;j++)scanf(&quot; %c&quot;,s[i]+j),lft[i][j]=rgt[i][j]=j,up[i][j">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/03/18/agc031/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/06/05/学习笔记-悬线法/"/>
 
 
 
@@ -145,7 +145,7 @@
   };
 </script>
 
-  <title>agc031 | ZincSabian's Blog</title>
+  <title>[学习笔记]悬线法 | ZincSabian's Blog</title>
   
 
 
@@ -322,7 +322,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/18/agc031/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/05/学习笔记-悬线法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZincSabian">
@@ -339,7 +339,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">agc031
+          <h1 class="post-title" itemprop="name headline">[学习笔记]悬线法
               
             
           </h1>
@@ -364,7 +364,7 @@
                 
               
 
-              <time title="创建时间：2019-03-18 20:18:27 / 修改时间：22:17:08" itemprop="dateCreated datePublished" datetime="2019-03-18T20:18:27+08:00">2019-03-18</time>
+              <time title="创建时间：2019-06-05 14:42:18 / 修改时间：15:42:06" itemprop="dateCreated datePublished" datetime="2019-06-05T14:42:18+08:00">2019-06-05</time>
             
 
             
@@ -402,18 +402,27 @@
       
 
       
-        <p>因为人太弱所以只会俩签到题。</p>
-<a id="more"></a>
-<h1 id="A"><a href="#A" class="headerlink" title="A"></a>A</h1><p>​    <del>没看到取膜罚了3发</del></p>
-<p>​    我们发现aba和cba是等价的，abc和cda是等价的。</p>
-<p>​    也就是说我们不需要关心字符的相对位置。</p>
-<p>​    答案即$\prod_{i=’a’}^{‘z’} count_i$</p>
-<p><a href="https://atcoder.jp/contests/agc031/submissions/4596880" target="_blank" rel="noopener">Code</a></p>
-<h1 id="B"><a href="#B" class="headerlink" title="B"></a>B</h1><p>​    <del>复杂度写丑了罚了两发</del></p>
-<p>​    先把同颜色的压缩起来，当前颜色ai可以对后面的颜色aj做出贡献仅当(ai==aj)</p>
-<p>​    于是考虑$dp[i]$表示前i个位置能生成多少种序列</p>
-<p>​    答案即$dp[n]$</p>
-<p><a href="https://atcoder.jp/contests/agc031/submissions/4599517" target="_blank" rel="noopener">Code</a></p>
+        <p>其实<a href="https://oi-wiki.org/misc/largest-matrix/" target="_blank" rel="noopener">oi-wiki</a>讲的挺详细的。</p>
+<p>所以就当做复习了，顺便看看哪里不是很熟的</p>
+<p>定义什么的oi-wiki讲的很清楚了</p>
+<p>先放全部的代码(代码来自oi-wiki)</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">" %c"</span>,s[i]+j),lft[i][j]=rgt[i][j]=j,up[i][j]=<span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)<span class="keyword">if</span>(s[i][j]==<span class="string">'0'</span>&amp;&amp;s[i][j<span class="number">-1</span>]==<span class="string">'0'</span>)lft[i][j]=lft[i][j<span class="number">-1</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=m;j&gt;=<span class="number">1</span>;j--)<span class="keyword">if</span>(s[i][j]==<span class="string">'0'</span>&amp;&amp;s[i][j+<span class="number">1</span>]==<span class="string">'0'</span>)rgt[i][j]=rgt[i][j+<span class="number">1</span>];</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(i&gt;<span class="number">1</span>&amp;&amp;s[i][j]==<span class="string">'0'</span>&amp;&amp;s[i<span class="number">-1</span>][j]==<span class="string">'0'</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        lft[i][j]=max(lft[i][j],lft[i<span class="number">-1</span>][j]);</span><br><span class="line">        rgt[i][j]=min(rgt[i][j],rgt[i<span class="number">-1</span>][j]);</span><br><span class="line">        up[i][j]=up[i<span class="number">-1</span>][j]+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    ans=max(ans,(rgt[i][j]-lft[i][j]+<span class="number">1</span>)*up[i][j]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不如就把代码拆开来讲吧）</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">" %c"</span>,s[i]+j),lft[i][j]=rgt[i][j]=j,up[i][j]=<span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>这一段是读入一个字符矩阵，并初始化lft,rft,up三个数组</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)<span class="keyword">if</span>(s[i][j]==<span class="string">'0'</span>&amp;&amp;s[i][j<span class="number">-1</span>]==<span class="string">'0'</span>)lft[i][j]=lft[i][j<span class="number">-1</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=m;j&gt;=<span class="number">1</span>;j--)<span class="keyword">if</span>(s[i][j]==<span class="string">'0'</span>&amp;&amp;s[i][j+<span class="number">1</span>]==<span class="string">'0'</span>)rgt[i][j]=rgt[i][j+<span class="number">1</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段就是预处理第i行，第j个点向左向右最多可以延伸到哪里</p>
+<p>if()是根据需要变化的，比如我在玉蟾宫这道题我就这么写</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(s[i][j]==<span class="string">'0'</span>&amp;&amp;s[i][j<span class="number">-1</span>]==<span class="string">'0'</span>)lft[i][j]=lft[i][j<span class="number">-1</span>];</span><br></pre></td></tr></table></figure>
+<p>而在棋盘制作这道题就这么写</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(a[i][j]!=a[i][j<span class="number">-1</span>]) lft[i][j]=lft[i][j<span class="number">-1</span>];</span><br></pre></td></tr></table></figure>
+<p>以此类推</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(i&gt;<span class="number">1</span>&amp;&amp;s[i][j]==<span class="string">'0'</span>&amp;&amp;s[i<span class="number">-1</span>][j]==<span class="string">'0'</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        lft[i][j]=max(lft[i][j],lft[i<span class="number">-1</span>][j]);</span><br><span class="line">        rgt[i][j]=min(rgt[i][j],rgt[i<span class="number">-1</span>][j]);</span><br><span class="line">        up[i][j]=up[i<span class="number">-1</span>][j]+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    ans=max(ans,(rgt[i][j]-lft[i][j]+<span class="number">1</span>)*up[i][j]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后这段是处理竖行的，前面lft和rft都是处理水平方向的。</p>
+<p>然后因为是记录这条线向左/向右能平移到哪里，所以应该是lft取max，rft取min，这样才是最接近j的那个两个点。</p>
+<p>两道题，貌似都是模板，oi-wiki上也能找到链接</p>
+<p><a href="https://lydsy.com/JudgeOnline/problem.php?id=3039" target="_blank" rel="noopener">BZOJ-3039玉蟾宫</a></p>
+<p><a href="https://lydsy.com/JudgeOnline/problem.php?id=1057" target="_blank" rel="noopener">BZOJ-1059棋盘制作</a></p>
 
       
     </div>
@@ -434,7 +443,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/AtCoder/" rel="tag"> <i class="fa fa-tag"></i> AtCoder</a>
+            <a href="/tags/学习笔记/" rel="tag"> <i class="fa fa-tag"></i> 学习笔记</a>
           
         </div>
       
@@ -447,8 +456,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/15/BZOJ1090/" rel="next" title="BZOJ:1090">
-                <i class="fa fa-chevron-left"></i> BZOJ:1090
+              <a href="/2019/03/18/CF55D/" rel="next" title="CF55D">
+                <i class="fa fa-chevron-left"></i> CF55D
               </a>
             
           </div>
@@ -456,10 +465,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/18/CF55D/" rel="prev" title="CF55D">
-                CF55D <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -504,17 +509,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -588,22 +584,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#A"><span class="nav-number">1.</span> <span class="nav-text">A</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#B"><span class="nav-number">2.</span> <span class="nav-text">B</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

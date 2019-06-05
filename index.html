@@ -318,6 +318,166 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/05/学习笔记-悬线法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZincSabian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZincSabian's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/05/学习笔记-悬线法/" itemprop="url">
+                  [学习笔记]悬线法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-05 14:42:18 / 修改时间：15:42:06" itemprop="dateCreated datePublished" datetime="2019-06-05T14:42:18+08:00">2019-06-05</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>其实<a href="https://oi-wiki.org/misc/largest-matrix/" target="_blank" rel="noopener">oi-wiki</a>讲的挺详细的。</p>
+<p>所以就当做复习了，顺便看看哪里不是很熟的</p>
+<p>定义什么的oi-wiki讲的很清楚了</p>
+<p>先放全部的代码(代码来自oi-wiki)</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">" %c"</span>,s[i]+j),lft[i][j]=rgt[i][j]=j,up[i][j]=<span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)<span class="keyword">if</span>(s[i][j]==<span class="string">'0'</span>&amp;&amp;s[i][j<span class="number">-1</span>]==<span class="string">'0'</span>)lft[i][j]=lft[i][j<span class="number">-1</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=m;j&gt;=<span class="number">1</span>;j--)<span class="keyword">if</span>(s[i][j]==<span class="string">'0'</span>&amp;&amp;s[i][j+<span class="number">1</span>]==<span class="string">'0'</span>)rgt[i][j]=rgt[i][j+<span class="number">1</span>];</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(i&gt;<span class="number">1</span>&amp;&amp;s[i][j]==<span class="string">'0'</span>&amp;&amp;s[i<span class="number">-1</span>][j]==<span class="string">'0'</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        lft[i][j]=max(lft[i][j],lft[i<span class="number">-1</span>][j]);</span><br><span class="line">        rgt[i][j]=min(rgt[i][j],rgt[i<span class="number">-1</span>][j]);</span><br><span class="line">        up[i][j]=up[i<span class="number">-1</span>][j]+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    ans=max(ans,(rgt[i][j]-lft[i][j]+<span class="number">1</span>)*up[i][j]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不如就把代码拆开来讲吧）</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">" %c"</span>,s[i]+j),lft[i][j]=rgt[i][j]=j,up[i][j]=<span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>这一段是读入一个字符矩阵，并初始化lft,rft,up三个数组</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)<span class="keyword">if</span>(s[i][j]==<span class="string">'0'</span>&amp;&amp;s[i][j<span class="number">-1</span>]==<span class="string">'0'</span>)lft[i][j]=lft[i][j<span class="number">-1</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=m;j&gt;=<span class="number">1</span>;j--)<span class="keyword">if</span>(s[i][j]==<span class="string">'0'</span>&amp;&amp;s[i][j+<span class="number">1</span>]==<span class="string">'0'</span>)rgt[i][j]=rgt[i][j+<span class="number">1</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段就是预处理第i行，第j个点向左向右最多可以延伸到哪里</p>
+<p>if()是根据需要变化的，比如我在玉蟾宫这道题我就这么写</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(s[i][j]==<span class="string">'0'</span>&amp;&amp;s[i][j<span class="number">-1</span>]==<span class="string">'0'</span>)lft[i][j]=lft[i][j<span class="number">-1</span>];</span><br></pre></td></tr></table></figure>
+<p>而在棋盘制作这道题就这么写</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(a[i][j]!=a[i][j<span class="number">-1</span>]) lft[i][j]=lft[i][j<span class="number">-1</span>];</span><br></pre></td></tr></table></figure>
+<p>以此类推</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(i&gt;<span class="number">1</span>&amp;&amp;s[i][j]==<span class="string">'0'</span>&amp;&amp;s[i<span class="number">-1</span>][j]==<span class="string">'0'</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        lft[i][j]=max(lft[i][j],lft[i<span class="number">-1</span>][j]);</span><br><span class="line">        rgt[i][j]=min(rgt[i][j],rgt[i<span class="number">-1</span>][j]);</span><br><span class="line">        up[i][j]=up[i<span class="number">-1</span>][j]+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    ans=max(ans,(rgt[i][j]-lft[i][j]+<span class="number">1</span>)*up[i][j]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后这段是处理竖行的，前面lft和rft都是处理水平方向的。</p>
+<p>然后因为是记录这条线向左/向右能平移到哪里，所以应该是lft取max，rft取min，这样才是最接近j的那个两个点。</p>
+<p>两道题，貌似都是模板，oi-wiki上也能找到链接</p>
+<p><a href="https://lydsy.com/JudgeOnline/problem.php?id=3039" target="_blank" rel="noopener">BZOJ-3039玉蟾宫</a></p>
+<p><a href="https://lydsy.com/JudgeOnline/problem.php?id=1057" target="_blank" rel="noopener">BZOJ-1059棋盘制作</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/18/CF55D/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1098,7 +1258,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-count">6</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1125,7 +1285,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">6</span>
+                      
+                    
+                    <span class="site-state-item-count">7</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1329,6 +1491,8 @@
 
   
   
+    
+      
     
       
     
