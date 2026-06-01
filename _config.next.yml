@@ -99,7 +99,7 @@ comments:
 # Giscus
 # For more information: https://giscus.app
 giscus:
-  enable: true
+  enable: false
   repo: zincsabian/zincsabian.github.io
   repo_id: # TODO: 请访问 https://giscus.app 获取
   category: Comments
