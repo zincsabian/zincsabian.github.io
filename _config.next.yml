@@ -1,0 +1,171 @@
+# ================================================================
+# Theme Core Config Settings
+# ================================================================
+
+# Schemes
+#scheme: Muse
+#scheme: Mist
+scheme: Pisces
+#scheme: Gemini
+
+# Dark Mode
+#darkmode: false
+
+# -------------------------------------------------------------
+# Site Information Settings
+# -------------------------------------------------------------
+
+favicon:
+  small: /images/favicon-16x16-next.png
+  medium: /images/favicon-32x32-next.png
+  apple_touch_icon: /images/apple-touch-icon-next.png
+  safari_pinned_tab: /images/logo.svg
+
+# -------------------------------------------------------------
+# Custom Logo (Warning: Do not support scheme Mist)
+# -------------------------------------------------------------
+
+custom_logo: #/uploads/custom-logo.jpg
+
+# -------------------------------------------------------------
+# Menu Settings
+# -------------------------------------------------------------
+
+menu:
+  home: / || fa fa-home
+  about: /about/ || fa fa-user
+  tags: /tags/ || fa fa-tags
+  categories: /categories/ || fa fa-th
+  archives: /archives/ || fa fa-archive
+  friends: /friends/ || fa fa-handshake-o
+
+# Enable / Disable menu icons / item badges.
+menu_settings:
+  icons: true
+  badges: false
+
+# -------------------------------------------------------------
+# Sidebar Settings
+# See: https://theme-next.js.org/docs/theme-settings/sidebar
+# -------------------------------------------------------------
+
+sidebar:
+  position: left
+  display: post
+  padding: 18
+  offset: 12
+
+avatar:
+  url: /images/avatar.png
+  rounded: true
+  rotated: true
+
+# -------------------------------------------------------------
+# Post Settings
+# See: https://theme-next.js.org/docs/theme-settings/posts
+# -------------------------------------------------------------
+
+# Automatically excerpt description in homepage as preamble text.
+excerpt_description: true
+
+# Automatically Excerpt. Not recommend.
+auto_excerpt:
+  enable: false
+  length: 150
+
+# -------------------------------------------------------------
+# Footer Settings
+# See: https://theme-next.js.org/docs/theme-settings/footer
+# -------------------------------------------------------------
+
+footer:
+  since: 2019
+
+# -------------------------------------------------------------
+# Comments Settings
+# See: https://theme-next.js.org/docs/third-party-services/comments
+# -------------------------------------------------------------
+
+comments:
+  style: tabs
+  active: giscus
+  storage: true
+  lazyload: false
+  nav:
+    giscus:
+      text: Load Giscus
+      order: -1
+
+# Giscus
+# For more information: https://giscus.app
+giscus:
+  enable: true
+  repo: zincsabian/zincsabian.github.io
+  repo_id: # TODO: 请访问 https://giscus.app 获取
+  category: Comments
+  category_id: # TODO: 请访问 https://giscus.app 获取
+  mapping: pathname
+  reactions_enabled: 1
+  emit_metadata: 1
+  theme: preferred_color_scheme
+  lang: zh-CN
+  input_position: bottom
+  loading: lazy
+
+# -------------------------------------------------------------
+# Local Search
+# See: https://theme-next.js.org/docs/third-party-services/search-services
+# -------------------------------------------------------------
+
+local_search:
+  enable: true
+  trigger: auto
+  top_n_per_article: 1
+  unescape: false
+  preload: false
+
+# -------------------------------------------------------------
+# Motion Settings
+# -------------------------------------------------------------
+
+motion:
+  enable: true
+  async: false
+  transition:
+    post_block: fadeIn
+    post_header: slideDownIn
+    post_body: slideDownIn
+    coll_header: slideLeftIn
+    sidebar: slideUpIn
+
+# -------------------------------------------------------------
+# Codeblock Settings
+# -------------------------------------------------------------
+
+codeblock:
+  copy_button:
+    enable: true
+    style: mac
+
+# -------------------------------------------------------------
+# Back to Top
+# -------------------------------------------------------------
+
+back2top:
+  enable: true
+  sidebar: false
+  scrollpercent: false
+
+# -------------------------------------------------------------
+# Bookmarks Settings
+# -------------------------------------------------------------
+
+bookmark:
+  enable: false
+
+# -------------------------------------------------------------
+# PDF Settings
+# -------------------------------------------------------------
+
+pdf:
+  enable: false
