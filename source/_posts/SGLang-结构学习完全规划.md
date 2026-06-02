@@ -55,6 +55,7 @@ tags:
 - [ ] 确认已克隆 `~/devroot/sglang`，切到最新 release 分支：`git checkout $(git describe --tags --abbrev=0)`
 - [ ] 阅读 `README.md` 的 About 和 Getting Started 两节
 - [ ] 按 `docs/get_started/install.md` 装依赖，推荐用 `uv`
+- [ ] **📄 精读 [Day 1 源码编译与启动详解](/day1/note)**：理解 `pip install -e`、`sgl-kernel` 编译、`PYTHONPATH` 源码启动、5060 显存控制原理
 - [ ] **本地启动 Qwen2.5-1.5B（确保 8GB 不爆显存）**：
   ```bash
   python -m sglang.launch_server \
