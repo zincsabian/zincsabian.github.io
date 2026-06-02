@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"zincsabian.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":{"giscus":{"text":"Load Giscus","order":-1}}},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="本文记录 SGLang 从源码安装、编译到启动推理服务的完整过程，适用于 RTX 5060 8GB 本地开发环境。对应主规划：SGLang 结构学习完全规划（基于 RTX 5060 8GB + 云租分布式）   一、环境前提 CUDA Toolkit 已安装（建议 12.4+，5060 需要 CUDA 12.x） Python 3.10+ 8GB 显存，启动时必须加显存控制参数   二、开发者标">
+<meta property="og:type" content="website">
+<meta property="og:title" content="SGLang Day 1 — 源码编译、启动与调试完全记录">
+<meta property="og:url" content="https://zincsabian.github.io/day1/note.html">
+<meta property="og:site_name" content="ZincSabian&#39;s Blog">
+<meta property="og:description" content="本文记录 SGLang 从源码安装、编译到启动推理服务的完整过程，适用于 RTX 5060 8GB 本地开发环境。对应主规划：SGLang 结构学习完全规划（基于 RTX 5060 8GB + 云租分布式）   一、环境前提 CUDA Toolkit 已安装（建议 12.4+，5060 需要 CUDA 12.x） Python 3.10+ 8GB 显存，启动时必须加显存控制参数   二、开发者标">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-06-02T03:00:00.000Z">
+<meta property="article:modified_time" content="2026-06-02T16:10:51.363Z">
+<meta property="article:author" content="ZincSabian">
+<meta property="article:tag" content="RTX 5060">
+<meta property="article:tag" content="SGLang">
+<meta property="article:tag" content="源码启动">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://zincsabian.github.io/day1/note">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-CN","comments":true,"permalink":"https://zincsabian.github.io/day1/note.html","path":"day1/note.html","title":"SGLang Day 1 — 源码编译、启动与调试完全记录"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>SGLang Day 1 — 源码编译、启动与调试完全记录 | ZincSabian's Blog
+</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ZincSabian's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-friends"><a href="/friends/" rel="section"><i class="fa fa-handshake-o fa-fw"></i>友链</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E7%8E%AF%E5%A2%83%E5%89%8D%E6%8F%90"><span class="nav-number">1.</span> <span class="nav-text">一、环境前提</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%BC%80%E5%8F%91%E8%80%85%E6%A0%87%E5%87%86%E5%AE%89%E8%A3%85%E6%B5%81%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">二、开发者标准安装流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%A1%AE%E8%AE%A4%E6%BA%90%E7%A0%81%E4%BD%8D%E7%BD%AE"><span class="nav-number">2.1.</span> <span class="nav-text">1. 确认源码位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%AE%89%E8%A3%85-Python-%E4%BE%9D%E8%B5%96%EF%BC%88editable-%E6%A8%A1%E5%BC%8F%EF%BC%89"><span class="nav-number">2.2.</span> <span class="nav-text">2. 安装 Python 依赖（editable 模式）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%BC%96%E8%AF%91-C-CUDA-%E5%86%85%E6%A0%B8%EF%BC%88sgl-kernel%EF%BC%89"><span class="nav-number">2.3.</span> <span class="nav-text">3. 编译 C++&#x2F;CUDA 内核（sgl-kernel）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E7%9B%B4%E6%8E%A5%E7%94%A8%E6%BA%90%E7%A0%81%E5%90%AF%E5%8A%A8%EF%BC%88%E4%B8%8D%E4%BE%9D%E8%B5%96-pip-install%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">三、直接用源码启动（不依赖 pip install）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E5%BC%8F-A%EF%BC%9APYTHONPATH-%E6%A8%A1%E5%9D%97%E5%90%AF%E5%8A%A8%EF%BC%88%E6%9C%80%E7%81%B5%E6%B4%BB%EF%BC%89"><span class="nav-number">3.1.</span> <span class="nav-text">方式 A：PYTHONPATH + 模块启动（最灵活）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E5%BC%8F-B%EF%BC%9A%E8%B5%B0-CLI-%E5%85%A5%E5%8F%A3%EF%BC%88%E6%94%AF%E6%8C%81%E6%A8%A1%E5%9E%8B%E7%B1%BB%E5%9E%8B%E8%87%AA%E5%8A%A8%E6%A3%80%E6%B5%8B%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">方式 B：走 CLI 入口（支持模型类型自动检测）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E5%BC%8F-C%EF%BC%9A%E7%9B%B4%E6%8E%A5%E8%BF%90%E8%A1%8C-launch-server-py%EF%BC%88%E6%97%A7%E5%85%A5%E5%8F%A3%EF%BC%89"><span class="nav-number">3.3.</span> <span class="nav-text">方式 C：直接运行 launch_server.py（旧入口）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81RTX-5060-8GB-%E4%B8%93%E7%94%A8%E5%90%AF%E5%8A%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">4.</span> <span class="nav-text">四、RTX 5060 8GB 专用启动命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E7%A8%B3%E5%A6%A5%EF%BC%9A1-5B-%E6%A8%A1%E5%9E%8B%EF%BC%88-4GB-%E6%98%BE%E5%AD%98%EF%BC%89"><span class="nav-number">4.1.</span> <span class="nav-text">最稳妥：1.5B 模型（~4GB 显存）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E9%98%B6%EF%BC%9A3B-%E6%A8%A1%E5%9E%8B%EF%BC%88-6GB-%E6%98%BE%E5%AD%98%EF%BC%89"><span class="nav-number">4.2.</span> <span class="nav-text">进阶：3B 模型（~6GB 显存）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%81%E9%99%90%EF%BC%9APhi-4-mini-3-8B%EF%BC%88-7GB-%E6%98%BE%E5%AD%98%EF%BC%89"><span class="nav-number">4.3.</span> <span class="nav-text">极限：Phi-4-mini 3.8B（~7GB 显存）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E9%AA%8C%E8%AF%81%E6%9C%8D%E5%8A%A1%E5%90%AF%E5%8A%A8"><span class="nav-number">5.</span> <span class="nav-text">五、验证服务启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E5%BC%80%E5%8F%91%E8%80%85%E8%B0%83%E8%AF%95%E6%96%B9%E5%BC%8F"><span class="nav-number">6.</span> <span class="nav-text">六、开发者调试方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%BF%AE%E6%94%B9%E4%BB%A3%E7%A0%81%E7%AB%8B%E5%8D%B3%E7%94%9F%E6%95%88"><span class="nav-number">6.1.</span> <span class="nav-text">1. 修改代码立即生效</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%94%A8-py-spy-%E8%A7%82%E5%AF%9F%E8%BF%90%E8%A1%8C%E6%97%B6%E7%BA%BF%E7%A8%8B"><span class="nav-number">6.2.</span> <span class="nav-text">2. 用 py-spy 观察运行时线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%A1%AE%E4%BF%9D%E5%8A%A0%E8%BD%BD%E7%9A%84%E6%98%AF%E5%BD%93%E5%89%8D%E7%9B%AE%E5%BD%95%E6%BA%90%E7%A0%81"><span class="nav-number">6.3.</span> <span class="nav-text">3. 确保加载的是当前目录源码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E8%BF%9B%E7%A8%8B%E6%A0%91%E8%A7%82%E5%AF%9F"><span class="nav-number">6.4.</span> <span class="nav-text">4. 进程树观察</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="nav-number">7.</span> <span class="nav-text">七、常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Q1%EF%BC%9Apython-m-sglang-launch-server-%E6%8A%A5-No-module-named-sgl-kernel"><span class="nav-number">7.1.</span> <span class="nav-text">Q1：python -m sglang.launch_server 报 No module named &#39;sgl_kernel&#39;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q2%EF%BC%9Apython-m-sglang-launch-server-%E6%8A%A5-No-module-named-flashinfer-python"><span class="nav-number">7.2.</span> <span class="nav-text">Q2：python -m sglang.launch_server 报 No module named &#39;flashinfer_python&#39;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q3%EF%BC%9A%E5%90%AF%E5%8A%A8%E6%97%B6-CUDA-OOM%EF%BC%8C%E4%BD%86-nvidia-smi-%E6%98%BE%E7%A4%BA%E6%98%BE%E5%AD%98%E8%BF%98%E6%9C%89%E4%BD%99%E9%87%8F"><span class="nav-number">7.3.</span> <span class="nav-text">Q3：启动时 CUDA OOM，但 nvidia-smi 显示显存还有余量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q4%EF%BC%9A%E6%94%B9%E4%BA%86%E4%BB%A3%E7%A0%81%E4%BD%86%E6%B2%A1%E7%94%9F%E6%95%88"><span class="nav-number">7.4.</span> <span class="nav-text">Q4：改了代码但没生效</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AB%E3%80%81%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84%E9%80%9F%E6%9F%A5"><span class="nav-number">8.</span> <span class="nav-text">八、关键路径速查</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ZincSabian"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">ZincSabian</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner page posts-expand">
+
+
+    
+    
+    
+    <div class="post-block" lang="zh-CN"><header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">SGLang Day 1 — 源码编译、启动与调试完全记录
+</h1>
+
+<div class="post-meta-container">
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+          <blockquote>
+<p>本文记录 SGLang 从源码安装、编译到启动推理服务的完整过程，适用于 <strong>RTX 5060 8GB</strong> 本地开发环境。<br>对应主规划：<a href="/2026/06/02/SGLang-%E7%BB%93%E6%9E%84%E5%AD%A6%E4%B9%A0%E5%AE%8C%E5%85%A8%E8%A7%84%E5%88%92/">SGLang 结构学习完全规划（基于 RTX 5060 8GB + 云租分布式）</a></p>
+</blockquote>
+<hr>
+<h2 id="一、环境前提"><a href="#一、环境前提" class="headerlink" title="一、环境前提"></a>一、环境前提</h2><ul>
+<li>CUDA Toolkit 已安装（建议 12.4+，5060 需要 CUDA 12.x）</li>
+<li>Python 3.10+</li>
+<li>8GB 显存，启动时必须加显存控制参数</li>
+</ul>
+<hr>
+<h2 id="二、开发者标准安装流程"><a href="#二、开发者标准安装流程" class="headerlink" title="二、开发者标准安装流程"></a>二、开发者标准安装流程</h2><h3 id="1-确认源码位置"><a href="#1-确认源码位置" class="headerlink" title="1. 确认源码位置"></a>1. 确认源码位置</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/devroot/sglang          <span class="comment"># 你的源码目录</span></span><br><span class="line">git checkout $(git describe --tags --abbrev=0)  <span class="comment"># 切到最新 release</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-安装-Python-依赖（editable-模式）"><a href="#2-安装-Python-依赖（editable-模式）" class="headerlink" title="2. 安装 Python 依赖（editable 模式）"></a>2. 安装 Python 依赖（editable 模式）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/devroot/sglang</span><br><span class="line"><span class="built_in">source</span> .venv-study/bin/activate</span><br><span class="line"></span><br><span class="line"><span class="comment"># 开发模式安装 sglang + 所有 CUDA 依赖</span></span><br><span class="line">pip install -e <span class="string">&quot;python/[cuda]&quot;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>pip install -e</code> 是 <strong>editable install</strong>（软链接），修改 <code>python/sglang/</code> 下的代码会<strong>立即生效</strong>，无需重复安装。</p>
+</blockquote>
+<h3 id="3-编译-C-CUDA-内核（sgl-kernel）"><a href="#3-编译-C-CUDA-内核（sgl-kernel）" class="headerlink" title="3. 编译 C++&#x2F;CUDA 内核（sgl-kernel）"></a>3. 编译 C++&#x2F;CUDA 内核（sgl-kernel）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/devroot/sglang/sgl-kernel</span><br><span class="line">pip install -e .</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这个步骤编译 <code>sglang-kernel</code> 包（即 Python 代码里 <code>import sgl_kernel</code> 的来源），<strong>必须完成</strong>，否则启动时会报 <code>ModuleNotFoundError: No module named &#39;sgl_kernel&#39;</code>。<br>编译时间约 5-15 分钟，需要 nvcc。</p>
+</blockquote>
+<hr>
+<h2 id="三、直接用源码启动（不依赖-pip-install）"><a href="#三、直接用源码启动（不依赖-pip-install）" class="headerlink" title="三、直接用源码启动（不依赖 pip install）"></a>三、直接用源码启动（不依赖 pip install）</h2><p>有时候你不想通过 pip 入口启动，而是<strong>直接跑当前目录下的源码</strong>（例如你同时在改代码，想确认加载的是当前目录版本）：</p>
+<h3 id="方式-A：PYTHONPATH-模块启动（最灵活）"><a href="#方式-A：PYTHONPATH-模块启动（最灵活）" class="headerlink" title="方式 A：PYTHONPATH + 模块启动（最灵活）"></a>方式 A：PYTHONPATH + 模块启动（最灵活）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/devroot/sglang</span><br><span class="line"><span class="built_in">source</span> .venv-study/bin/activate</span><br><span class="line"></span><br><span class="line">PYTHONPATH=python python -m sglang.launch_server \</span><br><span class="line">  --model-path Qwen/Qwen2.5-1.5B-Instruct \</span><br><span class="line">  --tp-size 1 \</span><br><span class="line">  --mem-fraction-static 0.85</span><br></pre></td></tr></table></figure>
+
+<p><strong>原理</strong>：<code>PYTHONPATH=python</code> 把 <code>~/devroot/sglang/python/</code> 加入 Python 模块搜索路径，解释器直接加载源码目录的 <code>sglang/</code> 包。</p>
+<h3 id="方式-B：走-CLI-入口（支持模型类型自动检测）"><a href="#方式-B：走-CLI-入口（支持模型类型自动检测）" class="headerlink" title="方式 B：走 CLI 入口（支持模型类型自动检测）"></a>方式 B：走 CLI 入口（支持模型类型自动检测）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/devroot/sglang</span><br><span class="line"><span class="built_in">source</span> .venv-study/bin/activate</span><br><span class="line"></span><br><span class="line">PYTHONPATH=python python -m sglang.cli.main serve \</span><br><span class="line">  --model-path Qwen/Qwen2.5-1.5B-Instruct \</span><br><span class="line">  --tp-size 1 \</span><br><span class="line">  --mem-fraction-static 0.85</span><br></pre></td></tr></table></figure>
+
+<p><strong>原理</strong>：<code>sglang.cli.main:main</code> 是 <code>sglang serve</code> 命令的真正实现，支持自动检测 LLM &#x2F; Diffusion 模型类型。</p>
+<h3 id="方式-C：直接运行-launch-server-py（旧入口）"><a href="#方式-C：直接运行-launch-server-py（旧入口）" class="headerlink" title="方式 C：直接运行 launch_server.py（旧入口）"></a>方式 C：直接运行 launch_server.py（旧入口）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/devroot/sglang/python</span><br><span class="line">python -m sglang.launch_server \</span><br><span class="line">  --model-path Qwen/Qwen2.5-1.5B-Instruct \</span><br><span class="line">  --tp-size 1 \</span><br><span class="line">  --mem-fraction-static 0.85</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>⚠️ 这种方式会发出 <code>UserWarning</code>，提示 <code>sglang serve</code> 是推荐入口。</p>
+</blockquote>
+<hr>
+<h2 id="四、RTX-5060-8GB-专用启动命令"><a href="#四、RTX-5060-8GB-专用启动命令" class="headerlink" title="四、RTX 5060 8GB 专用启动命令"></a>四、RTX 5060 8GB 专用启动命令</h2><p>8GB 显存必须选小模型，推荐以下配置：</p>
+<h3 id="最稳妥：1-5B-模型（-4GB-显存）"><a href="#最稳妥：1-5B-模型（-4GB-显存）" class="headerlink" title="最稳妥：1.5B 模型（~4GB 显存）"></a>最稳妥：1.5B 模型（~4GB 显存）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PYTHONPATH=python python -m sglang.launch_server \</span><br><span class="line">  --model-path Qwen/Qwen2.5-1.5B-Instruct \</span><br><span class="line">  --tp-size 1 \</span><br><span class="line">  --mem-fraction-static 0.85</span><br></pre></td></tr></table></figure>
+
+<h3 id="进阶：3B-模型（-6GB-显存）"><a href="#进阶：3B-模型（-6GB-显存）" class="headerlink" title="进阶：3B 模型（~6GB 显存）"></a>进阶：3B 模型（~6GB 显存）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PYTHONPATH=python python -m sglang.launch_server \</span><br><span class="line">  --model-path Qwen/Qwen2.5-3B-Instruct \</span><br><span class="line">  --tp-size 1 \</span><br><span class="line">  --mem-fraction-static 0.85</span><br></pre></td></tr></table></figure>
+
+<h3 id="极限：Phi-4-mini-3-8B（-7GB-显存）"><a href="#极限：Phi-4-mini-3-8B（-7GB-显存）" class="headerlink" title="极限：Phi-4-mini 3.8B（~7GB 显存）"></a>极限：Phi-4-mini 3.8B（~7GB 显存）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PYTHONPATH=python python -m sglang.launch_server \</span><br><span class="line">  --model-path microsoft/Phi-4-mini-instruct \</span><br><span class="line">  --tp-size 1 \</span><br><span class="line">  --mem-fraction-static 0.85</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>--mem-fraction-static 0.85</code> 是 <strong>5060 必须参数</strong>，只让 SGLang 使用 85% 显存（约 6.8GB），给 CUDA 上下文和系统预留 1GB+，避免初始化 OOM。</p>
+</blockquote>
+<hr>
+<h2 id="五、验证服务启动"><a href="#五、验证服务启动" class="headerlink" title="五、验证服务启动"></a>五、验证服务启动</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 另开终端</span></span><br><span class="line">curl http://localhost:30000/v1/chat/completions \</span><br><span class="line">  -H <span class="string">&quot;Content-Type: application/json&quot;</span> \</span><br><span class="line">  -d <span class="string">&#x27;&#123;&quot;model&quot;:&quot;default&quot;,&quot;messages&quot;:[&#123;&quot;role&quot;:&quot;user&quot;,&quot;content&quot;:&quot;Hello&quot;&#125;]&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="六、开发者调试方式"><a href="#六、开发者调试方式" class="headerlink" title="六、开发者调试方式"></a>六、开发者调试方式</h2><h3 id="1-修改代码立即生效"><a href="#1-修改代码立即生效" class="headerlink" title="1. 修改代码立即生效"></a>1. 修改代码立即生效</h3><p>因为 <code>pip install -e</code> 是 editable，直接改 <code>python/sglang/srt/</code> 下的文件即可：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 示例：在 scheduler.py 加一行日志</span></span><br><span class="line">vim python/sglang/srt/managers/scheduler.py</span><br><span class="line"><span class="comment"># 加一行：logger.info(&quot;=== Scheduler step ===&quot;)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 重新启动，日志立即生效</span></span><br><span class="line">python -m sglang.launch_server --model-path ...</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-用-py-spy-观察运行时线程"><a href="#2-用-py-spy-观察运行时线程" class="headerlink" title="2. 用 py-spy 观察运行时线程"></a>2. 用 py-spy 观察运行时线程</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 找到 sglang 进程 PID</span></span><br><span class="line">ps aux | grep sglang</span><br><span class="line"></span><br><span class="line"><span class="comment"># 实时查看 Python 线程状态</span></span><br><span class="line">py-spy top --pid &lt;pid&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 录制火焰图</span></span><br><span class="line">py-spy record -o profile.svg --pid &lt;pid&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-确保加载的是当前目录源码"><a href="#3-确保加载的是当前目录源码" class="headerlink" title="3. 确保加载的是当前目录源码"></a>3. 确保加载的是当前目录源码</h3><p>如果你同时装了 pip 版和源码版，用 <code>PYTHONPATH=python</code> 强制加载当前目录：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PYTHONPATH=python python -c <span class="string">&quot;import sglang; print(sglang.__file__)&quot;</span></span><br><span class="line"><span class="comment"># 应输出 ~/devroot/sglang/python/sglang/__init__.py</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-进程树观察"><a href="#4-进程树观察" class="headerlink" title="4. 进程树观察"></a>4. 进程树观察</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动后观察有几个进程</span></span><br><span class="line">ps aux | grep sglang</span><br><span class="line"></span><br><span class="line"><span class="comment"># 典型进程结构：</span></span><br><span class="line"><span class="comment"># - python -m sglang.launch_server      (主进程)</span></span><br><span class="line"><span class="comment">#   ├─ python ... tokenizer_manager      (Tokenizer 子进程)</span></span><br><span class="line"><span class="comment">#   ├─ python ... scheduler              (Scheduler 子进程，每卡一个)</span></span><br><span class="line"><span class="comment">#   └─ python ... detokenizer_manager    (Detokenizer 子进程)</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="七、常见问题"><a href="#七、常见问题" class="headerlink" title="七、常见问题"></a>七、常见问题</h2><h3 id="Q1：python-m-sglang-launch-server-报-No-module-named-sgl-kernel"><a href="#Q1：python-m-sglang-launch-server-报-No-module-named-sgl-kernel" class="headerlink" title="Q1：python -m sglang.launch_server 报 No module named &#39;sgl_kernel&#39;"></a>Q1：<code>python -m sglang.launch_server</code> 报 <code>No module named &#39;sgl_kernel&#39;</code></h3><p><strong>原因</strong>：<code>sgl-kernel</code> 没编译安装。<br><strong>解决</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/devroot/sglang/sgl-kernel &amp;&amp; pip install -e .</span><br></pre></td></tr></table></figure>
+
+<h3 id="Q2：python-m-sglang-launch-server-报-No-module-named-flashinfer-python"><a href="#Q2：python-m-sglang-launch-server-报-No-module-named-flashinfer-python" class="headerlink" title="Q2：python -m sglang.launch_server 报 No module named &#39;flashinfer_python&#39;"></a>Q2：<code>python -m sglang.launch_server</code> 报 <code>No module named &#39;flashinfer_python&#39;</code></h3><p><strong>原因</strong>：Python 依赖没装好。<br><strong>解决</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/devroot/sglang</span><br><span class="line">pip install -e <span class="string">&quot;python/[cuda]&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Q3：启动时-CUDA-OOM，但-nvidia-smi-显示显存还有余量"><a href="#Q3：启动时-CUDA-OOM，但-nvidia-smi-显示显存还有余量" class="headerlink" title="Q3：启动时 CUDA OOM，但 nvidia-smi 显示显存还有余量"></a>Q3：启动时 CUDA OOM，但 <code>nvidia-smi</code> 显示显存还有余量</h3><p><strong>原因</strong>：5060 的 8GB 在 CUDA 初始化时会额外分配上下文内存。<br><strong>解决</strong>：始终加 <code>--mem-fraction-static 0.85</code>，或换更小的模型。</p>
+<h3 id="Q4：改了代码但没生效"><a href="#Q4：改了代码但没生效" class="headerlink" title="Q4：改了代码但没生效"></a>Q4：改了代码但没生效</h3><p><strong>原因</strong>：可能加载了 pip 缓存里的 sglang，而不是源码目录。<br><strong>解决</strong>：用 <code>PYTHONPATH=python</code> 强制加载当前目录。</p>
+<hr>
+<h2 id="八、关键路径速查"><a href="#八、关键路径速查" class="headerlink" title="八、关键路径速查"></a>八、关键路径速查</h2><table>
+<thead>
+<tr>
+<th>目的</th>
+<th>文件&#x2F;命令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>旧版启动入口</td>
+<td><code>python/sglang/launch_server.py</code></td>
+</tr>
+<tr>
+<td>CLI 启动入口</td>
+<td><code>python/sglang/cli/main.py</code> → <code>sglang.cli.serve</code></td>
+</tr>
+<tr>
+<td>HTTP 服务实现</td>
+<td><code>python/sglang/srt/entrypoints/http_server.py</code></td>
+</tr>
+<tr>
+<td>Engine 子进程启动</td>
+<td><code>python/sglang/srt/entrypoints/engine.py</code></td>
+</tr>
+<tr>
+<td>内核编译目录</td>
+<td><code>sgl-kernel/</code>（CMake + scikit-build-core）</td>
+</tr>
+<tr>
+<td>Python 依赖声明</td>
+<td><code>python/pyproject.toml</code></td>
+</tr>
+<tr>
+<td>启动参数解析</td>
+<td><code>python/sglang/srt/server_args.py</code></td>
+</tr>
+</tbody></table>
+<hr>
+<blockquote>
+<p><strong>总结</strong>：开发者学习 SGLang 的核心流程是 <code>pip install -e</code>（editable）+ <code>sgl-kernel</code> 编译，之后用 <code>python -m sglang.launch_server</code> 或 <code>PYTHONPATH=python python -m sglang.launch_server</code> 启动。5060 用户务必控制显存并选择 1.5B-3B 小模型。</p>
+</blockquote>
+
+      </div>
+      
+      
+      
+    </div>
+
+    
+    
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2019 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ZincSabian</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
