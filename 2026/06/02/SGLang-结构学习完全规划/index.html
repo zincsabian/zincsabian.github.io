@@ -20,15 +20,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"zincsabian.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":{"giscus":{"text":"Load Giscus","order":-1}}},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="基于 ~&#x2F;devroot&#x2F;sglang 实际源码整理。每步标注”做完&#x2F;看完 xxx 之后能了解 xxx”，可直接按日执行。">
+    <meta name="description" content="本文基于你的实际硬件配置设计：  本地：RTX 5060 8GB + AMD 9600X 云租：分布式阶段按需租用多卡  每步都有 [ ] 进度标识，完成后打勾 [x]，方便你根据进度提问。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SGLang 结构学习完全规划（逐日展开版）">
+<meta property="og:title" content="SGLang 结构学习完全规划（基于 RTX 5060 8GB + 云租分布式）">
 <meta property="og:url" content="https://zincsabian.github.io/2026/06/02/SGLang-%E7%BB%93%E6%9E%84%E5%AD%A6%E4%B9%A0%E5%AE%8C%E5%85%A8%E8%A7%84%E5%88%92/index.html">
 <meta property="og:site_name" content="ZincSabian&#39;s Blog">
-<meta property="og:description" content="基于 ~&#x2F;devroot&#x2F;sglang 实际源码整理。每步标注”做完&#x2F;看完 xxx 之后能了解 xxx”，可直接按日执行。">
+<meta property="og:description" content="本文基于你的实际硬件配置设计：  本地：RTX 5060 8GB + AMD 9600X 云租：分布式阶段按需租用多卡  每步都有 [ ] 进度标识，完成后打勾 [x]，方便你根据进度提问。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-06-02T02:00:00.000Z">
-<meta property="article:modified_time" content="2026-06-02T01:41:34.378Z">
+<meta property="article:modified_time" content="2026-06-02T01:54:42.681Z">
 <meta property="article:author" content="ZincSabian">
 <meta property="article:tag" content="SGLang">
 <meta property="article:tag" content="多模态">
@@ -40,10 +40,10 @@
 <link rel="canonical" href="https://zincsabian.github.io/2026/06/02/SGLang-%E7%BB%93%E6%9E%84%E5%AD%A6%E4%B9%A0%E5%AE%8C%E5%85%A8%E8%A7%84%E5%88%92/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zincsabian.github.io/2026/06/02/SGLang-%E7%BB%93%E6%9E%84%E5%AD%A6%E4%B9%A0%E5%AE%8C%E5%85%A8%E8%A7%84%E5%88%92/","path":"2026/06/02/SGLang-结构学习完全规划/","title":"SGLang 结构学习完全规划（逐日展开版）"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zincsabian.github.io/2026/06/02/SGLang-%E7%BB%93%E6%9E%84%E5%AD%A6%E4%B9%A0%E5%AE%8C%E5%85%A8%E8%A7%84%E5%88%92/","path":"2026/06/02/SGLang-结构学习完全规划/","title":"SGLang 结构学习完全规划（基于 RTX 5060 8GB + 云租分布式）"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>SGLang 结构学习完全规划（逐日展开版） | ZincSabian's Blog</title>
+<title>SGLang 结构学习完全规划（基于 RTX 5060 8GB + 云租分布式） | ZincSabian's Blog</title>
   
 
 
@@ -161,7 +161,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Phase-0%EF%BC%9A%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87%EF%BC%88Day-1-2%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">Phase 0：环境准备（Day 1-2）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-1%EF%BC%9A%E6%8B%89%E4%BB%A3%E7%A0%81%E3%80%81%E5%BB%BA%E7%8E%AF%E5%A2%83%E3%80%81%E8%B7%91%E9%80%9A%E5%8D%95%E5%8D%A1"><span class="nav-number">2.1.</span> <span class="nav-text">Day 1：拉代码、建环境、跑通单卡</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-2%EF%BC%9A%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84%E6%A2%B3%E7%90%86-CI-%E5%88%9D%E6%8E%A2"><span class="nav-number">2.2.</span> <span class="nav-text">Day 2：目录结构梳理 + CI 初探</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Phase-1%EF%BC%9A%E5%8D%95%E5%8D%A1%E6%A0%B8%E5%BF%83%E6%9E%B6%E6%9E%84%EF%BC%88Day-3-17%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">Phase 1：单卡核心架构（Day 3-17）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Week-1%EF%BC%9A%E5%AE%8F%E8%A7%82%E6%9E%B6%E6%9E%84%E4%B8%8E%E6%95%B0%E6%8D%AE%E6%B5%81"><span class="nav-number">3.1.</span> <span class="nav-text">Week 1：宏观架构与数据流</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-3%EF%BC%9AHTTP-%E5%85%A5%E5%8F%A3%E4%B8%8E%E8%AF%B7%E6%B1%82%E8%B7%AF%E7%94%B1"><span class="nav-number">3.1.1.</span> <span class="nav-text">Day 3：HTTP 入口与请求路由</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-4%EF%BC%9AEngine-%E7%B1%BB%E4%B8%8E%E5%AD%90%E8%BF%9B%E7%A8%8B%E5%90%AF%E5%8A%A8"><span class="nav-number">3.1.2.</span> <span class="nav-text">Day 4：Engine 类与子进程启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-5%EF%BC%9ATokenizerManager-%E4%B8%8E-ZMQ-%E9%80%9A%E4%BF%A1"><span class="nav-number">3.1.3.</span> <span class="nav-text">Day 5：TokenizerManager 与 ZMQ 通信</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-6%EF%BC%9AScheduler-%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%EF%BC%88%E4%B8%8A%EF%BC%89"><span class="nav-number">3.1.4.</span> <span class="nav-text">Day 6：Scheduler 事件循环（上）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-7%EF%BC%9AScheduler-%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%EF%BC%88%E4%B8%8B%EF%BC%89-%E4%B8%80%E4%B8%AA%E8%AF%B7%E6%B1%82%E7%9A%84%E5%AE%8C%E6%95%B4%E8%BF%BD%E8%B8%AA"><span class="nav-number">3.1.5.</span> <span class="nav-text">Day 7：Scheduler 事件循环（下）+ 一个请求的完整追踪</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Week-2%EF%BC%9A%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5%E4%B8%8E%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-number">3.2.</span> <span class="nav-text">Week 2：调度策略与内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-8%EF%BC%9AScheduleBatch-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">3.2.1.</span> <span class="nav-text">Day 8：ScheduleBatch 数据结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-9%EF%BC%9A%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5%E5%AF%B9%E6%AF%94"><span class="nav-number">3.2.2.</span> <span class="nav-text">Day 9：调度策略对比</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-10%EF%BC%9AChunked-Prefill"><span class="nav-number">3.2.3.</span> <span class="nav-text">Day 10：Chunked Prefill</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-11%EF%BC%9ARadixCache-%E5%89%8D%E7%BC%80%E6%A0%91"><span class="nav-number">3.2.4.</span> <span class="nav-text">Day 11：RadixCache 前缀树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-12%EF%BC%9A%E5%86%85%E5%AD%98%E6%B1%A0%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.2.5.</span> <span class="nav-text">Day 12：内存池设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-13%EF%BC%9AOOM-%E4%B8%8E%E5%9B%9E%E9%80%80%E6%9C%BA%E5%88%B6"><span class="nav-number">3.2.6.</span> <span class="nav-text">Day 13：OOM 与回退机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-14%EF%BC%9A%E6%9C%AC%E5%91%A8%E5%A4%8D%E7%9B%98-%E7%99%BD%E6%9D%BF%E5%BC%8F%E9%AA%8C%E8%AF%81"><span class="nav-number">3.2.7.</span> <span class="nav-text">Day 14：本周复盘 + 白板式验证</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Week-3%EF%BC%9A%E6%A8%A1%E5%9E%8B%E6%89%A7%E8%A1%8C%E5%B1%82%E4%B8%8E-Attention-%E5%90%8E%E7%AB%AF"><span class="nav-number">3.3.</span> <span class="nav-text">Week 3：模型执行层与 Attention 后端</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-15%EF%BC%9ALlama-%E6%A8%A1%E5%9E%8B%E5%AE%9A%E4%B9%89"><span class="nav-number">3.3.1.</span> <span class="nav-text">Day 15：Llama 模型定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-16%EF%BC%9ARadixAttention-%E4%B8%8E-Attention-%E5%90%8E%E7%AB%AF%E6%B3%A8%E5%86%8C"><span class="nav-number">3.3.2.</span> <span class="nav-text">Day 16：RadixAttention 与 Attention 后端注册</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-17%EF%BC%9A%E7%BA%BF%E6%80%A7%E5%B1%82%E4%B8%8E%E5%B9%B6%E8%A1%8C%E7%AD%96%E7%95%A5"><span class="nav-number">3.3.3.</span> <span class="nav-text">Day 17：线性层与并行策略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-18%EF%BC%9ACUDA-Graph-%E4%B8%8E-Decode-%E5%8A%A0%E9%80%9F"><span class="nav-number">3.3.4.</span> <span class="nav-text">Day 18：CUDA Graph 与 Decode 加速</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-19%EF%BC%9APhase-1-%E7%BB%BC%E5%90%88%E5%AE%9E%E9%AA%8C"><span class="nav-number">3.3.5.</span> <span class="nav-text">Day 19：Phase 1 综合实验</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Phase-2%EF%BC%9A%E5%A4%9A%E5%8D%A1%E5%88%86%E5%B8%83%E5%BC%8F%EF%BC%88Day-20-34%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">Phase 2：多卡分布式（Day 20-34）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Week-4%EF%BC%9ATensor-Parallel"><span class="nav-number">4.1.</span> <span class="nav-text">Week 4：Tensor Parallel</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-20%EF%BC%9A%E5%B9%B6%E8%A1%8C%E7%8A%B6%E6%80%81%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">4.1.1.</span> <span class="nav-text">Day 20：并行状态初始化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-21%EF%BC%9A%E9%80%9A%E4%BF%A1%E6%93%8D%E4%BD%9C-API"><span class="nav-number">4.1.2.</span> <span class="nav-text">Day 21：通信操作 API</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-22%EF%BC%9A%E5%8F%8C%E5%8D%A1-TP-%E5%AE%9E%E9%AA%8C"><span class="nav-number">4.1.3.</span> <span class="nav-text">Day 22：双卡 TP 实验</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-23%EF%BC%9A%E7%BA%BF%E6%80%A7%E5%B1%82-All-Reduce-%E8%BF%BD%E8%B8%AA"><span class="nav-number">4.1.4.</span> <span class="nav-text">Day 23：线性层 All-Reduce 追踪</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-24%EF%BC%9A%E6%9C%AC%E5%91%A8%E5%A4%8D%E7%9B%98"><span class="nav-number">4.1.5.</span> <span class="nav-text">Day 24：本周复盘</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Week-5%EF%BC%9APipeline-Parallel"><span class="nav-number">4.2.</span> <span class="nav-text">Week 5：Pipeline Parallel</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-25%EF%BC%9APP-%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF"><span class="nav-number">4.2.1.</span> <span class="nav-text">Day 25：PP 事件循环</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-26%EF%BC%9APP-%E5%B1%82%E5%AE%9E%E7%8E%B0"><span class="nav-number">4.2.2.</span> <span class="nav-text">Day 26：PP 层实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-27%EF%BC%9APP-%E5%9B%9B%E5%8D%A1%E5%AE%9E%E9%AA%8C"><span class="nav-number">4.2.3.</span> <span class="nav-text">Day 27：PP 四卡实验</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-28%EF%BC%9A%E6%9C%AC%E5%91%A8%E5%A4%8D%E7%9B%98"><span class="nav-number">4.2.4.</span> <span class="nav-text">Day 28：本周复盘</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Week-6%EF%BC%9AMoE-%E4%B8%8E-Expert-Parallel"><span class="nav-number">4.3.</span> <span class="nav-text">Week 6：MoE 与 Expert Parallel</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-29%EF%BC%9AMoE-%E8%B7%AF%E7%94%B1"><span class="nav-number">4.3.1.</span> <span class="nav-text">Day 29：MoE 路由</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-30%EF%BC%9AFused-MoE-Triton-Kernel"><span class="nav-number">4.3.2.</span> <span class="nav-text">Day 30：Fused MoE Triton Kernel</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-31%EF%BC%9ADeepEP-%E4%B8%8E-Expert-Parallel"><span class="nav-number">4.3.3.</span> <span class="nav-text">Day 31：DeepEP 与 Expert Parallel</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-32%EF%BC%9AMoE-%E5%8F%8C%E5%8D%A1%E5%AE%9E%E9%AA%8C"><span class="nav-number">4.3.4.</span> <span class="nav-text">Day 32：MoE 双卡实验</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-33%EF%BC%9APhase-2-%E7%BB%BC%E5%90%88%E5%AE%9E%E9%AA%8C"><span class="nav-number">4.3.5.</span> <span class="nav-text">Day 33：Phase 2 综合实验</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-34%EF%BC%9A%E6%9C%AC%E5%91%A8%E5%A4%8D%E7%9B%98"><span class="nav-number">4.3.6.</span> <span class="nav-text">Day 34：本周复盘</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Phase-3%EF%BC%9A%E5%A4%9A%E6%A8%A1%E6%80%81%E4%B8%8E-RL%EF%BC%88Day-35-49%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">Phase 3：多模态与 RL（Day 35-49）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Week-7%EF%BC%9A%E5%A4%9A%E6%A8%A1%E6%80%81-VLM"><span class="nav-number">5.1.</span> <span class="nav-text">Week 7：多模态 VLM</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-35%EF%BC%9AVLM-%E6%9E%B6%E6%9E%84%E6%A6%82%E8%A7%88"><span class="nav-number">5.1.1.</span> <span class="nav-text">Day 35：VLM 架构概览</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-36%EF%BC%9AVision-Encoder-%E4%B8%8E%E5%9B%BE%E5%83%8F%E9%A2%84%E5%A4%84%E7%90%86"><span class="nav-number">5.1.2.</span> <span class="nav-text">Day 36：Vision Encoder 与图像预处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-37%EF%BC%9AVLM-%E5%8D%95%E5%8D%A1%E5%AE%9E%E9%AA%8C"><span class="nav-number">5.1.3.</span> <span class="nav-text">Day 37：VLM 单卡实验</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-38%EF%BC%9A%E5%A4%9A%E5%9B%BE%E8%BE%93%E5%85%A5"><span class="nav-number">5.1.4.</span> <span class="nav-text">Day 38：多图输入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-39%EF%BC%9A%E6%9C%AC%E5%91%A8%E5%A4%8D%E7%9B%98"><span class="nav-number">5.1.5.</span> <span class="nav-text">Day 39：本周复盘</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Week-8%EF%BC%9A%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B"><span class="nav-number">5.2.</span> <span class="nav-text">Week 8：扩散模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-40%EF%BC%9A%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B%E7%AE%A1%E7%BA%BF"><span class="nav-number">5.2.1.</span> <span class="nav-text">Day 40：扩散模型管线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-41%EF%BC%9ATeaCache-%E5%8A%A0%E9%80%9F"><span class="nav-number">5.2.2.</span> <span class="nav-text">Day 41：TeaCache 加速</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-42%EF%BC%9A%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B%E5%AE%9E%E9%AA%8C"><span class="nav-number">5.2.3.</span> <span class="nav-text">Day 42：扩散模型实验</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-43%EF%BC%9A%E6%9C%AC%E5%91%A8%E5%A4%8D%E7%9B%98"><span class="nav-number">5.2.4.</span> <span class="nav-text">Day 43：本周复盘</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Week-9%EF%BC%9ARL-Infra"><span class="nav-number">5.3.</span> <span class="nav-text">Week 9：RL Infra</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-44%EF%BC%9AMemory-Saver"><span class="nav-number">5.3.1.</span> <span class="nav-text">Day 44：Memory Saver</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-45%EF%BC%9A%E6%9D%83%E9%87%8D%E6%9B%B4%E6%96%B0"><span class="nav-number">5.3.2.</span> <span class="nav-text">Day 45：权重更新</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-46%EF%BC%9AReward-Model-%E6%9C%8D%E5%8A%A1"><span class="nav-number">5.3.3.</span> <span class="nav-text">Day 46：Reward Model 服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-47%EF%BC%9A%E6%9C%80%E5%B0%8F-RL-%E5%BE%AA%E7%8E%AF"><span class="nav-number">5.3.4.</span> <span class="nav-text">Day 47：最小 RL 循环</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-48%EF%BC%9ARL-%E6%B5%8B%E8%AF%95%E7%B2%BE%E8%AF%BB"><span class="nav-number">5.3.5.</span> <span class="nav-text">Day 48：RL 测试精读</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-49%EF%BC%9A%E6%9C%AC%E5%91%A8%E5%A4%8D%E7%9B%98-%E5%85%A8%E5%B1%80%E5%A4%8D%E7%9B%98"><span class="nav-number">5.3.6.</span> <span class="nav-text">Day 49：本周复盘 + 全局复盘</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E5%BD%95%EF%BC%9A%E5%8F%AF%E5%A4%8D%E7%8E%B0%E6%8C%87%E4%BB%A4%E9%80%9F%E6%9F%A5%E8%A1%A8"><span class="nav-number">6.</span> <span class="nav-text">附录：可复现指令速查表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E5%8D%A1%E5%90%AF%E5%8A%A8"><span class="nav-number">6.1.</span> <span class="nav-text">单卡启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TP-%E5%90%AF%E5%8A%A8"><span class="nav-number">6.2.</span> <span class="nav-text">TP 启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PP-%E5%90%AF%E5%8A%A8"><span class="nav-number">6.3.</span> <span class="nav-text">PP 启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VLM-%E5%90%AF%E5%8A%A8"><span class="nav-number">6.4.</span> <span class="nav-text">VLM 启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B%E5%90%AF%E5%8A%A8"><span class="nav-number">6.5.</span> <span class="nav-text">扩散模型启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RL-%E5%90%AF%E5%8A%A8"><span class="nav-number">6.6.</span> <span class="nav-text">RL 启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Benchmark"><span class="nav-number">6.7.</span> <span class="nav-text">Benchmark</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Profile"><span class="nav-number">6.8.</span> <span class="nav-text">Profile</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B5%8B%E8%AF%95"><span class="nav-number">6.9.</span> <span class="nav-text">客户端测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E5%BD%95%EF%BC%9A%E6%A8%A1%E5%9E%8B%E9%80%89%E6%8B%A9%E9%80%9F%E6%9F%A5%E8%A1%A8"><span class="nav-number">7.</span> <span class="nav-text">附录：模型选择速查表</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A1%AC%E4%BB%B6%E7%8E%B0%E5%AE%9E"><span class="nav-number">1.1.</span> <span class="nav-text">硬件现实</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E5%BA%A6%E6%A0%87%E8%AF%86%E8%AF%B4%E6%98%8E"><span class="nav-number">1.2.</span> <span class="nav-text">进度标识说明</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Phase-0%EF%BC%9A%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87%EF%BC%88Day-1-2%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">Phase 0：环境准备（Day 1-2）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-1%EF%BC%9A%E6%8B%89%E4%BB%A3%E7%A0%81%E3%80%81%E5%BB%BA%E7%8E%AF%E5%A2%83%E3%80%81%E8%B7%91%E9%80%9A%E6%9C%AC%E5%9C%B0%E5%8D%95%E5%8D%A1"><span class="nav-number">2.1.</span> <span class="nav-text">Day 1：拉代码、建环境、跑通本地单卡</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-2%EF%BC%9A%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84%E6%A2%B3%E7%90%86-CI-%E5%88%9D%E6%8E%A2"><span class="nav-number">2.2.</span> <span class="nav-text">Day 2：目录结构梳理 + CI 初探</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Phase-1%EF%BC%9A%E5%8D%95%E5%8D%A1%E6%A0%B8%E5%BF%83%E6%9E%B6%E6%9E%84%EF%BC%88Day-3-19%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">Phase 1：单卡核心架构（Day 3-19）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Week-1%EF%BC%9A%E5%AE%8F%E8%A7%82%E6%9E%B6%E6%9E%84%E4%B8%8E%E6%95%B0%E6%8D%AE%E6%B5%81"><span class="nav-number">3.1.</span> <span class="nav-text">Week 1：宏观架构与数据流</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-3%EF%BC%9AHTTP-%E5%85%A5%E5%8F%A3%E4%B8%8E%E8%AF%B7%E6%B1%82%E8%B7%AF%E7%94%B1"><span class="nav-number">3.1.1.</span> <span class="nav-text">Day 3：HTTP 入口与请求路由</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-4%EF%BC%9AEngine-%E7%B1%BB%E4%B8%8E%E5%AD%90%E8%BF%9B%E7%A8%8B%E5%90%AF%E5%8A%A8"><span class="nav-number">3.1.2.</span> <span class="nav-text">Day 4：Engine 类与子进程启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-5%EF%BC%9ATokenizerManager-%E4%B8%8E-ZMQ-%E9%80%9A%E4%BF%A1"><span class="nav-number">3.1.3.</span> <span class="nav-text">Day 5：TokenizerManager 与 ZMQ 通信</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-6%EF%BC%9AScheduler-%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%EF%BC%88%E4%B8%8A%EF%BC%89"><span class="nav-number">3.1.4.</span> <span class="nav-text">Day 6：Scheduler 事件循环（上）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-7%EF%BC%9AScheduler-%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%EF%BC%88%E4%B8%8B%EF%BC%89-%E5%AE%8C%E6%95%B4%E8%BF%BD%E8%B8%AA"><span class="nav-number">3.1.5.</span> <span class="nav-text">Day 7：Scheduler 事件循环（下）+ 完整追踪</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Week-2%EF%BC%9A%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5%E4%B8%8E%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-number">3.2.</span> <span class="nav-text">Week 2：调度策略与内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-8%EF%BC%9AScheduleBatch-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">3.2.1.</span> <span class="nav-text">Day 8：ScheduleBatch 数据结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-9%EF%BC%9A%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5%E5%AF%B9%E6%AF%94"><span class="nav-number">3.2.2.</span> <span class="nav-text">Day 9：调度策略对比</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-10%EF%BC%9AChunked-Prefill"><span class="nav-number">3.2.3.</span> <span class="nav-text">Day 10：Chunked Prefill</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-11%EF%BC%9ARadixCache-%E5%89%8D%E7%BC%80%E6%A0%91"><span class="nav-number">3.2.4.</span> <span class="nav-text">Day 11：RadixCache 前缀树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-12%EF%BC%9A%E5%86%85%E5%AD%98%E6%B1%A0%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.2.5.</span> <span class="nav-text">Day 12：内存池设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-13%EF%BC%9AOOM-%E4%B8%8E%E5%9B%9E%E9%80%80%E6%9C%BA%E5%88%B6"><span class="nav-number">3.2.6.</span> <span class="nav-text">Day 13：OOM 与回退机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-14%EF%BC%9A%E6%9C%AC%E5%91%A8%E5%A4%8D%E7%9B%98"><span class="nav-number">3.2.7.</span> <span class="nav-text">Day 14：本周复盘</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Week-3%EF%BC%9A%E6%A8%A1%E5%9E%8B%E6%89%A7%E8%A1%8C%E5%B1%82%E4%B8%8E-Attention-%E5%90%8E%E7%AB%AF"><span class="nav-number">3.3.</span> <span class="nav-text">Week 3：模型执行层与 Attention 后端</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-15%EF%BC%9ALlama-%E6%A8%A1%E5%9E%8B%E5%AE%9A%E4%B9%89"><span class="nav-number">3.3.1.</span> <span class="nav-text">Day 15：Llama 模型定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-16%EF%BC%9ARadixAttention-%E4%B8%8E-Attention-%E5%90%8E%E7%AB%AF%E6%B3%A8%E5%86%8C"><span class="nav-number">3.3.2.</span> <span class="nav-text">Day 16：RadixAttention 与 Attention 后端注册</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-17%EF%BC%9A%E7%BA%BF%E6%80%A7%E5%B1%82%E4%B8%8E%E5%B9%B6%E8%A1%8C%E7%AD%96%E7%95%A5"><span class="nav-number">3.3.3.</span> <span class="nav-text">Day 17：线性层与并行策略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-18%EF%BC%9ACUDA-Graph-%E4%B8%8E-Decode-%E5%8A%A0%E9%80%9F"><span class="nav-number">3.3.4.</span> <span class="nav-text">Day 18：CUDA Graph 与 Decode 加速</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-19%EF%BC%9APhase-1-%E7%BB%BC%E5%90%88%E5%AE%9E%E9%AA%8C"><span class="nav-number">3.3.5.</span> <span class="nav-text">Day 19：Phase 1 综合实验</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Phase-2%EF%BC%9A%E5%A4%9A%E5%8D%A1%E5%88%86%E5%B8%83%E5%BC%8F%EF%BC%88Day-20-34%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">Phase 2：多卡分布式（Day 20-34）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Week-4%EF%BC%9ATensor-Parallel"><span class="nav-number">4.1.</span> <span class="nav-text">Week 4：Tensor Parallel</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-20%EF%BC%9A%E5%B9%B6%E8%A1%8C%E7%8A%B6%E6%80%81%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%88%E6%9C%AC%E5%9C%B0%E8%AF%BB%E4%BB%A3%E7%A0%81%EF%BC%89"><span class="nav-number">4.1.1.</span> <span class="nav-text">Day 20：并行状态初始化（本地读代码）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-21%EF%BC%9A%E9%80%9A%E4%BF%A1%E6%93%8D%E4%BD%9C-API%EF%BC%88%E6%9C%AC%E5%9C%B0%E8%AF%BB%E4%BB%A3%E7%A0%81%EF%BC%89"><span class="nav-number">4.1.2.</span> <span class="nav-text">Day 21：通信操作 API（本地读代码）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-22%EF%BC%9A%E5%8F%8C%E5%8D%A1-TP-%E5%AE%9E%E9%AA%8C%EF%BC%88%E4%BA%91%E7%A7%9F-2%C3%97A100%EF%BC%89"><span class="nav-number">4.1.3.</span> <span class="nav-text">Day 22：双卡 TP 实验（云租 2×A100）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-23%EF%BC%9A%E7%BA%BF%E6%80%A7%E5%B1%82-All-Reduce-%E8%BF%BD%E8%B8%AA%EF%BC%88%E4%BA%91%E7%A7%9F-2%C3%97A100%EF%BC%89"><span class="nav-number">4.1.4.</span> <span class="nav-text">Day 23：线性层 All-Reduce 追踪（云租 2×A100）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-24%EF%BC%9A%E6%9C%AC%E5%91%A8%E5%A4%8D%E7%9B%98"><span class="nav-number">4.1.5.</span> <span class="nav-text">Day 24：本周复盘</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Week-5%EF%BC%9APipeline-Parallel"><span class="nav-number">4.2.</span> <span class="nav-text">Week 5：Pipeline Parallel</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-25%EF%BC%9APP-%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%EF%BC%88%E6%9C%AC%E5%9C%B0%E8%AF%BB%E4%BB%A3%E7%A0%81%EF%BC%89"><span class="nav-number">4.2.1.</span> <span class="nav-text">Day 25：PP 事件循环（本地读代码）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-26%EF%BC%9APP-%E5%B1%82%E5%AE%9E%E7%8E%B0%EF%BC%88%E6%9C%AC%E5%9C%B0%E8%AF%BB%E4%BB%A3%E7%A0%81%EF%BC%89"><span class="nav-number">4.2.2.</span> <span class="nav-text">Day 26：PP 层实现（本地读代码）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-27%EF%BC%9APP-%E5%9B%9B%E5%8D%A1%E5%AE%9E%E9%AA%8C%EF%BC%88%E4%BA%91%E7%A7%9F-4%C3%97A100%EF%BC%89"><span class="nav-number">4.2.3.</span> <span class="nav-text">Day 27：PP 四卡实验（云租 4×A100）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-28%EF%BC%9A%E6%9C%AC%E5%91%A8%E5%A4%8D%E7%9B%98"><span class="nav-number">4.2.4.</span> <span class="nav-text">Day 28：本周复盘</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Week-6%EF%BC%9AMoE-%E4%B8%8E-Expert-Parallel"><span class="nav-number">4.3.</span> <span class="nav-text">Week 6：MoE 与 Expert Parallel</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-29%EF%BC%9AMoE-%E8%B7%AF%E7%94%B1%EF%BC%88%E6%9C%AC%E5%9C%B0%E8%AF%BB%E4%BB%A3%E7%A0%81%EF%BC%89"><span class="nav-number">4.3.1.</span> <span class="nav-text">Day 29：MoE 路由（本地读代码）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-30%EF%BC%9AFused-MoE-Triton-Kernel%EF%BC%88%E6%9C%AC%E5%9C%B0%E8%AF%BB%E4%BB%A3%E7%A0%81%EF%BC%89"><span class="nav-number">4.3.2.</span> <span class="nav-text">Day 30：Fused MoE Triton Kernel（本地读代码）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-31%EF%BC%9ADeepEP-%E4%B8%8E-Expert-Parallel%EF%BC%88%E6%9C%AC%E5%9C%B0%E8%AF%BB%E4%BB%A3%E7%A0%81%EF%BC%89"><span class="nav-number">4.3.3.</span> <span class="nav-text">Day 31：DeepEP 与 Expert Parallel（本地读代码）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-32%EF%BC%9AMoE-%E5%8F%8C%E5%8D%A1%E5%AE%9E%E9%AA%8C%EF%BC%88%E4%BA%91%E7%A7%9F-2%C3%97A100%EF%BC%89"><span class="nav-number">4.3.4.</span> <span class="nav-text">Day 32：MoE 双卡实验（云租 2×A100）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-33%EF%BC%9APhase-2-%E7%BB%BC%E5%90%88%E5%AE%9E%E9%AA%8C%EF%BC%88%E4%BA%91%E7%A7%9F-8%C3%97A100%EF%BC%89"><span class="nav-number">4.3.5.</span> <span class="nav-text">Day 33：Phase 2 综合实验（云租 8×A100）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-34%EF%BC%9A%E6%9C%AC%E5%91%A8%E5%A4%8D%E7%9B%98"><span class="nav-number">4.3.6.</span> <span class="nav-text">Day 34：本周复盘</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Phase-3%EF%BC%9A%E5%A4%9A%E6%A8%A1%E6%80%81%E4%B8%8E-RL%EF%BC%88Day-35-49%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">Phase 3：多模态与 RL（Day 35-49）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Week-7%EF%BC%9A%E5%A4%9A%E6%A8%A1%E6%80%81-VLM"><span class="nav-number">5.1.</span> <span class="nav-text">Week 7：多模态 VLM</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-35%EF%BC%9AVLM-%E6%9E%B6%E6%9E%84%E6%A6%82%E8%A7%88%EF%BC%88%E6%9C%AC%E5%9C%B0%E8%AF%BB%E4%BB%A3%E7%A0%81%EF%BC%89"><span class="nav-number">5.1.1.</span> <span class="nav-text">Day 35：VLM 架构概览（本地读代码）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-36%EF%BC%9AVision-Encoder-%E4%B8%8E%E5%9B%BE%E5%83%8F%E9%A2%84%E5%A4%84%E7%90%86%EF%BC%88%E6%9C%AC%E5%9C%B0%E8%AF%BB%E4%BB%A3%E7%A0%81%EF%BC%89"><span class="nav-number">5.1.2.</span> <span class="nav-text">Day 36：Vision Encoder 与图像预处理（本地读代码）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-37%EF%BC%9AVLM-%E6%9C%AC%E5%9C%B0%E5%AE%9E%E9%AA%8C%EF%BC%88RTX-5060%EF%BC%8CQwen2-5-VL-3B%EF%BC%89"><span class="nav-number">5.1.3.</span> <span class="nav-text">Day 37：VLM 本地实验（RTX 5060，Qwen2.5-VL-3B）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-38%EF%BC%9AVLM-%E4%BA%91%E7%A7%9F%E5%AE%9E%E9%AA%8C%EF%BC%88%E4%BA%91%E7%A7%9F-1%C3%97A100%EF%BC%8CQwen2-5-VL-7B%EF%BC%89"><span class="nav-number">5.1.4.</span> <span class="nav-text">Day 38：VLM 云租实验（云租 1×A100，Qwen2.5-VL-7B）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-39%EF%BC%9A%E6%9C%AC%E5%91%A8%E5%A4%8D%E7%9B%98"><span class="nav-number">5.1.5.</span> <span class="nav-text">Day 39：本周复盘</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Week-8%EF%BC%9A%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B"><span class="nav-number">5.2.</span> <span class="nav-text">Week 8：扩散模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-40%EF%BC%9A%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B%E7%AE%A1%E7%BA%BF%EF%BC%88%E6%9C%AC%E5%9C%B0%E8%AF%BB%E4%BB%A3%E7%A0%81-%E5%AE%9E%E9%AA%8C%EF%BC%89"><span class="nav-number">5.2.1.</span> <span class="nav-text">Day 40：扩散模型管线（本地读代码 + 实验）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-41%EF%BC%9ATeaCache-%E5%8A%A0%E9%80%9F%EF%BC%88%E6%9C%AC%E5%9C%B0%E5%AE%9E%E9%AA%8C%EF%BC%89"><span class="nav-number">5.2.2.</span> <span class="nav-text">Day 41：TeaCache 加速（本地实验）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-42%EF%BC%9A%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B%E6%B7%B1%E5%85%A5%E5%AE%9E%E9%AA%8C%EF%BC%88%E6%9C%AC%E5%9C%B0%EF%BC%89"><span class="nav-number">5.2.3.</span> <span class="nav-text">Day 42：扩散模型深入实验（本地）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-43%EF%BC%9A%E6%9C%AC%E5%91%A8%E5%A4%8D%E7%9B%98"><span class="nav-number">5.2.4.</span> <span class="nav-text">Day 43：本周复盘</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Week-9%EF%BC%9ARL-Infra"><span class="nav-number">5.3.</span> <span class="nav-text">Week 9：RL Infra</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-44%EF%BC%9AMemory-Saver%EF%BC%88%E6%9C%AC%E5%9C%B0%E8%AF%BB%E4%BB%A3%E7%A0%81%EF%BC%89"><span class="nav-number">5.3.1.</span> <span class="nav-text">Day 44：Memory Saver（本地读代码）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-45%EF%BC%9A%E6%9D%83%E9%87%8D%E6%9B%B4%E6%96%B0%EF%BC%88%E6%9C%AC%E5%9C%B0%E8%AF%BB%E4%BB%A3%E7%A0%81%EF%BC%89"><span class="nav-number">5.3.2.</span> <span class="nav-text">Day 45：权重更新（本地读代码）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-46-47%EF%BC%9A%E6%9C%80%E5%B0%8F-RL-%E5%BE%AA%E7%8E%AF%EF%BC%88%E4%BA%91%E7%A7%9F-2%C3%97A100%EF%BC%89"><span class="nav-number">5.3.3.</span> <span class="nav-text">Day 46-47：最小 RL 循环（云租 2×A100）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-48%EF%BC%9ARL-%E6%B5%8B%E8%AF%95%E7%B2%BE%E8%AF%BB"><span class="nav-number">5.3.4.</span> <span class="nav-text">Day 48：RL 测试精读</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-49%EF%BC%9A%E5%85%A8%E5%B1%80%E5%A4%8D%E7%9B%98"><span class="nav-number">5.3.5.</span> <span class="nav-text">Day 49：全局复盘</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E5%BD%95%EF%BC%9A%E4%BA%91%E7%A7%9F%E5%B9%B3%E5%8F%B0%E9%80%9F%E6%9F%A5%E8%A1%A8"><span class="nav-number">6.</span> <span class="nav-text">附录：云租平台速查表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%91%E7%A7%9F%E5%90%AF%E5%8A%A8%E6%A8%A1%E6%9D%BF"><span class="nav-number">6.1.</span> <span class="nav-text">云租启动模板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%BE%E5%AD%98%E9%80%9F%E6%9F%A5%E8%A1%A8"><span class="nav-number">6.2.</span> <span class="nav-text">显存速查表</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -227,12 +227,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="SGLang 结构学习完全规划（逐日展开版） | ZincSabian's Blog">
+      <meta itemprop="name" content="SGLang 结构学习完全规划（基于 RTX 5060 8GB + 云租分布式） | ZincSabian's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          SGLang 结构学习完全规划（逐日展开版）
+          SGLang 结构学习完全规划（基于 RTX 5060 8GB + 云租分布式）
         </h1>
 
         <div class="post-meta-container">
@@ -244,7 +244,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2026-06-02 10:00:00 / 修改时间：09:41:34" itemprop="dateCreated datePublished" datetime="2026-06-02T10:00:00+08:00">2026-06-02</time>
+      <time title="创建时间：2026-06-02 10:00:00 / 修改时间：09:54:42" itemprop="dateCreated datePublished" datetime="2026-06-02T10:00:00+08:00">2026-06-02</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -266,793 +266,863 @@
     
     
     <div class="post-body" itemprop="articleBody"><blockquote>
-<p>基于 <code>~/devroot/sglang</code> 实际源码整理。每步标注”做完&#x2F;看完 xxx 之后能了解 xxx”，可直接按日执行。</p>
+<p>本文基于你的实际硬件配置设计：</p>
+<ul>
+<li><strong>本地</strong>：RTX 5060 8GB + AMD 9600X</li>
+<li><strong>云租</strong>：分布式阶段按需租用多卡</li>
+</ul>
+<p>每步都有 <code>[ ]</code> 进度标识，完成后打勾 <code>[x]</code>，方便你根据进度提问。</p>
 </blockquote>
 <span id="more"></span>
 
 <hr>
-<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>本文将学习路径拆到<strong>天级粒度</strong>。每天 2-3 小时，按”读代码 → 做实验 → 写笔记”三段式推进。如果某天完不成，顺延即可，不必赶进度。</p>
-<blockquote>
-<p>核心原则：<strong>不理解的地方停下来，加日志、打断点、改代码、看输出</strong>，直到理解为止。不要囫囵吞枣。</p>
+<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><h3 id="硬件现实"><a href="#硬件现实" class="headerlink" title="硬件现实"></a>硬件现实</h3><p>你的 RTX 5060 有 <strong>8GB 显存</strong>。这意味着：</p>
+<table>
+<thead>
+<tr>
+<th>模型大小</th>
+<th>显存需求</th>
+<th>能否本地跑</th>
+<th>推荐度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1B-2B</td>
+<td>3-5 GB</td>
+<td>✅ 轻松</td>
+<td>⭐⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td>3B-4B</td>
+<td>6-8 GB</td>
+<td>✅ 能跑</td>
+<td>⭐⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td>7B-8B</td>
+<td>14-16 GB</td>
+<td>❌ 不行</td>
+<td>必须云租</td>
+</tr>
+<tr>
+<td>14B+</td>
+<td>28GB+</td>
+<td>❌ 不行</td>
+<td>必须云租</td>
+</tr>
+</tbody></table>
+<p><strong>好消息</strong>：学习 SGLang 的核心架构<strong>不需要大模型</strong>。3B 模型的架构和 70B 完全一样，只是层数&#x2F;维度不同。理解 Scheduler、KV Cache、Attention 后端的原理与模型大小无关。</p>
+<p><strong>策略</strong>：</p>
+<ul>
+<li><strong>Phase 0-1</strong>（Day 1-19）：全部本地用 1.5B-3B 模型完成</li>
+<li><strong>Phase 2</strong>（Day 20-34）：本地读代码理解逻辑，关键实验云租 2-8 卡</li>
+<li><strong>Phase 3</strong>（Day 35-49）：VLM&#x2F;扩散小模型本地跑，大模型和 RL 云租</li>
+</ul>
+<h3 id="进度标识说明"><a href="#进度标识说明" class="headerlink" title="进度标识说明"></a>进度标识说明</h3><p>每步开头都有 <code>[ ]</code>，完成后改为 <code>[x]</code>。你可以：</p>
+<ol>
+<li>在博客页面上按 <code>Ctrl+F</code> 搜索 <code>[ ]</code> 快速找到未完成的步骤</li>
+<li>根据当前进度问我问题，例如”我在 Day 5，ZMQ 通信这里卡住了”</li>
+<li>我会根据你的进度精准回答，不需要从头解释</li>
+</ol>
+<hr>
+<h2 id="Phase-0：环境准备（Day-1-2）"><a href="#Phase-0：环境准备（Day-1-2）" class="headerlink" title="Phase 0：环境准备（Day 1-2）"></a>Phase 0：环境准备（Day 1-2）</h2><h3 id="Day-1：拉代码、建环境、跑通本地单卡"><a href="#Day-1：拉代码、建环境、跑通本地单卡" class="headerlink" title="Day 1：拉代码、建环境、跑通本地单卡"></a>Day 1：拉代码、建环境、跑通本地单卡</h3><ul>
+<li><input disabled="" type="checkbox"> 确认已克隆 <code>~/devroot/sglang</code>，切到最新 release 分支：<code>git checkout $(git describe --tags --abbrev=0)</code></li>
+<li><input disabled="" type="checkbox"> 阅读 <code>README.md</code> 的 About 和 Getting Started 两节</li>
+<li><input disabled="" type="checkbox"> 按 <code>docs/get_started/install.md</code> 装依赖，推荐用 <code>uv</code></li>
+<li><input disabled="" type="checkbox"> <strong>本地启动 Qwen2.5-1.5B（确保 8GB 不爆显存）</strong>：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">python -m sglang.launch_server \</span><br><span class="line">  --model-path Qwen/Qwen2.5-1.5B-Instruct \</span><br><span class="line">  --tp-size 1 \</span><br><span class="line">  --mem-fraction-static 0.85</span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 用 <code>curl</code> 发一条请求验证服务正常</li>
+<li><input disabled="" type="checkbox"> 安装 <code>tmux</code>、<code>htop</code>、<code>nvtop</code>，熟悉 GPU 监控</li>
+<li><input disabled="" type="checkbox"> 确认 <code>nvidia-smi</code> 中显存占用 &lt; 8GB</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>SGLang 项目整体目录结构（<code>python/</code>、<code>sgl-kernel/</code>、<code>sgl-model-gateway/</code>）</li>
+<li>如何在你的 RTX 5060 上从源码安装和运行推理服务</li>
+<li><code>--mem-fraction-static</code> 参数对显存控制的作用</li>
+</ul>
+<p><strong>💡 RTX 5060 提示</strong>：8GB 卡启动时建议始终加 <code>--mem-fraction-static 0.85</code>，给系统留 1GB 余量，避免 CUDA 初始化时 OOM。</p>
+<hr>
+<h3 id="Day-2：目录结构梳理-CI-初探"><a href="#Day-2：目录结构梳理-CI-初探" class="headerlink" title="Day 2：目录结构梳理 + CI 初探"></a>Day 2：目录结构梳理 + CI 初探</h3><ul>
+<li><input disabled="" type="checkbox"> 阅读 <code>.github/workflows/</code> 中任意 2 个 CI yaml，了解测试矩阵</li>
+<li><input disabled="" type="checkbox"> 阅读 <code>test/README.md</code>，了解测试分类</li>
+<li><input disabled="" type="checkbox"> <strong>本地跑通一个集成测试</strong>：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python -m pytest <span class="built_in">test</span>/registered/test_xxx.py -v -s \</span><br><span class="line">  --model-path Qwen/Qwen2.5-1.5B-Instruct</span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 在 <code>scheduler.py</code> 加一行日志，重新安装后验证生效</li>
+<li><input disabled="" type="checkbox"> 用 <code>py-spy top --pid &lt;sglang_pid&gt;</code> 观察运行时线程状态</li>
+<li><input disabled="" type="checkbox"> 对比 <code>nvidia-smi</code> 中 GPU 利用率 vs <code>py-spy</code> 中 Python 线程状态</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>SGLang 的三层结构边界：Python Runtime、<code>sgl-kernel</code>、<code>sgl-model-gateway</code></li>
+<li>如何在 8GB 卡上修改代码并验证修改生效</li>
+<li>CI 门控规则</li>
+</ul>
+<hr>
+<h2 id="Phase-1：单卡核心架构（Day-3-19）"><a href="#Phase-1：单卡核心架构（Day-3-19）" class="headerlink" title="Phase 1：单卡核心架构（Day 3-19）"></a>Phase 1：单卡核心架构（Day 3-19）</h2><blockquote>
+<p><strong>全部本地完成</strong>，使用 1.5B-3B 模型。推荐模型矩阵：</p>
+<table>
+<thead>
+<tr>
+<th>实验</th>
+<th>推荐模型</th>
+<th>显存占用</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>通用学习</td>
+<td>Qwen2.5-1.5B</td>
+<td>~4GB</td>
+<td>最保险，有余量加日志</td>
+</tr>
+<tr>
+<td>Attention 对比</td>
+<td>Qwen2.5-3B</td>
+<td>~6GB</td>
+<td>足够展示不同后端差异</td>
+</tr>
+<tr>
+<td>极限测试</td>
+<td>Phi-4-mini (3.8B)</td>
+<td>~7GB</td>
+<td>接近上限，测内存压力</td>
+</tr>
+</tbody></table>
 </blockquote>
 <hr>
-<h2 id="Phase-0：环境准备（Day-1-2）"><a href="#Phase-0：环境准备（Day-1-2）" class="headerlink" title="Phase 0：环境准备（Day 1-2）"></a>Phase 0：环境准备（Day 1-2）</h2><h3 id="Day-1：拉代码、建环境、跑通单卡"><a href="#Day-1：拉代码、建环境、跑通单卡" class="headerlink" title="Day 1：拉代码、建环境、跑通单卡"></a>Day 1：拉代码、建环境、跑通单卡</h3><p><strong>动作：</strong></p>
-<ol>
-<li>确认已克隆 <code>~/devroot/sglang</code>，切到最新 release 分支：<code>git checkout $(git describe --tags --abbrev=0)</code></li>
-<li>阅读 <code>README.md</code> 的 About 和 Getting Started 两节</li>
-<li>按 <code>docs/get_started/install.md</code> 装依赖，推荐用 <code>uv</code></li>
-<li>单卡启动 Llama-3.1-8B：<code>python -m sglang.launch_server --model-path meta-llama/Llama-3.1-8B-Instruct --tp-size 1</code></li>
-<li>用 <code>curl</code> 发一条请求验证服务正常</li>
-<li>安装 <code>tmux</code>、<code>htop</code>、<code>nvtop</code>，熟悉 GPU 监控</li>
-</ol>
-<p><strong>做完之后能了解：</strong></p>
-<ul>
-<li>SGLang 项目整体目录结构（<code>python/</code>、<code>sgl-kernel/</code>、<code>sgl-model-gateway/</code>、<code>benchmark/</code>、<code>docs/</code>）</li>
-<li>如何从源码安装和运行一个推理服务</li>
-<li>单卡启动服务的最小命令集</li>
+<h3 id="Week-1：宏观架构与数据流"><a href="#Week-1：宏观架构与数据流" class="headerlink" title="Week 1：宏观架构与数据流"></a>Week 1：宏观架构与数据流</h3><h4 id="Day-3：HTTP-入口与请求路由"><a href="#Day-3：HTTP-入口与请求路由" class="headerlink" title="Day 3：HTTP 入口与请求路由"></a>Day 3：HTTP 入口与请求路由</h4><ul>
+<li><input disabled="" type="checkbox"> 精读 <code>python/sglang/srt/entrypoints/http_server.py</code></li>
+<li><input disabled="" type="checkbox"> 找到 <code>generate_request</code>、<code>chat_completions</code> 两个路由处理函数</li>
+<li><input disabled="" type="checkbox"> 在 <code>generate_request</code> 入口处加日志，打印 <code>request.model_dump_json()</code></li>
+<li><input disabled="" type="checkbox"> <strong>本地发请求，确认日志输出</strong>：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl http://localhost:30000/v1/chat/completions \</span><br><span class="line">  -H <span class="string">&quot;Content-Type: application/json&quot;</span> \</span><br><span class="line">  -d <span class="string">&#x27;&#123;&quot;model&quot;:&quot;default&quot;,&quot;messages&quot;:[&#123;&quot;role&quot;:&quot;user&quot;,&quot;content&quot;:&quot;Hello&quot;&#125;]&#125;&#x27;</span></span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 画出函数调用链：<code>generate_request</code> → 哪个函数 → 最终发到哪里</li>
 </ul>
-<hr>
-<h3 id="Day-2：目录结构梳理-CI-初探"><a href="#Day-2：目录结构梳理-CI-初探" class="headerlink" title="Day 2：目录结构梳理 + CI 初探"></a>Day 2：目录结构梳理 + CI 初探</h3><p><strong>动作：</strong></p>
-<ol>
-<li>阅读 <code>.github/workflows/</code> 中任意 2 个 CI yaml，了解测试矩阵（哪些 Python 版本、哪些 GPU、哪些模型）</li>
-<li>阅读 <code>test/README.md</code>，了解测试分类：<code>test/srt/</code>（单元测试）、<code>test/registered/</code>（集成测试）、<code>test/manual/</code>（手工测试）</li>
-<li>跑通一个集成测试：<code>python -m pytest test/registered/test_xxx.py -v -s</code></li>
-<li>在 <code>python/sglang/srt/managers/scheduler.py</code> 的 <code>event_loop_normal</code> 第一行加一行 <code>logger.info(&quot;scheduler started&quot;)</code>，重新安装后验证日志出现</li>
-<li>用 <code>py-spy top --pid &lt;sglang_pid&gt;</code> 观察运行时线程状态</li>
-</ol>
-<p><strong>做完之后能了解：</strong></p>
-<ul>
-<li>SGLang 的三层结构边界：Python Runtime、<code>sgl-kernel</code>（C++&#x2F;CUDA）、<code>sgl-model-gateway</code>（Rust）</li>
-<li>如何修改代码并验证修改生效</li>
-<li>CI 的门控规则（什么测试不通过不能合入）</li>
-</ul>
-<hr>
-<h2 id="Phase-1：单卡核心架构（Day-3-17）"><a href="#Phase-1：单卡核心架构（Day-3-17）" class="headerlink" title="Phase 1：单卡核心架构（Day 3-17）"></a>Phase 1：单卡核心架构（Day 3-17）</h2><h3 id="Week-1：宏观架构与数据流"><a href="#Week-1：宏观架构与数据流" class="headerlink" title="Week 1：宏观架构与数据流"></a>Week 1：宏观架构与数据流</h3><h4 id="Day-3：HTTP-入口与请求路由"><a href="#Day-3：HTTP-入口与请求路由" class="headerlink" title="Day 3：HTTP 入口与请求路由"></a>Day 3：HTTP 入口与请求路由</h4><p><strong>动作：</strong></p>
-<ol>
-<li>精读 <code>python/sglang/srt/entrypoints/http_server.py</code></li>
-<li>找到 <code>generate_request</code>、<code>chat_completions</code> 两个路由处理函数</li>
-<li>在 <code>generate_request</code> 入口处加日志，打印 <code>request.model_dump_json()</code></li>
-<li>发一条请求，确认日志输出与预期一致</li>
-<li>画出函数调用链：<code>generate_request</code> → 哪个函数 → 最终发到哪里</li>
-</ol>
-<p><strong>看完 <code>http_server.py</code> 之后能了解：</strong></p>
+<p><strong>看完 <code>http_server.py</code> 之后能了解</strong>：</p>
 <ul>
 <li>请求进入 SGLang 的第一个 Python 函数是谁</li>
 <li>FastAPI 路由如何注册（OpenAI API 兼容层）</li>
 <li>请求体中的字段如何被解析和校验</li>
 </ul>
 <hr>
-<h4 id="Day-4：Engine-类与子进程启动"><a href="#Day-4：Engine-类与子进程启动" class="headerlink" title="Day 4：Engine 类与子进程启动"></a>Day 4：Engine 类与子进程启动</h4><p><strong>动作：</strong></p>
-<ol>
-<li>精读 <code>python/sglang/srt/entrypoints/engine.py</code></li>
-<li>找到 <code>Engine.__init__</code>，逐行理解：<ul>
-<li>什么时候创建 <code>TokenizerManager</code></li>
-<li>什么时候 <code>fork</code>&#x2F;<code>spawn</code> 出 Scheduler 子进程</li>
-<li>什么时候启动 Detokenizer 子进程</li>
+<h4 id="Day-4：Engine-类与子进程启动"><a href="#Day-4：Engine-类与子进程启动" class="headerlink" title="Day 4：Engine 类与子进程启动"></a>Day 4：Engine 类与子进程启动</h4><ul>
+<li><input disabled="" type="checkbox"> 精读 <code>python/sglang/srt/entrypoints/engine.py</code></li>
+<li><input disabled="" type="checkbox"> 找到 <code>Engine.__init__</code>，逐行理解：TokenizerManager 创建、Scheduler 子进程 fork、Detokenizer 子进程启动</li>
+<li><input disabled="" type="checkbox"> 在 <code>Engine.__init__</code> 的每个子进程启动前后加日志</li>
+<li><input disabled="" type="checkbox"> <strong>本地启动服务，观察进程树</strong>：<code>ps aux | grep sglang</code>，确认有几个进程</li>
 </ul>
-</li>
-<li>在 <code>Engine.__init__</code> 的每个子进程启动前后加日志</li>
-<li>启动服务，观察进程树：<code>ps aux | grep sglang</code>，确认有几个进程</li>
-</ol>
-<p><strong>看完 <code>engine.py</code> 之后能了解：</strong></p>
+<p><strong>看完 <code>engine.py</code> 之后能了解</strong>：</p>
 <ul>
 <li>SGLang 为什么用多进程（Python GIL、CUDA Context 隔离）</li>
 <li>主进程、Scheduler 进程、Detokenizer 进程的关系</li>
-<li><code>TokenizerManager</code> 在主进程中承担什么角色</li>
 </ul>
 <hr>
-<h4 id="Day-5：TokenizerManager-与-ZMQ-通信"><a href="#Day-5：TokenizerManager-与-ZMQ-通信" class="headerlink" title="Day 5：TokenizerManager 与 ZMQ 通信"></a>Day 5：TokenizerManager 与 ZMQ 通信</h4><p><strong>动作：</strong></p>
-<ol>
-<li>精读 <code>python/sglang/srt/managers/tokenizer_manager.py</code></li>
-<li>找到 <code>generate_request</code> 方法，理解它如何把 HTTP 请求转成内部 <code>Req</code> 对象</li>
-<li>找到 ZMQ socket 的创建代码，确认类型（PUSH&#x2F;PULL&#x2F;REQ&#x2F;REP）</li>
-<li>在 <code>generate_request</code> 和 <code>recv_from_tokenizer</code> 两处加日志，观察请求 ID 的流转</li>
-<li>画一张图：主进程 ↔ Scheduler 进程 ↔ Detokenizer 进程，标注 ZMQ socket 类型</li>
-</ol>
-<p><strong>看完 <code>tokenizer_manager.py</code> 之后能了解：</strong></p>
+<h4 id="Day-5：TokenizerManager-与-ZMQ-通信"><a href="#Day-5：TokenizerManager-与-ZMQ-通信" class="headerlink" title="Day 5：TokenizerManager 与 ZMQ 通信"></a>Day 5：TokenizerManager 与 ZMQ 通信</h4><ul>
+<li><input disabled="" type="checkbox"> 精读 <code>python/sglang/srt/managers/tokenizer_manager.py</code></li>
+<li><input disabled="" type="checkbox"> 找到 <code>generate_request</code>，理解它如何把 HTTP 请求转成内部 <code>Req</code> 对象</li>
+<li><input disabled="" type="checkbox"> 找到 ZMQ socket 创建代码，确认类型（PUSH&#x2F;PULL&#x2F;REQ&#x2F;REP）</li>
+<li><input disabled="" type="checkbox"> 在 <code>generate_request</code> 和 <code>recv_from_tokenizer</code> 两处加日志，观察请求 ID 流转</li>
+<li><input disabled="" type="checkbox"> 画一张图：主进程 ↔ Scheduler 进程 ↔ Detokenizer 进程，标注 ZMQ socket 类型</li>
+</ul>
+<p><strong>看完 <code>tokenizer_manager.py</code> 之后能了解</strong>：</p>
 <ul>
 <li>Tokenize&#x2F;Detokenize 在哪个进程执行</li>
 <li>ZMQ 的 PUSH&#x2F;PULL 模式如何保证请求不丢失</li>
-<li><code>Req</code> 对象在进程间如何序列化</li>
 </ul>
 <hr>
-<h4 id="Day-6：Scheduler-事件循环（上）"><a href="#Day-6：Scheduler-事件循环（上）" class="headerlink" title="Day 6：Scheduler 事件循环（上）"></a>Day 6：Scheduler 事件循环（上）</h4><p><strong>动作：</strong></p>
-<ol>
-<li>精读 <code>python/sglang/srt/managers/scheduler.py</code> 的 <code>event_loop_normal()</code></li>
-<li>只看前 50 行：理解循环的生命周期（init → loop → cleanup）</li>
-<li>找到 <code>recv_from_tokenizer()</code>，理解它如何接收新请求</li>
-<li>找到 <code>schedule()</code> 的调用点，理解”调度决策”发生在循环的哪个阶段</li>
-<li>加日志：在每次循环迭代开头打印 <code>len(self.waiting_queue)</code>、<code>len(self.running_queue)</code></li>
-</ol>
-<p><strong>看完 <code>scheduler.py</code> 前半之后能了解：</strong></p>
+<h4 id="Day-6：Scheduler-事件循环（上）"><a href="#Day-6：Scheduler-事件循环（上）" class="headerlink" title="Day 6：Scheduler 事件循环（上）"></a>Day 6：Scheduler 事件循环（上）</h4><ul>
+<li><input disabled="" type="checkbox"> 精读 <code>python/sglang/srt/managers/scheduler.py</code> 的 <code>event_loop_normal()</code>，只看前 50 行</li>
+<li><input disabled="" type="checkbox"> 理解循环生命周期：init → loop → cleanup</li>
+<li><input disabled="" type="checkbox"> 找到 <code>recv_from_tokenizer()</code>，理解它如何接收新请求</li>
+<li><input disabled="" type="checkbox"> 找到 <code>schedule()</code> 的调用点</li>
+<li><input disabled="" type="checkbox"> 加日志：每次循环迭代开头打印 <code>len(self.waiting_queue)</code>、<code>len(self.running_queue)</code></li>
+<li><input disabled="" type="checkbox"> <strong>本地发 3 条请求，观察 queue 长度变化</strong></li>
+</ul>
+<p><strong>看完 <code>scheduler.py</code> 前半之后能了解</strong>：</p>
 <ul>
-<li>Scheduler 是一个什么样的循环（事件驱动还是轮询）</li>
+<li>Scheduler 是一个什么样的循环</li>
 <li><code>waiting_queue</code> 和 <code>running_queue</code> 的区别</li>
-<li>一个请求进入 Scheduler 后的第一步是什么</li>
 </ul>
 <hr>
-<h4 id="Day-7：Scheduler-事件循环（下）-一个请求的完整追踪"><a href="#Day-7：Scheduler-事件循环（下）-一个请求的完整追踪" class="headerlink" title="Day 7：Scheduler 事件循环（下）+ 一个请求的完整追踪"></a>Day 7：Scheduler 事件循环（下）+ 一个请求的完整追踪</h4><p><strong>动作：</strong></p>
-<ol>
-<li>继续精读 <code>scheduler.py</code>，理解 <code>run_batch()</code> → <code>process_batch_result()</code> 的流程</li>
-<li>找到 <code>ForwardMode</code> 枚举，列出所有可能的模式</li>
-<li><strong>追踪任务</strong>：在以下位置加日志，发一条请求，收集完整日志链：<ul>
+<h4 id="Day-7：Scheduler-事件循环（下）-完整追踪"><a href="#Day-7：Scheduler-事件循环（下）-完整追踪" class="headerlink" title="Day 7：Scheduler 事件循环（下）+ 完整追踪"></a>Day 7：Scheduler 事件循环（下）+ 完整追踪</h4><ul>
+<li><input disabled="" type="checkbox"> 继续精读 <code>scheduler.py</code>，理解 <code>run_batch()</code> → <code>process_batch_result()</code></li>
+<li><input disabled="" type="checkbox"> 找到 <code>ForwardMode</code> 枚举，列出所有模式</li>
+<li><input disabled="" type="checkbox"> <strong>追踪任务</strong>：在以下位置加日志，发一条请求，收集完整日志链：<ul>
 <li><code>http_server.py::generate_request</code></li>
 <li><code>tokenizer_manager.py::generate_request</code></li>
-<li><code>scheduler.py::event_loop_normal</code>（循环开始）</li>
-<li><code>scheduler.py::schedule()</code>（调度决策）</li>
+<li><code>scheduler.py::event_loop_normal</code></li>
+<li><code>scheduler.py::schedule()</code></li>
 <li><code>tp_worker.py::forward_batch_generation</code></li>
 <li><code>model_runner.py::forward</code></li>
 <li><code>detokenizer_manager.py</code></li>
-<li><code>tokenizer_manager.py</code>（HTTP 响应）</li>
 </ul>
 </li>
-<li>按日志时间戳排序，画出完整调用时序图</li>
-</ol>
-<p><strong>做完追踪之后能了解：</strong></p>
+<li><input disabled="" type="checkbox"> 按时间戳排序，画出完整调用时序图</li>
+</ul>
+<p><strong>做完追踪之后能了解</strong>：</p>
 <ul>
 <li>一个 Generate 请求从 HTTP 到 GPU 再回到 HTTP 经历了几次进程切换</li>
-<li>每个阶段耗时多少（哪一步是瓶颈）</li>
 <li><code>ForwardMode.PREFILL</code> 和 <code>ForwardMode.DECODE</code> 分别在什么时候触发</li>
+<li><strong>这是整个 Phase 1 最重要的实验，务必完成</strong></li>
 </ul>
 <hr>
-<h3 id="Week-2：调度策略与内存管理"><a href="#Week-2：调度策略与内存管理" class="headerlink" title="Week 2：调度策略与内存管理"></a>Week 2：调度策略与内存管理</h3><h4 id="Day-8：ScheduleBatch-数据结构"><a href="#Day-8：ScheduleBatch-数据结构" class="headerlink" title="Day 8：ScheduleBatch 数据结构"></a>Day 8：ScheduleBatch 数据结构</h4><p><strong>动作：</strong></p>
-<ol>
-<li>精读 <code>python/sglang/srt/managers/schedule_batch.py</code></li>
-<li>理解 <code>ScheduleBatch</code> 类的字段：<code>reqs</code>、<code>running_bs</code>、<code>extend_bs</code>、<code>decode_bs</code>、<code>input_ids</code>、<code>positions</code>…</li>
-<li>理解 <code>Req</code> 类的字段：<code>origin_input_ids</code>、<code>output_ids</code>、<code>sample_output_ids</code>…</li>
-<li>在 <code>ScheduleBatch.__init__</code> 加日志，打印 batch 中各字段的 shape</li>
-<li>对比 Prefill 和 Decode 时 <code>input_ids</code> 的 shape 差异</li>
-</ol>
-<p><strong>看完 <code>schedule_batch.py</code> 之后能了解：</strong></p>
+<h3 id="Week-2：调度策略与内存管理"><a href="#Week-2：调度策略与内存管理" class="headerlink" title="Week 2：调度策略与内存管理"></a>Week 2：调度策略与内存管理</h3><h4 id="Day-8：ScheduleBatch-数据结构"><a href="#Day-8：ScheduleBatch-数据结构" class="headerlink" title="Day 8：ScheduleBatch 数据结构"></a>Day 8：ScheduleBatch 数据结构</h4><ul>
+<li><input disabled="" type="checkbox"> 精读 <code>python/sglang/srt/managers/schedule_batch.py</code></li>
+<li><input disabled="" type="checkbox"> 理解 <code>ScheduleBatch</code> 字段：<code>reqs</code>、<code>running_bs</code>、<code>extend_bs</code>、<code>decode_bs</code>、<code>input_ids</code></li>
+<li><input disabled="" type="checkbox"> 理解 <code>Req</code> 字段：<code>origin_input_ids</code>、<code>output_ids</code>、<code>sample_output_ids</code></li>
+<li><input disabled="" type="checkbox"> 在 <code>ScheduleBatch.__init__</code> 加日志，打印 batch 各字段的 shape</li>
+<li><input disabled="" type="checkbox"> <strong>对比 Prefill 和 Decode 时 <code>input_ids</code> 的 shape 差异</strong></li>
+</ul>
+<p><strong>看完 <code>schedule_batch.py</code> 之后能了解</strong>：</p>
 <ul>
-<li>SGLang 用 <code>ScheduleBatch</code> 封装一个 step 的所有信息</li>
+<li><code>ScheduleBatch</code> 如何封装一个 step 的所有信息</li>
 <li><code>reqs</code> 和 <code>running_bs</code>&#x2F;<code>extend_bs</code>&#x2F;<code>decode_bs</code> 的关系</li>
-<li>为什么 batch 中的请求可能有不同长度的 input</li>
 </ul>
 <hr>
-<h4 id="Day-9：调度策略对比"><a href="#Day-9：调度策略对比" class="headerlink" title="Day 9：调度策略对比"></a>Day 9：调度策略对比</h4><p><strong>动作：</strong></p>
-<ol>
-<li>精读 <code>python/sglang/srt/managers/schedule_policy.py</code></li>
-<li>找到 <code>LPMSchedulePolicy</code>、<code>FCFSSchedulePolicy</code>、<code>DFSWeightSchedulePolicy</code></li>
-<li>理解每种策略的排序逻辑</li>
-<li><strong>实验</strong>：修改策略排序函数，人为调整请求顺序，观察 TTFT&#x2F;TPOT 变化</li>
-<li>思考：为什么默认策略通常是 LPM（Longest Prefix Match）</li>
-</ol>
-<p><strong>看完 <code>schedule_policy.py</code> 之后能了解：</strong></p>
+<h4 id="Day-9：调度策略对比"><a href="#Day-9：调度策略对比" class="headerlink" title="Day 9：调度策略对比"></a>Day 9：调度策略对比</h4><ul>
+<li><input disabled="" type="checkbox"> 精读 <code>python/sglang/srt/managers/schedule_policy.py</code></li>
+<li><input disabled="" type="checkbox"> 找到 <code>LPMSchedulePolicy</code>、<code>FCFSSchedulePolicy</code>、<code>DFSWeightSchedulePolicy</code></li>
+<li><input disabled="" type="checkbox"> 理解每种策略的排序逻辑</li>
+<li><input disabled="" type="checkbox"> <strong>实验</strong>：修改策略排序函数，调整请求顺序，观察 TTFT&#x2F;TPOT 变化</li>
+<li><input disabled="" type="checkbox"> 思考：为什么默认策略通常是 LPM</li>
+</ul>
+<p><strong>看完 <code>schedule_policy.py</code> 之后能了解</strong>：</p>
 <ul>
 <li>调度策略的本质是”从 waiting_queue 中选择哪些请求进入下一个 step”</li>
-<li>LPM vs FCFS 的 trade-off（prefix cache 命中率 vs 公平性）</li>
-<li>如何自定义调度策略</li>
+<li>LPM vs FCFS 的 trade-off</li>
 </ul>
 <hr>
-<h4 id="Day-10：Chunked-Prefill"><a href="#Day-10：Chunked-Prefill" class="headerlink" title="Day 10：Chunked Prefill"></a>Day 10：Chunked Prefill</h4><p><strong>动作：</strong></p>
-<ol>
-<li>在 <code>scheduler.py</code> 中搜索 <code>chunked_prefill_size</code></li>
-<li>理解长 prefill 如何被切分为多个 chunk</li>
-<li>理解 <code>MIXED</code> forward mode：一个 batch 中同时有 prefill 和 decode</li>
-<li><strong>实验</strong>：用一条 8K token 的长 prompt 测试，观察日志中 <code>ForwardMode</code> 的变化序列</li>
-<li>对比：启用 chunked prefill 和不启用时，长 prompt 的 TTFT 差异</li>
-</ol>
-<p><strong>做完之后能了解：</strong></p>
+<h4 id="Day-10：Chunked-Prefill"><a href="#Day-10：Chunked-Prefill" class="headerlink" title="Day 10：Chunked Prefill"></a>Day 10：Chunked Prefill</h4><ul>
+<li><input disabled="" type="checkbox"> 在 <code>scheduler.py</code> 中搜索 <code>chunked_prefill_size</code></li>
+<li><input disabled="" type="checkbox"> 理解长 prefill 如何被切分为多个 chunk</li>
+<li><input disabled="" type="checkbox"> 理解 <code>MIXED</code> forward mode：同时有 prefill 和 decode</li>
+<li><input disabled="" type="checkbox"> <strong>实验</strong>：用一条 4K token 的长 prompt 测试，观察日志中 <code>ForwardMode</code> 变化序列</li>
+<li><input disabled="" type="checkbox"> 对比启用和不启用 chunked prefill 时长 prompt 的 TTFT</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
 <ul>
 <li>Chunked Prefill 如何让长 prompt 不阻塞短 decode</li>
 <li><code>MIXED</code> mode 的 batch 构成特点</li>
-<li>为什么 decode 阶段不需要 chunking</li>
 </ul>
 <hr>
-<h4 id="Day-11：RadixCache-前缀树"><a href="#Day-11：RadixCache-前缀树" class="headerlink" title="Day 11：RadixCache 前缀树"></a>Day 11：RadixCache 前缀树</h4><p><strong>动作：</strong></p>
-<ol>
-<li>精读 <code>python/sglang/srt/mem_cache/radix_cache.py</code></li>
-<li>理解 <code>RadixCache</code> 的数据结构（RadixTree 节点）</li>
-<li>理解 <code>match_prefix()</code>：最长前缀匹配的搜索过程</li>
-<li>理解 <code>insert()</code>：新 token 序列如何插入树</li>
-<li>理解 <code>evict()</code>：LRU&#x2F;LFU 淘汰策略</li>
-<li><strong>实验</strong>：连续发送两条共享前缀的请求，在 <code>match_prefix()</code> 加日志，观察第二次命中 cache 的匹配长度</li>
-</ol>
-<p><strong>看完 <code>radix_cache.py</code> 之后能了解：</strong></p>
+<h4 id="Day-11：RadixCache-前缀树"><a href="#Day-11：RadixCache-前缀树" class="headerlink" title="Day 11：RadixCache 前缀树"></a>Day 11：RadixCache 前缀树</h4><ul>
+<li><input disabled="" type="checkbox"> 精读 <code>python/sglang/srt/mem_cache/radix_cache.py</code></li>
+<li><input disabled="" type="checkbox"> 理解 <code>RadixCache</code> 的数据结构（RadixTree 节点）</li>
+<li><input disabled="" type="checkbox"> 理解 <code>match_prefix()</code>、<code>insert()</code>、<code>evict()</code></li>
+<li><input disabled="" type="checkbox"> <strong>实验</strong>：连续发送两条共享前缀的请求，在 <code>match_prefix()</code> 加日志，观察第二次命中 cache 的匹配长度</li>
+</ul>
+<p><strong>看完 <code>radix_cache.py</code> 之后能了解</strong>：</p>
 <ul>
-<li>RadixCache 为什么用 radix tree 而不是 hash table（前缀压缩 + 最长匹配）</li>
-<li>缓存命中时，<code>match_prefix</code> 返回什么（哪些 token 可以复用）</li>
-<li>缓存淘汰策略如何影响命中率</li>
+<li>RadixCache 为什么用 radix tree 而不是 hash table</li>
+<li>缓存命中时哪些 token 可以复用</li>
 </ul>
 <hr>
-<h4 id="Day-12：内存池设计"><a href="#Day-12：内存池设计" class="headerlink" title="Day 12：内存池设计"></a>Day 12：内存池设计</h4><p><strong>动作：</strong></p>
-<ol>
-<li>精读 <code>python/sglang/srt/mem_cache/memory_pool.py</code></li>
-<li>理解 <code>ReqToTokenPool</code> 和 <code>TokenToKVPoolAllocator</code></li>
-<li>理解页分配 vs 连续分配</li>
-<li>找到 <code>MemPoolType</code> 枚举：MHA、MLA、Hybrid</li>
-<li>在 <code>alloc_token_slots()</code> 加日志，打印分配的 page 数量和位置</li>
-<li>用 <code>nvidia-smi</code> 观察显存占用，与内存池统计对比</li>
-</ol>
-<p><strong>看完 <code>memory_pool.py</code> 之后能了解：</strong></p>
+<h4 id="Day-12：内存池设计"><a href="#Day-12：内存池设计" class="headerlink" title="Day 12：内存池设计"></a>Day 12：内存池设计</h4><ul>
+<li><input disabled="" type="checkbox"> 精读 <code>python/sglang/srt/mem_cache/memory_pool.py</code></li>
+<li><input disabled="" type="checkbox"> 理解 <code>ReqToTokenPool</code> 和 <code>TokenToKVPoolAllocator</code></li>
+<li><input disabled="" type="checkbox"> 理解页分配 vs 连续分配</li>
+<li><input disabled="" type="checkbox"> 找到 <code>MemPoolType</code> 枚举：MHA、MLA、Hybrid</li>
+<li><input disabled="" type="checkbox"> 在 <code>alloc_token_slots()</code> 加日志，打印分配的 page 数量</li>
+<li><input disabled="" type="checkbox"> 用 <code>nvidia-smi</code> 观察显存占用，与内存池统计对比</li>
+</ul>
+<p><strong>看完 <code>memory_pool.py</code> 之后能了解</strong>：</p>
 <ul>
 <li>SGLang 的两级内存池设计</li>
-<li>为什么用页式分配而不是逐 token 分配</li>
-<li>不同注意力机制（MHA&#x2F;MLA）的内存布局差异</li>
+<li>为什么用页式分配</li>
 </ul>
 <hr>
-<h4 id="Day-13：OOM-与回退机制"><a href="#Day-13：OOM-与回退机制" class="headerlink" title="Day 13：OOM 与回退机制"></a>Day 13：OOM 与回退机制</h4><p><strong>动作：</strong></p>
-<ol>
-<li>在 <code>scheduler.py</code> 中搜索 <code>retract_decode()</code></li>
-<li>理解动态回退机制：当显存不足时，将 decode 请求回退到 waiting_queue</li>
-<li>理解 <code>token_to_kv_pool</code> 的 <code>clear()</code> 逻辑</li>
-<li><strong>实验</strong>：发送大量请求使 GPU 接近 OOM，观察 <code>retract_decode()</code> 是否触发</li>
-<li>阅读 <code>docs/advanced_features/hicache_design.md</code>，了解 HiCache 的 CPU&#x2F;Disk offload</li>
-</ol>
-<p><strong>看完 OOM 机制之后能了解：</strong></p>
+<h4 id="Day-13：OOM-与回退机制"><a href="#Day-13：OOM-与回退机制" class="headerlink" title="Day 13：OOM 与回退机制"></a>Day 13：OOM 与回退机制</h4><ul>
+<li><input disabled="" type="checkbox"> 在 <code>scheduler.py</code> 中搜索 <code>retract_decode()</code></li>
+<li><input disabled="" type="checkbox"> 理解动态回退机制：显存不足时将 decode 请求回退到 waiting_queue</li>
+<li><input disabled="" type="checkbox"> <strong>实验</strong>：用 Phi-4-mini（接近 8GB 上限）发送大量请求，观察 <code>retract_decode()</code> 是否触发</li>
+<li><input disabled="" type="checkbox"> 阅读 <code>docs/advanced_features/hicache_design.md</code></li>
+</ul>
+<p><strong>看完 OOM 机制之后能了解</strong>：</p>
 <ul>
 <li>SGLang 如何避免因显存不足导致崩溃</li>
-<li><code>retract_decode</code> 的触发条件</li>
-<li>HiCache 如何在显存和内存&#x2F;磁盘之间分层存储 KV</li>
+<li><strong>在 8GB 卡上，这个机制尤其重要</strong></li>
 </ul>
 <hr>
-<h4 id="Day-14：本周复盘-白板式验证"><a href="#Day-14：本周复盘-白板式验证" class="headerlink" title="Day 14：本周复盘 + 白板式验证"></a>Day 14：本周复盘 + 白板式验证</h4><p><strong>动作：</strong></p>
-<ol>
-<li>不看代码，在白板&#x2F;纸上画出完整请求流</li>
-<li>回答：一个请求从 HTTP 到 GPU 再回到 HTTP 经历了几个进程？几次序列化&#x2F;反序列化？</li>
-<li>回答：RadixCache 的 radix tree 和 trie 有什么区别？为什么选 radix tree？</li>
-<li>回答：<code>ScheduleBatch</code> 中 <code>reqs</code>、<code>running_bs</code>、<code>extend_bs</code>、<code>decode_bs</code> 的区别</li>
-<li>回答：为什么 decode 阶段用 CUDA Graph，而 prefill 不用？</li>
-<li>如果有答不上来的，回到对应文件再读</li>
-</ol>
-<p><strong>做完之后能了解：</strong></p>
+<h4 id="Day-14：本周复盘"><a href="#Day-14：本周复盘" class="headerlink" title="Day 14：本周复盘"></a>Day 14：本周复盘</h4><ul>
+<li><input disabled="" type="checkbox"> 不看代码，在白板上画出完整请求流</li>
+<li><input disabled="" type="checkbox"> 回答：一个请求从 HTTP 到 GPU 再回到 HTTP 经历了几个进程？</li>
+<li><input disabled="" type="checkbox"> 回答：RadixCache 用 radix tree 而非 hash table 的根本原因</li>
+<li><input disabled="" type="checkbox"> 回答：<code>ScheduleBatch</code> 中 <code>reqs</code>、<code>running_bs</code>、<code>extend_bs</code>、<code>decode_bs</code> 的区别</li>
+<li><input disabled="" type="checkbox"> 回答：为什么 decode 阶段用 CUDA Graph，而 prefill 不用？</li>
+<li><input disabled="" type="checkbox"> 有答不上来的，回到对应文件再读</li>
+</ul>
+<hr>
+<h3 id="Week-3：模型执行层与-Attention-后端"><a href="#Week-3：模型执行层与-Attention-后端" class="headerlink" title="Week 3：模型执行层与 Attention 后端"></a>Week 3：模型执行层与 Attention 后端</h3><h4 id="Day-15：Llama-模型定义"><a href="#Day-15：Llama-模型定义" class="headerlink" title="Day 15：Llama 模型定义"></a>Day 15：Llama 模型定义</h4><ul>
+<li><input disabled="" type="checkbox"> 精读 <code>python/sglang/srt/models/llama.py</code></li>
+<li><input disabled="" type="checkbox"> 从 <code>LlamaForCausalLM.forward()</code> 追踪到 <code>LlamaAttention.forward()</code> 再到 <code>RadixAttention.forward()</code></li>
+<li><input disabled="" type="checkbox"> 对比 HuggingFace Transformers 的 Llama 实现</li>
+<li><input disabled="" type="checkbox"> 在 <code>LlamaAttention.forward()</code> 加日志，打印 <code>hidden_states.shape</code></li>
+</ul>
+<p><strong>看完 <code>llama.py</code> 之后能了解</strong>：</p>
 <ul>
-<li>自己对 Week 1-2 内容的掌握程度</li>
-<li>哪些概念还需要加强</li>
+<li>SGLang 如何定义一个模型</li>
+<li><code>LlamaDecoderLayer</code> 的结构</li>
 </ul>
 <hr>
-<h3 id="Week-3：模型执行层与-Attention-后端"><a href="#Week-3：模型执行层与-Attention-后端" class="headerlink" title="Week 3：模型执行层与 Attention 后端"></a>Week 3：模型执行层与 Attention 后端</h3><h4 id="Day-15：Llama-模型定义"><a href="#Day-15：Llama-模型定义" class="headerlink" title="Day 15：Llama 模型定义"></a>Day 15：Llama 模型定义</h4><p><strong>动作：</strong></p>
-<ol>
-<li>精读 <code>python/sglang/srt/models/llama.py</code></li>
-<li>从 <code>LlamaForCausalLM.forward()</code> 开始追踪：<ul>
-<li><code>LlamaModel.forward()</code> → <code>LlamaDecoderLayer.forward()</code></li>
-<li><code>LlamaAttention.forward()</code> → <code>RadixAttention.forward()</code></li>
-<li><code>LlamaMLP.forward()</code> → <code>MergedColumnParallelLinear</code> → <code>RowParallelLinear</code></li>
+<h4 id="Day-16：RadixAttention-与-Attention-后端注册"><a href="#Day-16：RadixAttention-与-Attention-后端注册" class="headerlink" title="Day 16：RadixAttention 与 Attention 后端注册"></a>Day 16：RadixAttention 与 Attention 后端注册</h4><ul>
+<li><input disabled="" type="checkbox"> 精读 <code>python/sglang/srt/layers/radix_attention.py</code></li>
+<li><input disabled="" type="checkbox"> 精读 <code>python/sglang/srt/layers/attention/attention_registry.py</code></li>
+<li><input disabled="" type="checkbox"> 理解 backend 选择逻辑</li>
+<li><input disabled="" type="checkbox"> <strong>实验</strong>（本地，用 Qwen2.5-3B，显存约 6GB）：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 测试 FlashInfer</span></span><br><span class="line">python -m sglang.launch_server --model-path Qwen/Qwen2.5-3B-Instruct --attention-backend flashinfer</span><br><span class="line"><span class="comment"># 测试 Triton</span></span><br><span class="line">python -m sglang.launch_server --model-path Qwen/Qwen2.5-3B-Instruct --attention-backend triton</span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 用 benchmark 对比两种后端的 prefill&#x2F;decode 性能</li>
 </ul>
-</li>
-<li>对比 <code>transformers</code> 库中的 <code>LlamaForCausalLM</code> 实现，找出 SGLang 的差异</li>
-<li>在 <code>LlamaAttention.forward()</code> 加日志，打印 <code>hidden_states.shape</code> 和 <code>position_ids</code></li>
-</ol>
-<p><strong>看完 <code>llama.py</code> 之后能了解：</strong></p>
-<ul>
-<li>SGLang 如何定义一个模型（与 HuggingFace Transformers 的差异）</li>
-<li><code>LlamaDecoderLayer</code> 的结构：Attention → MLP → LayerNorm</li>
-<li><code>RadixAttention</code> 在模型中的位置</li>
-</ul>
-<hr>
-<h4 id="Day-16：RadixAttention-与-Attention-后端注册"><a href="#Day-16：RadixAttention-与-Attention-后端注册" class="headerlink" title="Day 16：RadixAttention 与 Attention 后端注册"></a>Day 16：RadixAttention 与 Attention 后端注册</h4><p><strong>动作：</strong></p>
-<ol>
-<li>精读 <code>python/sglang/srt/layers/radix_attention.py</code></li>
-<li>理解 <code>RadixAttention.forward()</code> 如何统一调用不同的后端</li>
-<li>精读 <code>python/sglang/srt/layers/attention/attention_registry.py</code></li>
-<li>理解 backend 选择逻辑（根据什么条件选 FlashInfer &#x2F; FlashAttention &#x2F; Triton）</li>
-<li>列出 <code>python/sglang/srt/layers/attention/</code> 目录下所有 backend 文件</li>
-<li><strong>实验</strong>：启动时分别用 <code>--attention-backend flashinfer</code>、<code>flash_attention</code>、<code>triton</code> 启动，观察哪种最快</li>
-</ol>
-<p><strong>看完 Attention 注册之后能了解：</strong></p>
+<p><strong>看完 Attention 注册之后能了解</strong>：</p>
 <ul>
 <li>SGLang 如何支持多种 Attention 后端</li>
-<li>不同后端的适用条件（GPU 类型、batch size、sequence length）</li>
-<li>如何添加一个新的 Attention 后端</li>
+<li>不同后端的适用条件</li>
 </ul>
 <hr>
-<h4 id="Day-17：线性层与并行策略"><a href="#Day-17：线性层与并行策略" class="headerlink" title="Day 17：线性层与并行策略"></a>Day 17：线性层与并行策略</h4><p><strong>动作：</strong></p>
-<ol>
-<li>精读 <code>python/sglang/srt/layers/linear.py</code></li>
-<li>理解 <code>ColumnParallelLinear</code> 和 <code>RowParallelLinear</code></li>
-<li>理解 <code>MergedColumnParallelLinear</code>（用于 MLP 的 gate+up 合并）</li>
-<li>对比：ColumnParallel 和 RowParallel 的 all-reduce 时机差异</li>
-<li>在 <code>ColumnParallelLinear.forward()</code> 加日志，打印输入和输出 shape</li>
-<li>理解 <code>QKVParallelLinear</code>（用于 Attention 的 qkv 合并）</li>
-</ol>
-<p><strong>看完 <code>linear.py</code> 之后能了解：</strong></p>
+<h4 id="Day-17：线性层与并行策略"><a href="#Day-17：线性层与并行策略" class="headerlink" title="Day 17：线性层与并行策略"></a>Day 17：线性层与并行策略</h4><ul>
+<li><input disabled="" type="checkbox"> 精读 <code>python/sglang/srt/layers/linear.py</code></li>
+<li><input disabled="" type="checkbox"> 理解 <code>ColumnParallelLinear</code> 和 <code>RowParallelLinear</code></li>
+<li><input disabled="" type="checkbox"> 理解 <code>MergedColumnParallelLinear</code></li>
+<li><input disabled="" type="checkbox"> 对比：ColumnParallel 和 RowParallel 的 all-reduce 时机差异</li>
+<li><input disabled="" type="checkbox"> 在 <code>ColumnParallelLinear.forward()</code> 加日志，打印 shape</li>
+</ul>
+<p><strong>看完 <code>linear.py</code> 之后能了解</strong>：</p>
 <ul>
 <li>张量并行的线性层实现</li>
 <li>ColumnParallel 先切分后 all-reduce，RowParallel 先计算后 all-reduce</li>
-<li>为什么 MLP 的 gate 和 up 要合并成一个矩阵</li>
 </ul>
 <hr>
-<h4 id="Day-18：CUDA-Graph-与-Decode-加速"><a href="#Day-18：CUDA-Graph-与-Decode-加速" class="headerlink" title="Day 18：CUDA Graph 与 Decode 加速"></a>Day 18：CUDA Graph 与 Decode 加速</h4><p><strong>动作：</strong></p>
-<ol>
-<li>精读 <code>python/sglang/srt/model_executor/cuda_graph_runner.py</code></li>
-<li>理解 CUDA Graph 捕获（capture）和重放（replay）机制</li>
-<li>理解为什么 batch size 按 2 的幂次捕获（1, 2, 4, 8, 16…）</li>
-<li>理解 Breakable CUDA Graph 的实现</li>
-<li><strong>实验</strong>：对比启用和不启用 CUDA Graph 时 decode 的吞吐差异</li>
-<li>思考：为什么 prefill 阶段不用 CUDA Graph</li>
-</ol>
-<p><strong>看完 <code>cuda_graph_runner.py</code> 之后能了解：</strong></p>
+<h4 id="Day-18：CUDA-Graph-与-Decode-加速"><a href="#Day-18：CUDA-Graph-与-Decode-加速" class="headerlink" title="Day 18：CUDA Graph 与 Decode 加速"></a>Day 18：CUDA Graph 与 Decode 加速</h4><ul>
+<li><input disabled="" type="checkbox"> 精读 <code>python/sglang/srt/model_executor/cuda_graph_runner.py</code></li>
+<li><input disabled="" type="checkbox"> 理解 CUDA Graph 捕获和重放机制</li>
+<li><input disabled="" type="checkbox"> 理解为什么 batch size 按 2 的幂次捕获</li>
+<li><input disabled="" type="checkbox"> <strong>实验</strong>：对比启用和不启用 CUDA Graph 时 decode 的吞吐差异</li>
+<li><input disabled="" type="checkbox"> 思考：为什么 prefill 阶段不用 CUDA Graph</li>
+</ul>
+<p><strong>看完 <code>cuda_graph_runner.py</code> 之后能了解</strong>：</p>
 <ul>
 <li>CUDA Graph 消除 kernel 启动开销的原理</li>
-<li>为什么 decode 阶段收益大（重复执行、shape 固定）</li>
-<li>SGLang 如何处理 CUDA Graph 捕获失败（动态 shape、同步操作）</li>
+<li>为什么 decode 阶段收益大</li>
 </ul>
 <hr>
-<h4 id="Day-19：Phase-1-综合实验"><a href="#Day-19：Phase-1-综合实验" class="headerlink" title="Day 19：Phase 1 综合实验"></a>Day 19：Phase 1 综合实验</h4><p><strong>动作：</strong></p>
-<ol>
-<li>用 benchmark 跑一轮完整测试：<code>python -m sglang.bench_serving --backend sglang --num-prompt 1000</code></li>
-<li>用 <code>py-spy</code> 录制火焰图：<code>py-spy record -o phase1.svg --pid &lt;sglang_pid&gt;</code></li>
-<li>用 <code>nsys profile</code> 分析 GPU 热点</li>
-<li>对比不同参数：<code>--attention-backend</code>、<code>--chunked-prefill-size</code>、<code>--enable-torch-compile</code></li>
-<li>记录 Phase 1 学习笔记</li>
-</ol>
-<p><strong>做完之后能了解：</strong></p>
+<h4 id="Day-19：Phase-1-综合实验"><a href="#Day-19：Phase-1-综合实验" class="headerlink" title="Day 19：Phase 1 综合实验"></a>Day 19：Phase 1 综合实验</h4><ul>
+<li><input disabled="" type="checkbox"> 用 benchmark 跑一轮完整测试：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">python -m sglang.bench_serving \</span><br><span class="line">  --backend sglang \</span><br><span class="line">  --num-prompt 500 \</span><br><span class="line">  --model-path Qwen/Qwen2.5-3B-Instruct</span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 用 <code>py-spy</code> 录制火焰图</li>
+<li><input disabled="" type="checkbox"> 对比不同参数：<code>--attention-backend</code>、<code>--chunked-prefill-size</code></li>
+<li><input disabled="" type="checkbox"> 记录 Phase 1 学习笔记</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
 <ul>
-<li>如何系统化地 benchmark SGLang 性能</li>
-<li>不同参数对吞吐和延迟的影响</li>
+<li>如何系统化 benchmark SGLang 性能</li>
 <li>单卡推理的瓶颈通常在哪里</li>
+<li><strong>此时你应能独立修改 Scheduler、Attention 后端、线性层，并验证效果</strong></li>
 </ul>
 <hr>
-<h2 id="Phase-2：多卡分布式（Day-20-34）"><a href="#Phase-2：多卡分布式（Day-20-34）" class="headerlink" title="Phase 2：多卡分布式（Day 20-34）"></a>Phase 2：多卡分布式（Day 20-34）</h2><h3 id="Week-4：Tensor-Parallel"><a href="#Week-4：Tensor-Parallel" class="headerlink" title="Week 4：Tensor Parallel"></a>Week 4：Tensor Parallel</h3><h4 id="Day-20：并行状态初始化"><a href="#Day-20：并行状态初始化" class="headerlink" title="Day 20：并行状态初始化"></a>Day 20：并行状态初始化</h4><p><strong>动作：</strong></p>
-<ol>
-<li>精读 <code>python/sglang/srt/distributed/parallel_state.py</code></li>
-<li>找到 <code>initialize_model_parallel()</code></li>
-<li>理解 <code>--tp-size 8 --dp-size 2 --attn-cp-size 2</code> 时的 group 划分</li>
-<li>画出进程组拓扑图：world_size&#x3D;16 时，TP&#x2F;DP&#x2F;CP 各自包含哪些 rank</li>
-<li>理解 <code>_TP</code>、<code>_ATTN_TP</code>、<code>_MOE_EP</code>、<code>_MOE_DP</code> 四个全局变量</li>
-</ol>
-<p><strong>看完 <code>parallel_state.py</code> 之后能了解：</strong></p>
-<ul>
-<li>SGLang 如何初始化多个并行进程组</li>
-<li>TP 和 Attention-CP 的区别（为什么需要分开）</li>
-<li>MoE 的 EP（Expert Parallel）和 DP（Data Parallel）如何与 TP 共存</li>
-</ul>
-<hr>
-<h4 id="Day-21：通信操作-API"><a href="#Day-21：通信操作-API" class="headerlink" title="Day 21：通信操作 API"></a>Day 21：通信操作 API</h4><p><strong>动作：</strong></p>
-<ol>
-<li>精读 <code>python/sglang/srt/distributed/communication_op.py</code></li>
-<li>列出所有高层通信 API：<code>all_reduce</code>、<code>all_gather</code>、<code>reduce_scatter</code>、<code>all_to_all</code></li>
-<li>理解每种操作在 TP&#x2F;PP&#x2F;DP 中的使用场景</li>
-<li>在 <code>all_reduce</code> 加日志，打印 tensor shape 和 group size</li>
-<li>对比：NCCL 的 <code>all_reduce</code> 和 GLOO 的 <code>all_reduce</code> 的差异</li>
-</ol>
-<p><strong>看完 <code>communication_op.py</code> 之后能了解：</strong></p>
-<ul>
-<li>分布式通信的基本原语</li>
-<li>all-reduce 和 all-gather 的区别</li>
-<li>SGLang 如何封装底层通信库</li>
-</ul>
-<hr>
-<h4 id="Day-22：双卡-TP-实验"><a href="#Day-22：双卡-TP-实验" class="headerlink" title="Day 22：双卡 TP 实验"></a>Day 22：双卡 TP 实验</h4><p><strong>动作：</strong></p>
-<ol>
-<li>云租 2×A100（或本地 2×RTX 4090）</li>
-<li>启动 TP&#x3D;2：<code>python -m sglang.launch_server --model-path meta-llama/Llama-3.1-70B-Instruct --tp-size 2</code></li>
-<li>用 <code>nvidia-smi</code> 观察两个 GPU 的显存占用，确认模型被切分</li>
-<li>对比 TP&#x3D;1 和 TP&#x3D;2 的吞吐差异</li>
-<li>在 <code>parallel_state.py</code> 加日志，确认 two process groups 已创建</li>
-</ol>
-<p><strong>做完之后能了解：</strong></p>
-<ul>
-<li>TP&#x3D;2 时模型权重如何被切分（每层分成两份）</li>
-<li>双卡通信开销有多大</li>
-<li>TP 的吞吐收益和延迟代价</li>
-</ul>
-<hr>
-<h4 id="Day-23：线性层-All-Reduce-追踪"><a href="#Day-23：线性层-All-Reduce-追踪" class="headerlink" title="Day 23：线性层 All-Reduce 追踪"></a>Day 23：线性层 All-Reduce 追踪</h4><p><strong>动作：</strong></p>
-<ol>
-<li>回到 <code>linear.py</code>，追踪 <code>ColumnParallelLinear</code> 和 <code>RowParallelLinear</code> 的 all-reduce 调用</li>
-<li>确认：<code>ColumnParallelLinear</code> 的 all-reduce 发生在 <code>forward()</code> 末尾</li>
-<li>确认：<code>RowParallelLinear</code> 的 all-reduce 发生在 <code>forward()</code> 开头</li>
-<li><strong>思考</strong>：为什么这样设计？（数学等价性 + 通信隐藏）</li>
-<li>在 all-reduce 前后加时间戳，测量通信耗时</li>
-</ol>
-<p><strong>做完之后能了解：</strong></p>
-<ul>
-<li>ColumnParallel 和 RowParallel 的通信时机差异</li>
-<li>为什么 MLP 通常用 Column + Row 的组合</li>
-<li>通信耗时占 forward 时间的比例</li>
-</ul>
-<hr>
-<h4 id="Day-24：本周复盘"><a href="#Day-24：本周复盘" class="headerlink" title="Day 24：本周复盘"></a>Day 24：本周复盘</h4><p><strong>动作：</strong></p>
-<ol>
-<li>画一张 TP 拓扑图：rank 0 和 rank 1 各自持有哪些层、哪些权重</li>
-<li>回答：<code>parallel_state.py</code> 中 <code>_TP</code>、<code>_ATTN_TP</code>、<code>_MOE_EP</code>、<code>_MOE_DP</code> 的关系</li>
-<li>回答：为什么 attention 的 CP（Context Parallel）和 TP 要分开</li>
-<li>记录 Phase 2 Week 4 笔记</li>
-</ol>
-<hr>
-<h3 id="Week-5：Pipeline-Parallel"><a href="#Week-5：Pipeline-Parallel" class="headerlink" title="Week 5：Pipeline Parallel"></a>Week 5：Pipeline Parallel</h3><h4 id="Day-25：PP-事件循环"><a href="#Day-25：PP-事件循环" class="headerlink" title="Day 25：PP 事件循环"></a>Day 25：PP 事件循环</h4><p><strong>动作：</strong></p>
-<ol>
-<li>精读 <code>python/sglang/srt/managers/scheduler_pp_mixin.py</code></li>
-<li>找到 <code>event_loop_pp()</code>，理解 PP 的事件循环与单卡循环的差异</li>
-<li>理解 <code>async_send=True</code>：前向传播时异步发送激活值</li>
-<li>理解 <code>_pp_commit_comm_work()</code>：提交通信工作</li>
-<li>理解 <code>forward_stream</code> 和 <code>copy_stream</code> 的双流机制</li>
-</ol>
-<p><strong>看完 <code>scheduler_pp_mixin.py</code> 之后能了解：</strong></p>
-<ul>
-<li>Pipeline Parallel 的事件循环如何调度多个 stage</li>
-<li>异步通信如何隐藏延迟</li>
-<li>双流机制如何 overlap 计算和通信</li>
-</ul>
-<hr>
-<h4 id="Day-26：PP-层实现"><a href="#Day-26：PP-层实现" class="headerlink" title="Day 26：PP 层实现"></a>Day 26：PP 层实现</h4><p><strong>动作：</strong></p>
-<ol>
-<li>精读 <code>python/sglang/srt/layers/pipeline_parallel/</code></li>
-<li>理解 <code>PipelineParallelLayer</code> 的 forward 逻辑</li>
-<li>理解 <code>send_forward()</code> 和 <code>recv_forward()</code></li>
-<li><strong>实验</strong>：启动 PP&#x3D;4 + TP&#x3D;2，用 <code>nsys profile</code> 录制时间线</li>
-<li>观察：是否存在 bubble（空闲等待）</li>
-</ol>
-<p><strong>做完之后能了解：</strong></p>
-<ul>
-<li>PP 的层如何在不同 GPU 上分配</li>
-<li>激活值如何在 stage 之间传输</li>
-<li>Bubble 问题在哪里产生</li>
-</ul>
-<hr>
-<h4 id="Day-27：PP-四卡实验"><a href="#Day-27：PP-四卡实验" class="headerlink" title="Day 27：PP 四卡实验"></a>Day 27：PP 四卡实验</h4><p><strong>动作：</strong></p>
-<ol>
-<li>云租 4×A100</li>
-<li>启动 PP&#x3D;4 + TP&#x3D;1：<code>python -m sglang.launch_server --model-path ... --pp-size 4 --tp-size 1</code></li>
-<li>对比 PP&#x3D;4 和 TP&#x3D;4 的吞吐差异</li>
-<li>用 <code>nsys profile</code> 分析 PP 的 bubble 比例</li>
-<li>对比启用 <code>async_send</code> 和不启用时的差异</li>
-</ol>
-<p><strong>做完之后能了解：</strong></p>
-<ul>
-<li>PP 和 TP 的适用场景差异</li>
-<li>PP 的 bubble 比例对性能的影响</li>
-<li>异步通信的收益</li>
-</ul>
-<hr>
-<h4 id="Day-28：本周复盘"><a href="#Day-28：本周复盘" class="headerlink" title="Day 28：本周复盘"></a>Day 28：本周复盘</h4><p><strong>动作：</strong></p>
-<ol>
-<li>画一张 PP&#x3D;4 的流水线图，标注每个 stage 的输入输出</li>
-<li>回答：PP 的 bubble 在 SGLang 中如何被缓解？</li>
-<li>回答：什么时候选 PP、什么时候选 TP？</li>
-</ol>
-<hr>
-<h3 id="Week-6：MoE-与-Expert-Parallel"><a href="#Week-6：MoE-与-Expert-Parallel" class="headerlink" title="Week 6：MoE 与 Expert Parallel"></a>Week 6：MoE 与 Expert Parallel</h3><h4 id="Day-29：MoE-路由"><a href="#Day-29：MoE-路由" class="headerlink" title="Day 29：MoE 路由"></a>Day 29：MoE 路由</h4><p><strong>动作：</strong></p>
-<ol>
-<li>精读 <code>python/sglang/srt/layers/moe/topk.py</code></li>
-<li>理解 <code>topk</code> 路由：输入 hidden state → 计算每个 expert 的 score → 选 top-k</li>
-<li>理解 <code>routing_weights</code> 和 <code>selected_experts</code></li>
-<li>在 <code>topk.py</code> 加日志，打印每个 token 路由到了哪些 expert</li>
-</ol>
-<p><strong>看完 <code>topk.py</code> 之后能了解：</strong></p>
-<ul>
-<li>MoE 的路由决策如何做出</li>
-<li>top-k 中的 k 是多少（通常是 2 或 6）</li>
-<li>routing weights 如何用于加权求和</li>
-</ul>
-<hr>
-<h4 id="Day-30：Fused-MoE-Triton-Kernel"><a href="#Day-30：Fused-MoE-Triton-Kernel" class="headerlink" title="Day 30：Fused MoE Triton Kernel"></a>Day 30：Fused MoE Triton Kernel</h4><p><strong>动作：</strong></p>
-<ol>
-<li>精读 <code>python/sglang/srt/layers/moe/fused_moe_triton/</code></li>
-<li>理解 Triton MoE kernel 的输入输出</li>
-<li>理解 <code>dispatch()</code> → <code>run_moe_core()</code> → <code>combine()</code> 的流程</li>
-<li>对比 Triton MoE 和 <code>torch.nn.Linear</code> 实现的性能差异</li>
-</ol>
-<p><strong>看完 Fused MoE 之后能了解：</strong></p>
-<ul>
-<li>MoE 如何用 Triton 加速</li>
-<li>dispatch 和 combine 阶段的计算逻辑</li>
-<li>为什么 MoE 需要专门的 fused kernel</li>
-</ul>
-<hr>
-<h4 id="Day-31：DeepEP-与-Expert-Parallel"><a href="#Day-31：DeepEP-与-Expert-Parallel" class="headerlink" title="Day 31：DeepEP 与 Expert Parallel"></a>Day 31：DeepEP 与 Expert Parallel</h4><p><strong>动作：</strong></p>
-<ol>
-<li>精读 <code>python/sglang/srt/layers/moe/ep_moe/layer.py</code></li>
-<li>理解 <code>DeepEPMoE.forward()</code></li>
-<li>精读 <code>python/sglang/srt/layers/moe/token_dispatcher/deepep.py</code></li>
-<li>理解 all-to-all 通信：每个 GPU 把自己的 token 发送到对应的 expert GPU</li>
-<li>对比：DeepEP 的 all-to-all 和普通 <code>torch.distributed.all_to_all</code> 的区别</li>
-</ol>
-<p><strong>看完 DeepEP 之后能了解：</strong></p>
-<ul>
-<li>Expert Parallel 的通信模式</li>
-<li>DeepEP 如何优化 all-to-all 通信</li>
-<li>EP 和 TP 在 MoE 中的分工</li>
-</ul>
-<hr>
-<h4 id="Day-32：MoE-双卡实验"><a href="#Day-32：MoE-双卡实验" class="headerlink" title="Day 32：MoE 双卡实验"></a>Day 32：MoE 双卡实验</h4><p><strong>动作：</strong></p>
-<ol>
-<li>云租 2×A100</li>
-<li>启动 DeepSeek-V2-Lite（MoE 模型）：<code>python -m sglang.launch_server --model-path deepseek-ai/DeepSeek-V2-Lite-Chat --tp-size 2</code></li>
-<li>观察 <code>nvidia-smi</code>，确认 expert 的负载分布</li>
-<li>对比 DeepSeek-V2-Lite 和 Dense 模型（如 Qwen2.5-7B）的吞吐差异</li>
-<li>在 <code>topk.py</code> 统计每个 expert 被激活的频率</li>
-</ol>
-<p><strong>做完之后能了解：</strong></p>
-<ul>
-<li>MoE 模型的实际显存占用（比同参数 Dense 模型低）</li>
-<li>Expert 负载是否均衡</li>
-<li>MoE 的吞吐优势</li>
-</ul>
-<hr>
-<h4 id="Day-33：Phase-2-综合实验"><a href="#Day-33：Phase-2-综合实验" class="headerlink" title="Day 33：Phase 2 综合实验"></a>Day 33：Phase 2 综合实验</h4><p><strong>动作：</strong></p>
-<ol>
-<li>云租 8×A100 整节点</li>
-<li>跑 DeepSeek-V2（或 Qwen2.5-72B）在 TP&#x3D;8 和 TP&#x3D;4+PP&#x3D;2 两种配置下</li>
-<li>用 benchmark 对比两种配置的吞吐</li>
-<li>用 <code>nsys profile</code> 分析通信热点</li>
-<li>记录 Phase 2 学习笔记</li>
-</ol>
-<hr>
-<h4 id="Day-34：本周复盘"><a href="#Day-34：本周复盘" class="headerlink" title="Day 34：本周复盘"></a>Day 34：本周复盘</h4><p><strong>动作：</strong></p>
-<ol>
-<li>画一张 MoE 的 all-to-all 通信图</li>
-<li>回答：DeepEP 的 all-to-all 和普通 <code>all_to_all</code> 有何不同？</li>
-<li>回答：如果要支持一种新的 MoE 路由算法，需要修改哪些文件？</li>
-</ol>
-<hr>
-<h2 id="Phase-3：多模态与-RL（Day-35-49）"><a href="#Phase-3：多模态与-RL（Day-35-49）" class="headerlink" title="Phase 3：多模态与 RL（Day 35-49）"></a>Phase 3：多模态与 RL（Day 35-49）</h2><h3 id="Week-7：多模态-VLM"><a href="#Week-7：多模态-VLM" class="headerlink" title="Week 7：多模态 VLM"></a>Week 7：多模态 VLM</h3><h4 id="Day-35：VLM-架构概览"><a href="#Day-35：VLM-架构概览" class="headerlink" title="Day 35：VLM 架构概览"></a>Day 35：VLM 架构概览</h4><p><strong>动作：</strong></p>
-<ol>
-<li>精读 <code>python/sglang/srt/models/qwen2_5_vl.py</code></li>
-<li>理解 Qwen2.5-VL 的三段式结构：Vision Encoder → Projector → LLM</li>
-<li>对比 <code>python/sglang/srt/models/llava.py</code> 的 LLaVA 实现</li>
-<li>理解不同 VLM 的视觉编码器差异：CLIP、SigLIP、ViT</li>
-</ol>
-<p><strong>看完 Qwen2.5-VL 之后能了解：</strong></p>
-<ul>
-<li>VLM 不是”一个模型”，而是”视觉编码器 + 投影层 + 语言模型”的拼接</li>
-<li>图像 token 如何与文本 token 拼接送入 LLM</li>
-<li>不同 VLM 的架构差异</li>
-</ul>
-<hr>
-<h4 id="Day-36：Vision-Encoder-与图像预处理"><a href="#Day-36：Vision-Encoder-与图像预处理" class="headerlink" title="Day 36：Vision Encoder 与图像预处理"></a>Day 36：Vision Encoder 与图像预处理</h4><p><strong>动作：</strong></p>
-<ol>
-<li>在 <code>qwen2_5_vl.py</code> 中找到图像预处理代码</li>
-<li>理解图像如何被 resize、patchify、转成视觉 token</li>
-<li>打印一张图片的输入 shape：<code>(batch, num_patches, hidden_size)</code></li>
-<li>对比不同分辨率图片的 patch 数量</li>
-</ol>
-<p><strong>做完之后能了解：</strong></p>
-<ul>
-<li>一张图片被转换成多少个视觉 token</li>
-<li>为什么不同 VLM 的 patch 数量不同</li>
-<li>图像预处理对延迟的影响</li>
-</ul>
-<hr>
-<h4 id="Day-37：VLM-单卡实验"><a href="#Day-37：VLM-单卡实验" class="headerlink" title="Day 37：VLM 单卡实验"></a>Day 37：VLM 单卡实验</h4><p><strong>动作：</strong></p>
-<ol>
-<li>云租 1×A100</li>
-<li>启动 Qwen2.5-VL-7B：<code>python -m sglang.launch_server --model-path Qwen/Qwen2.5-VL-7B-Instruct --tp-size 1</code></li>
-<li>发送图片+文本请求（OpenAI Vision API 格式）</li>
-<li>对比纯文本请求和图片请求的延迟差异</li>
-<li>在 <code>model_runner.py</code> 追踪图片请求的数据流</li>
-</ol>
-<p><strong>做完之后能了解：</strong></p>
-<ul>
-<li>VLM 的推理延迟主要来自视觉编码器还是 LLM</li>
-<li>图片请求和纯文本请求在 SGLang 中的处理差异</li>
-</ul>
-<hr>
-<h4 id="Day-38：多图输入"><a href="#Day-38：多图输入" class="headerlink" title="Day 38：多图输入"></a>Day 38：多图输入</h4><p><strong>动作：</strong></p>
-<ol>
-<li>精读 <code>python/sglang/srt/models/llava_onevision.py</code></li>
-<li>理解 LLaVA-OneVision 的多图输入处理</li>
-<li>发送包含多张图片的请求</li>
-<li>观察多张图片的视觉 token 如何拼接</li>
-<li>对比单图和多图的延迟</li>
-</ol>
-<p><strong>做完之后能了解：</strong></p>
-<ul>
-<li>多图输入时 token 如何排列</li>
-<li>长上下文对多图推理的影响</li>
-</ul>
-<hr>
-<h4 id="Day-39：本周复盘"><a href="#Day-39：本周复盘" class="headerlink" title="Day 39：本周复盘"></a>Day 39：本周复盘</h4><p><strong>动作：</strong></p>
-<ol>
-<li>画一张 VLM 的数据流图：Image → Vision Encoder → Projector → LLM → Text</li>
-<li>回答：Qwen2.5-VL 的视觉 token 和文本 token 在 LLM 的输入层如何拼接？</li>
-<li>回答：如果要支持视频输入，需要修改哪些文件？</li>
-</ol>
-<hr>
-<h3 id="Week-8：扩散模型"><a href="#Week-8：扩散模型" class="headerlink" title="Week 8：扩散模型"></a>Week 8：扩散模型</h3><h4 id="Day-40：扩散模型管线"><a href="#Day-40：扩散模型管线" class="headerlink" title="Day 40：扩散模型管线"></a>Day 40：扩散模型管线</h4><p><strong>动作：</strong></p>
-<ol>
-<li>阅读 <code>docs/diffusion/index.md</code></li>
-<li>安装扩散模块：<code>uv pip install &quot;sglang[diffusion]&quot; --prerelease=allow</code></li>
-<li>用 <code>sglang generate</code> 生成一张图片</li>
-<li>精读 <code>python/sglang/multimodal_gen/</code> 目录结构</li>
-<li>理解 Diffusion 的 Pipeline：Text Encoder → UNet&#x2F;DiT → VAE Decoder</li>
-</ol>
-<p><strong>看完扩散模块之后能了解：</strong></p>
-<ul>
-<li>SGLang Diffusion 支持哪些模型（Wan、Hunyuan、Qwen-Image、FLUX）</li>
-<li>扩散模型的推理管线与 LLM 的差异</li>
-<li>为什么扩散模型也需要 batching 和 caching</li>
-</ul>
-<hr>
-<h4 id="Day-41：TeaCache-加速"><a href="#Day-41：TeaCache-加速" class="headerlink" title="Day 41：TeaCache 加速"></a>Day 41：TeaCache 加速</h4><p><strong>动作：</strong></p>
-<ol>
-<li>阅读 <code>docs/diffusion/performance/cache/teacache.md</code></li>
-<li>理解 TeaCache 的原理：利用扩散模型的单调收敛特性，跳过部分去噪步</li>
-<li>对比启用和不启用 TeaCache 的生成时间</li>
-<li>在 <code>python/sglang/multimodal_gen/runtime/cache/</code> 找到 TeaCache 实现</li>
-</ol>
-<p><strong>做完之后能了解：</strong></p>
-<ul>
-<li>TeaCache 利用了扩散模型的什么特性来加速</li>
-<li>Cache-DiT 和 TeaCache 的区别</li>
-<li>缓存策略对图像质量的影响</li>
-</ul>
-<hr>
-<h4 id="Day-42：扩散模型实验"><a href="#Day-42：扩散模型实验" class="headerlink" title="Day 42：扩散模型实验"></a>Day 42：扩散模型实验</h4><p><strong>动作：</strong></p>
-<ol>
-<li>云租 1×A100</li>
-<li>启动扩散服务：<code>sglang serve --model-path Qwen/Qwen-Image --port 30010</code></li>
-<li>发送文本生成图片请求</li>
-<li>对比不同 prompt 长度、不同分辨率下的生成时间</li>
-<li>对比不同模型（Qwen-Image vs FLUX）的性能</li>
-</ol>
-<p><strong>做完之后能了解：</strong></p>
-<ul>
-<li>扩散模型的吞吐瓶颈在哪里（UNet&#x2F;DiT 还是 VAE）</li>
-<li>分辨率对显存和速度的影响</li>
-</ul>
-<hr>
-<h4 id="Day-43：本周复盘"><a href="#Day-43：本周复盘" class="headerlink" title="Day 43：本周复盘"></a>Day 43：本周复盘</h4><p><strong>动作：</strong></p>
-<ol>
-<li>画一张扩散模型的推理流程图</li>
-<li>回答：SGLang Diffusion 的 TeaCache 利用了扩散模型的什么特性？</li>
-<li>回答：扩散模型和 LLM 在 batching 策略上有什么差异？</li>
-</ol>
-<hr>
-<h3 id="Week-9：RL-Infra"><a href="#Week-9：RL-Infra" class="headerlink" title="Week 9：RL Infra"></a>Week 9：RL Infra</h3><h4 id="Day-44：Memory-Saver"><a href="#Day-44：Memory-Saver" class="headerlink" title="Day 44：Memory Saver"></a>Day 44：Memory Saver</h4><p><strong>动作：</strong></p>
-<ol>
-<li>精读 <code>python/sglang/srt/utils/torch_memory_saver_adapter.py</code></li>
-<li>理解 <code>release_memory_occupation()</code> 如何释放 KV cache 和 weights</li>
-<li>理解 CUDA 虚拟内存机制（保留虚拟地址，释放物理内存）</li>
-<li>启动带 <code>--enable-memory-saver</code> 的服务</li>
-<li>调用 <code>/release_memory_occupation</code> 和 <code>/resume_memory_occupation</code> API，观察 <code>nvidia-smi</code> 显存变化</li>
-</ol>
-<p><strong>看完 Memory Saver 之后能了解：</strong></p>
-<ul>
-<li>为什么 <code>enable-memory-saver</code> 能在不杀进程的情况下释放显存</li>
-<li>CUDA 虚拟内存和物理内存的区别</li>
-<li>这对 RL 的 rollout-training 交替有什么帮助</li>
-</ul>
-<hr>
-<h4 id="Day-45：权重更新"><a href="#Day-45：权重更新" class="headerlink" title="Day 45：权重更新"></a>Day 45：权重更新</h4><p><strong>动作：</strong></p>
-<ol>
-<li>精读 <code>python/sglang/srt/managers/scheduler_update_weights_mixin.py</code></li>
-<li>理解三种更新策略：from_disk、from_tensor、from_distributed</li>
-<li>理解 <code>FlattenedTensorBucket</code> 的设计</li>
-<li><strong>实验</strong>：用 <code>update_weights_from_tensor</code> 更新一个层的权重，观察推理结果变化</li>
-</ol>
-<p><strong>看完权重更新之后能了解：</strong></p>
-<ul>
-<li>RL 训练后如何把新权重同步到推理引擎</li>
-<li>三种更新策略的适用场景和性能差异</li>
-<li><code>NCCL group</code> 的生命周期管理</li>
-</ul>
-<hr>
-<h4 id="Day-46：Reward-Model-服务"><a href="#Day-46：Reward-Model-服务" class="headerlink" title="Day 46：Reward Model 服务"></a>Day 46：Reward Model 服务</h4><p><strong>动作：</strong></p>
-<ol>
-<li>云租 2×A100</li>
-<li>启动 Reward Model：<code>python -m sglang.launch_server --model-path Qwen/Qwen2.5-Math-RM-72B --tp-size 2 --is-embedding-model</code></li>
-<li>精读 <code>python/sglang/srt/entrypoints/engine_score_mixin.py</code></li>
-<li>发送 score 请求，对比 <code>generate()</code> 和 <code>score()</code> 在 scheduler 中的处理差异</li>
-</ol>
-<p><strong>做完之后能了解：</strong></p>
-<ul>
-<li>Reward Model 在 RL 流程中的作用</li>
-<li>SGLang 如何同时服务 Policy Model 和 Reward Model</li>
-<li>Score API 与 Generate API 的内部差异</li>
-</ul>
-<hr>
-<h4 id="Day-47：最小-RL-循环"><a href="#Day-47：最小-RL-循环" class="headerlink" title="Day 47：最小 RL 循环"></a>Day 47：最小 RL 循环</h4><p><strong>动作：</strong></p>
-<ol>
-<li>写一个最小 Python 脚本：<ul>
-<li>向 Policy Model 发送 generate 请求（rollout）</li>
-<li>向 Reward Model 发送 score 请求（打分）</li>
-<li>向 Policy Model 发送 update_weights_from_tensor（更新权重）</li>
-<li>再次发送 generate 请求（下一轮 rollout）</li>
-</ul>
-</li>
-<li>观察权重更新后生成结果的变化</li>
-<li>理解 <code>pause_generation</code> + <code>update_weights</code> + <code>continue_generation</code> 的流程</li>
-</ol>
-<p><strong>做完之后能了解：</strong></p>
-<ul>
-<li>RL 训练循环如何与 SGLang 交互</li>
-<li>权重更新对生成结果的影响</li>
-<li>如何实现 mid-rollout 权重更新</li>
-</ul>
-<hr>
-<h4 id="Day-48：RL-测试精读"><a href="#Day-48：RL-测试精读" class="headerlink" title="Day 48：RL 测试精读"></a>Day 48：RL 测试精读</h4><p><strong>动作：</strong></p>
-<ol>
-<li>精读 <code>test/registered/rl/</code> 下所有 11 个测试</li>
-<li>理解每个测试验证的 RL 功能点</li>
-<li>跑通 3 个最重要的测试</li>
-</ol>
-<p><strong>做完之后能了解：</strong></p>
-<ul>
-<li>SGLang 官方如何测试 RL 功能</li>
-<li>哪些边界条件需要特别注意</li>
-</ul>
-<hr>
-<h4 id="Day-49：本周复盘-全局复盘"><a href="#Day-49：本周复盘-全局复盘" class="headerlink" title="Day 49：本周复盘 + 全局复盘"></a>Day 49：本周复盘 + 全局复盘</h4><p><strong>动作：</strong></p>
-<ol>
-<li>回答：为什么 <code>enable-memory-saver</code> 能在不杀进程的情况下释放显存？CUDA 虚拟内存机制如何工作？</li>
-<li>回答：<code>update_weights_from_distributed</code> 中 NCCL group 的生命周期如何管理？</li>
-<li>回答：为什么 <code>deterministic_inference</code> 对 GRPO 很重要？</li>
-<li>全局复盘：回看 Phase 0-3 的所有验证检查点，确认全部通过</li>
-<li>写一篇总结博客：”我如何花 49 天学会 SGLang”</li>
-</ol>
-<hr>
-<h2 id="附录：可复现指令速查表"><a href="#附录：可复现指令速查表" class="headerlink" title="附录：可复现指令速查表"></a>附录：可复现指令速查表</h2><h3 id="单卡启动"><a href="#单卡启动" class="headerlink" title="单卡启动"></a>单卡启动</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">python -m sglang.launch_server \</span><br><span class="line">  --model-path meta-llama/Llama-3.1-8B-Instruct \</span><br><span class="line">  --tp-size 1 \</span><br><span class="line">  --host 0.0.0.0 \</span><br><span class="line">  --port 30000</span><br></pre></td></tr></table></figure>
-
-<h3 id="TP-启动"><a href="#TP-启动" class="headerlink" title="TP 启动"></a>TP 启动</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">python -m sglang.launch_server \</span><br><span class="line">  --model-path Qwen/Qwen2.5-72B-Instruct \</span><br><span class="line">  --tp-size 8 \</span><br><span class="line">  --host 0.0.0.0 \</span><br><span class="line">  --port 30000</span><br></pre></td></tr></table></figure>
-
-<h3 id="PP-启动"><a href="#PP-启动" class="headerlink" title="PP 启动"></a>PP 启动</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">python -m sglang.launch_server \</span><br><span class="line">  --model-path Qwen/Qwen2.5-72B-Instruct \</span><br><span class="line">  --tp-size 2 \</span><br><span class="line">  --pp-size 4 \</span><br><span class="line">  --host 0.0.0.0 \</span><br><span class="line">  --port 30000</span><br></pre></td></tr></table></figure>
-
-<h3 id="VLM-启动"><a href="#VLM-启动" class="headerlink" title="VLM 启动"></a>VLM 启动</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">python -m sglang.launch_server \</span><br><span class="line">  --model-path Qwen/Qwen2.5-VL-7B-Instruct \</span><br><span class="line">  --tp-size 1 \</span><br><span class="line">  --host 0.0.0.0 \</span><br><span class="line">  --port 30000</span><br></pre></td></tr></table></figure>
-
-<h3 id="扩散模型启动"><a href="#扩散模型启动" class="headerlink" title="扩散模型启动"></a>扩散模型启动</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sglang serve --model-path Qwen/Qwen-Image --port 30010</span><br></pre></td></tr></table></figure>
-
-<h3 id="RL-启动"><a href="#RL-启动" class="headerlink" title="RL 启动"></a>RL 启动</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">python -m sglang.launch_server \</span><br><span class="line">  --model-path meta-llama/Llama-3.1-8B-Instruct \</span><br><span class="line">  --tp-size 1 \</span><br><span class="line">  --enable-memory-saver \</span><br><span class="line">  --host 0.0.0.0 \</span><br><span class="line">  --port 30000</span><br></pre></td></tr></table></figure>
-
-<h3 id="Benchmark"><a href="#Benchmark" class="headerlink" title="Benchmark"></a>Benchmark</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">python -m sglang.bench_serving \</span><br><span class="line">  --backend sglang \</span><br><span class="line">  --num-prompt 1000 \</span><br><span class="line">  --request-rate 10</span><br></pre></td></tr></table></figure>
-
-<h3 id="Profile"><a href="#Profile" class="headerlink" title="Profile"></a>Profile</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nsys profile -o sglang_profile \</span><br><span class="line">  python -m sglang.launch_server --model-path ... --tp-size 8</span><br></pre></td></tr></table></figure>
-
-<h3 id="客户端测试"><a href="#客户端测试" class="headerlink" title="客户端测试"></a>客户端测试</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl http://localhost:30000/v1/chat/completions \</span><br><span class="line">  -H <span class="string">&quot;Content-Type: application/json&quot;</span> \</span><br><span class="line">  -d <span class="string">&#x27;&#123;&quot;model&quot;:&quot;default&quot;,&quot;messages&quot;:[&#123;&quot;role&quot;:&quot;user&quot;,&quot;content&quot;:&quot;Hello&quot;&#125;]&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="附录：模型选择速查表"><a href="#附录：模型选择速查表" class="headerlink" title="附录：模型选择速查表"></a>附录：模型选择速查表</h2><table>
+<h2 id="Phase-2：多卡分布式（Day-20-34）"><a href="#Phase-2：多卡分布式（Day-20-34）" class="headerlink" title="Phase 2：多卡分布式（Day 20-34）"></a>Phase 2：多卡分布式（Day 20-34）</h2><blockquote>
+<p><strong>本地读代码理解逻辑，关键实验云租多卡</strong></p>
+<p><strong>推荐云租配置</strong>：</p>
+<table>
 <thead>
 <tr>
-<th>阶段</th>
-<th>模型</th>
-<th>大小</th>
-<th>并行策略</th>
-<th>VRAM</th>
+<th>实验</th>
+<th>推荐平台</th>
+<th>配置</th>
+<th>预估成本</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>Phase 1</td>
-<td>Llama-3.1-8B-Instruct</td>
-<td>8B</td>
-<td>TP&#x3D;1</td>
-<td>16GB</td>
+<td>TP&#x3D;2 入门</td>
+<td>Lambda Cloud</td>
+<td>2×A100 40GB</td>
+<td>~$2.5&#x2F;小时</td>
 </tr>
 <tr>
-<td>Phase 1</td>
-<td>Qwen2.5-7B-Instruct</td>
-<td>7B</td>
-<td>TP&#x3D;1</td>
-<td>14GB</td>
+<td>TP&#x3D;8 整节点</td>
+<td>DataCrunch</td>
+<td>8×A100 80GB</td>
+<td>~$8&#x2F;小时</td>
 </tr>
 <tr>
-<td>Phase 2</td>
-<td>DeepSeek-V2-Lite</td>
-<td>16B</td>
-<td>TP&#x3D;2</td>
-<td>32GB</td>
-</tr>
-<tr>
-<td>Phase 2</td>
-<td>Qwen2.5-72B-Instruct</td>
-<td>72B</td>
-<td>TP&#x3D;8</td>
-<td>144GB</td>
-</tr>
-<tr>
-<td>Phase 3</td>
-<td>Qwen2.5-VL-7B-Instruct</td>
-<td>7B</td>
-<td>TP&#x3D;1</td>
-<td>16GB</td>
-</tr>
-<tr>
-<td>Phase 3</td>
-<td>Qwen&#x2F;Qwen-Image</td>
-<td>-</td>
-<td>TP&#x3D;1</td>
-<td>16GB</td>
-</tr>
-<tr>
-<td>Phase 3</td>
-<td>Qwen2.5-Math-RM-72B</td>
-<td>72B</td>
-<td>TP&#x3D;2</td>
-<td>144GB</td>
+<td>灵活按需</td>
+<td>RunPod</td>
+<td>2-4×A100 80GB</td>
+<td>~$3-6&#x2F;小时</td>
 </tr>
 </tbody></table>
+</blockquote>
+<hr>
+<h3 id="Week-4：Tensor-Parallel"><a href="#Week-4：Tensor-Parallel" class="headerlink" title="Week 4：Tensor Parallel"></a>Week 4：Tensor Parallel</h3><h4 id="Day-20：并行状态初始化（本地读代码）"><a href="#Day-20：并行状态初始化（本地读代码）" class="headerlink" title="Day 20：并行状态初始化（本地读代码）"></a>Day 20：并行状态初始化（本地读代码）</h4><ul>
+<li><input disabled="" type="checkbox"> 精读 <code>python/sglang/srt/distributed/parallel_state.py</code></li>
+<li><input disabled="" type="checkbox"> 找到 <code>initialize_model_parallel()</code></li>
+<li><input disabled="" type="checkbox"> 理解 <code>--tp-size 8 --dp-size 2 --attn-cp-size 2</code> 时的 group 划分</li>
+<li><input disabled="" type="checkbox"> 画出进程组拓扑图</li>
+</ul>
+<p><strong>看完 <code>parallel_state.py</code> 之后能了解</strong>：</p>
+<ul>
+<li>SGLang 如何初始化多个并行进程组</li>
+<li>TP 和 Attention-CP 的区别</li>
+</ul>
+<hr>
+<h4 id="Day-21：通信操作-API（本地读代码）"><a href="#Day-21：通信操作-API（本地读代码）" class="headerlink" title="Day 21：通信操作 API（本地读代码）"></a>Day 21：通信操作 API（本地读代码）</h4><ul>
+<li><input disabled="" type="checkbox"> 精读 <code>python/sglang/srt/distributed/communication_op.py</code></li>
+<li><input disabled="" type="checkbox"> 列出所有高层通信 API</li>
+<li><input disabled="" type="checkbox"> 理解每种操作在 TP&#x2F;PP&#x2F;DP 中的使用场景</li>
+</ul>
+<p><strong>看完 <code>communication_op.py</code> 之后能了解</strong>：</p>
+<ul>
+<li>分布式通信的基本原语</li>
+<li>all-reduce 和 all-gather 的区别</li>
+</ul>
+<hr>
+<h4 id="Day-22：双卡-TP-实验（云租-2×A100）"><a href="#Day-22：双卡-TP-实验（云租-2×A100）" class="headerlink" title="Day 22：双卡 TP 实验（云租 2×A100）"></a>Day 22：双卡 TP 实验（<strong>云租 2×A100</strong>）</h4><ul>
+<li><input disabled="" type="checkbox"> <strong>租用 2×A100</strong>（Lambda Cloud 或 RunPod，约 $2.5&#x2F;小时）</li>
+<li><input disabled="" type="checkbox"> 启动 TP&#x3D;2：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">python -m sglang.launch_server \</span><br><span class="line">  --model-path Qwen/Qwen2.5-14B-Instruct \</span><br><span class="line">  --tp-size 2 \</span><br><span class="line">  --host 0.0.0.0 \</span><br><span class="line">  --port 30000</span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 用 <code>nvidia-smi</code> 观察两个 GPU 的显存占用，确认模型被切分</li>
+<li><input disabled="" type="checkbox"> 对比 TP&#x3D;1（本地 3B）和 TP&#x3D;2（云租 14B）的吞吐差异</li>
+<li><input disabled="" type="checkbox"> 在 <code>parallel_state.py</code> 加日志，确认 two process groups 已创建</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>TP&#x3D;2 时模型权重如何被切分</li>
+<li>双卡通信开销有多大</li>
+<li><strong>这是你第一次体验分布式推理</strong></li>
+</ul>
+<hr>
+<h4 id="Day-23：线性层-All-Reduce-追踪（云租-2×A100）"><a href="#Day-23：线性层-All-Reduce-追踪（云租-2×A100）" class="headerlink" title="Day 23：线性层 All-Reduce 追踪（云租 2×A100）"></a>Day 23：线性层 All-Reduce 追踪（云租 2×A100）</h4><ul>
+<li><input disabled="" type="checkbox"> 回到 <code>linear.py</code>，追踪 <code>ColumnParallelLinear</code> 和 <code>RowParallelLinear</code> 的 all-reduce</li>
+<li><input disabled="" type="checkbox"> 确认通信时机差异</li>
+<li><input disabled="" type="checkbox"> 在 all-reduce 前后加时间戳，测量通信耗时</li>
+<li><input disabled="" type="checkbox"> <strong>思考</strong>：为什么这样设计？（数学等价性 + 通信隐藏）</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>ColumnParallel 和 RowParallel 的通信时机差异</li>
+<li>通信耗时占 forward 时间的比例</li>
+</ul>
+<hr>
+<h4 id="Day-24：本周复盘"><a href="#Day-24：本周复盘" class="headerlink" title="Day 24：本周复盘"></a>Day 24：本周复盘</h4><ul>
+<li><input disabled="" type="checkbox"> 画一张 TP 拓扑图</li>
+<li><input disabled="" type="checkbox"> 回答：<code>parallel_state.py</code> 中 <code>_TP</code>、<code>_ATTN_TP</code>、<code>_MOE_EP</code>、<code>_MOE_DP</code> 的关系</li>
+<li><input disabled="" type="checkbox"> 回答：为什么 attention 的 CP 和 TP 要分开</li>
+</ul>
+<hr>
+<h3 id="Week-5：Pipeline-Parallel"><a href="#Week-5：Pipeline-Parallel" class="headerlink" title="Week 5：Pipeline Parallel"></a>Week 5：Pipeline Parallel</h3><h4 id="Day-25：PP-事件循环（本地读代码）"><a href="#Day-25：PP-事件循环（本地读代码）" class="headerlink" title="Day 25：PP 事件循环（本地读代码）"></a>Day 25：PP 事件循环（本地读代码）</h4><ul>
+<li><input disabled="" type="checkbox"> 精读 <code>python/sglang/srt/managers/scheduler_pp_mixin.py</code></li>
+<li><input disabled="" type="checkbox"> 找到 <code>event_loop_pp()</code>，理解 PP 事件循环</li>
+<li><input disabled="" type="checkbox"> 理解 <code>async_send=True</code> 和 <code>_pp_commit_comm_work()</code></li>
+<li><input disabled="" type="checkbox"> 理解 <code>forward_stream</code> 和 <code>copy_stream</code> 的双流机制</li>
+</ul>
+<p><strong>看完 <code>scheduler_pp_mixin.py</code> 之后能了解</strong>：</p>
+<ul>
+<li>Pipeline Parallel 的事件循环如何调度多个 stage</li>
+<li>异步通信如何隐藏延迟</li>
+</ul>
+<hr>
+<h4 id="Day-26：PP-层实现（本地读代码）"><a href="#Day-26：PP-层实现（本地读代码）" class="headerlink" title="Day 26：PP 层实现（本地读代码）"></a>Day 26：PP 层实现（本地读代码）</h4><ul>
+<li><input disabled="" type="checkbox"> 精读 <code>python/sglang/srt/layers/pipeline_parallel/</code></li>
+<li><input disabled="" type="checkbox"> 理解 <code>PipelineParallelLayer</code> 的 forward 逻辑</li>
+<li><input disabled="" type="checkbox"> 理解 <code>send_forward()</code> 和 <code>recv_forward()</code></li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>PP 的层如何在不同 GPU 上分配</li>
+<li>激活值如何在 stage 之间传输</li>
+</ul>
+<hr>
+<h4 id="Day-27：PP-四卡实验（云租-4×A100）"><a href="#Day-27：PP-四卡实验（云租-4×A100）" class="headerlink" title="Day 27：PP 四卡实验（云租 4×A100）"></a>Day 27：PP 四卡实验（<strong>云租 4×A100</strong>）</h4><ul>
+<li><input disabled="" type="checkbox"> <strong>租用 4×A100</strong>（DataCrunch 或 RunPod，约 $5&#x2F;小时）</li>
+<li><input disabled="" type="checkbox"> 启动 PP&#x3D;4 + TP&#x3D;1：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">python -m sglang.launch_server \</span><br><span class="line">  --model-path Qwen/Qwen2.5-32B-Instruct \</span><br><span class="line">  --pp-size 4 \</span><br><span class="line">  --tp-size 1</span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 对比 PP&#x3D;4 和 TP&#x3D;4 的吞吐差异</li>
+<li><input disabled="" type="checkbox"> 用 <code>nsys profile</code> 分析 PP 的 bubble 比例<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nsys profile -o pp_profile \</span><br><span class="line">  python -m sglang.launch_server --model-path ... --pp-size 4</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>PP 和 TP 的适用场景差异</li>
+<li>PP 的 bubble 比例对性能的影响</li>
+<li><strong>这是你第一次用 nsys 分析分布式性能</strong></li>
+</ul>
+<hr>
+<h4 id="Day-28：本周复盘"><a href="#Day-28：本周复盘" class="headerlink" title="Day 28：本周复盘"></a>Day 28：本周复盘</h4><ul>
+<li><input disabled="" type="checkbox"> 画一张 PP&#x3D;4 的流水线图</li>
+<li><input disabled="" type="checkbox"> 回答：PP 的 bubble 在 SGLang 中如何被缓解？</li>
+<li><input disabled="" type="checkbox"> 回答：什么时候选 PP、什么时候选 TP？</li>
+</ul>
+<hr>
+<h3 id="Week-6：MoE-与-Expert-Parallel"><a href="#Week-6：MoE-与-Expert-Parallel" class="headerlink" title="Week 6：MoE 与 Expert Parallel"></a>Week 6：MoE 与 Expert Parallel</h3><h4 id="Day-29：MoE-路由（本地读代码）"><a href="#Day-29：MoE-路由（本地读代码）" class="headerlink" title="Day 29：MoE 路由（本地读代码）"></a>Day 29：MoE 路由（本地读代码）</h4><ul>
+<li><input disabled="" type="checkbox"> 精读 <code>python/sglang/srt/layers/moe/topk.py</code></li>
+<li><input disabled="" type="checkbox"> 理解 <code>topk</code> 路由逻辑</li>
+<li><input disabled="" type="checkbox"> 理解 <code>routing_weights</code> 和 <code>selected_experts</code></li>
+</ul>
+<p><strong>看完 <code>topk.py</code> 之后能了解</strong>：</p>
+<ul>
+<li>MoE 的路由决策如何做出</li>
+<li>top-k 中的 k 是多少</li>
+</ul>
+<hr>
+<h4 id="Day-30：Fused-MoE-Triton-Kernel（本地读代码）"><a href="#Day-30：Fused-MoE-Triton-Kernel（本地读代码）" class="headerlink" title="Day 30：Fused MoE Triton Kernel（本地读代码）"></a>Day 30：Fused MoE Triton Kernel（本地读代码）</h4><ul>
+<li><input disabled="" type="checkbox"> 精读 <code>python/sglang/srt/layers/moe/fused_moe_triton/</code></li>
+<li><input disabled="" type="checkbox"> 理解 Triton MoE kernel 的输入输出</li>
+<li><input disabled="" type="checkbox"> 理解 <code>dispatch()</code> → <code>run_moe_core()</code> → <code>combine()</code></li>
+</ul>
+<p><strong>看完 Fused MoE 之后能了解</strong>：</p>
+<ul>
+<li>MoE 如何用 Triton 加速</li>
+<li>dispatch 和 combine 阶段的计算逻辑</li>
+</ul>
+<hr>
+<h4 id="Day-31：DeepEP-与-Expert-Parallel（本地读代码）"><a href="#Day-31：DeepEP-与-Expert-Parallel（本地读代码）" class="headerlink" title="Day 31：DeepEP 与 Expert Parallel（本地读代码）"></a>Day 31：DeepEP 与 Expert Parallel（本地读代码）</h4><ul>
+<li><input disabled="" type="checkbox"> 精读 <code>python/sglang/srt/layers/moe/ep_moe/layer.py</code></li>
+<li><input disabled="" type="checkbox"> 精读 <code>python/sglang/srt/layers/moe/token_dispatcher/deepep.py</code></li>
+<li><input disabled="" type="checkbox"> 理解 all-to-all 通信</li>
+<li><input disabled="" type="checkbox"> 对比：DeepEP 的 all-to-all 和普通 <code>torch.distributed.all_to_all</code> 的区别</li>
+</ul>
+<p><strong>看完 DeepEP 之后能了解</strong>：</p>
+<ul>
+<li>Expert Parallel 的通信模式</li>
+<li>DeepEP 如何优化 all-to-all 通信</li>
+</ul>
+<hr>
+<h4 id="Day-32：MoE-双卡实验（云租-2×A100）"><a href="#Day-32：MoE-双卡实验（云租-2×A100）" class="headerlink" title="Day 32：MoE 双卡实验（云租 2×A100）"></a>Day 32：MoE 双卡实验（<strong>云租 2×A100</strong>）</h4><ul>
+<li><input disabled="" type="checkbox"> <strong>租用 2×A100</strong></li>
+<li><input disabled="" type="checkbox"> 启动 DeepSeek-V2-Lite（MoE 模型）：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python -m sglang.launch_server \</span><br><span class="line">  --model-path deepseek-ai/DeepSeek-V2-Lite-Chat \</span><br><span class="line">  --tp-size 2</span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 观察 <code>nvidia-smi</code>，确认 expert 的负载分布</li>
+<li><input disabled="" type="checkbox"> 在 <code>topk.py</code> 统计每个 expert 被激活的频率</li>
+<li><input disabled="" type="checkbox"> 对比 DeepSeek-V2-Lite 和 Dense 模型的吞吐差异</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>MoE 模型的实际显存占用</li>
+<li>Expert 负载是否均衡</li>
+<li><strong>这是你第一次跑 MoE 模型</strong></li>
+</ul>
+<hr>
+<h4 id="Day-33：Phase-2-综合实验（云租-8×A100）"><a href="#Day-33：Phase-2-综合实验（云租-8×A100）" class="headerlink" title="Day 33：Phase 2 综合实验（云租 8×A100）"></a>Day 33：Phase 2 综合实验（<strong>云租 8×A100</strong>）</h4><ul>
+<li><input disabled="" type="checkbox"> <strong>租用 8×A100 整节点</strong>（DataCrunch，约 $8&#x2F;小时，租 2-3 小时即可）</li>
+<li><input disabled="" type="checkbox"> 跑 Qwen2.5-72B：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python -m sglang.launch_server \</span><br><span class="line">  --model-path Qwen/Qwen2.5-72B-Instruct \</span><br><span class="line">  --tp-size 8</span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 对比 TP&#x3D;8 和 TP&#x3D;4+PP&#x3D;2 两种配置</li>
+<li><input disabled="" type="checkbox"> 用 <code>nsys profile</code> 分析通信热点</li>
+<li><input disabled="" type="checkbox"> 记录 Phase 2 学习笔记</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>70B+ 模型的推理体验</li>
+<li>整节点 8×A100 的通信模式</li>
+<li><strong>这是你第一次体验大模型分布式推理</strong></li>
+</ul>
+<hr>
+<h4 id="Day-34：本周复盘"><a href="#Day-34：本周复盘" class="headerlink" title="Day 34：本周复盘"></a>Day 34：本周复盘</h4><ul>
+<li><input disabled="" type="checkbox"> 画一张 MoE 的 all-to-all 通信图</li>
+<li><input disabled="" type="checkbox"> 回答：DeepEP 的 all-to-all 和普通 <code>all_to_all</code> 有何不同？</li>
+<li><input disabled="" type="checkbox"> 回答：如果要支持一种新的 MoE 路由算法，需要修改哪些文件？</li>
+</ul>
+<hr>
+<h2 id="Phase-3：多模态与-RL（Day-35-49）"><a href="#Phase-3：多模态与-RL（Day-35-49）" class="headerlink" title="Phase 3：多模态与 RL（Day 35-49）"></a>Phase 3：多模态与 RL（Day 35-49）</h2><blockquote>
+<p><strong>多模态小模型本地跑，大模型和 RL 云租</strong></p>
+<p><strong>本地可跑的 VLM&#x2F;扩散模型</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>模型</th>
+<th>大小</th>
+<th>显存</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Qwen2.5-VL-3B</td>
+<td>3B</td>
+<td>~6GB</td>
+<td>最佳入门 VLM</td>
+</tr>
+<tr>
+<td>LLaVA-1.5-7B（INT4）</td>
+<td>7B</td>
+<td>~5GB</td>
+<td>量化后本地可跑</td>
+</tr>
+<tr>
+<td>Qwen&#x2F;Qwen-Image</td>
+<td>-</td>
+<td>~6GB</td>
+<td>扩散模型</td>
+</tr>
+</tbody></table>
+<p><strong>需要云租的</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>模型</th>
+<th>大小</th>
+<th>配置</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Qwen2.5-VL-7B</td>
+<td>7B</td>
+<td>1×A100</td>
+<td>标准 VLM</td>
+</tr>
+<tr>
+<td>Qwen2.5-Math-RM-72B</td>
+<td>72B</td>
+<td>2×A100</td>
+<td>Reward Model</td>
+</tr>
+</tbody></table>
+</blockquote>
+<hr>
+<h3 id="Week-7：多模态-VLM"><a href="#Week-7：多模态-VLM" class="headerlink" title="Week 7：多模态 VLM"></a>Week 7：多模态 VLM</h3><h4 id="Day-35：VLM-架构概览（本地读代码）"><a href="#Day-35：VLM-架构概览（本地读代码）" class="headerlink" title="Day 35：VLM 架构概览（本地读代码）"></a>Day 35：VLM 架构概览（本地读代码）</h4><ul>
+<li><input disabled="" type="checkbox"> 精读 <code>python/sglang/srt/models/qwen2_5_vl.py</code></li>
+<li><input disabled="" type="checkbox"> 理解三段式结构：Vision Encoder → Projector → LLM</li>
+<li><input disabled="" type="checkbox"> 对比 <code>python/sglang/srt/models/llava.py</code> 的 LLaVA 实现</li>
+<li><input disabled="" type="checkbox"> 理解不同 VLM 的视觉编码器差异</li>
+</ul>
+<p><strong>看完 Qwen2.5-VL 之后能了解</strong>：</p>
+<ul>
+<li>VLM 不是”一个模型”，而是”视觉编码器 + 投影层 + 语言模型”的拼接</li>
+<li>图像 token 如何与文本 token 拼接</li>
+</ul>
+<hr>
+<h4 id="Day-36：Vision-Encoder-与图像预处理（本地读代码）"><a href="#Day-36：Vision-Encoder-与图像预处理（本地读代码）" class="headerlink" title="Day 36：Vision Encoder 与图像预处理（本地读代码）"></a>Day 36：Vision Encoder 与图像预处理（本地读代码）</h4><ul>
+<li><input disabled="" type="checkbox"> 在 <code>qwen2_5_vl.py</code> 中找到图像预处理代码</li>
+<li><input disabled="" type="checkbox"> 理解图像 resize、patchify、转成视觉 token</li>
+<li><input disabled="" type="checkbox"> 打印一张图片的输入 shape</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>一张图片被转换成多少个视觉 token</li>
+<li>为什么不同 VLM 的 patch 数量不同</li>
+</ul>
+<hr>
+<h4 id="Day-37：VLM-本地实验（RTX-5060，Qwen2-5-VL-3B）"><a href="#Day-37：VLM-本地实验（RTX-5060，Qwen2-5-VL-3B）" class="headerlink" title="Day 37：VLM 本地实验（RTX 5060，Qwen2.5-VL-3B）"></a>Day 37：VLM 本地实验（<strong>RTX 5060，Qwen2.5-VL-3B</strong>）</h4><ul>
+<li><input disabled="" type="checkbox"> <strong>本地启动 Qwen2.5-VL-3B</strong>：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">python -m sglang.launch_server \</span><br><span class="line">  --model-path Qwen/Qwen2.5-VL-3B-Instruct \</span><br><span class="line">  --tp-size 1 \</span><br><span class="line">  --mem-fraction-static 0.85</span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 发送图片+文本请求（OpenAI Vision API 格式）</li>
+<li><input disabled="" type="checkbox"> 对比纯文本请求和图片请求的延迟差异</li>
+<li><input disabled="" type="checkbox"> 在 <code>model_runner.py</code> 追踪图片请求的数据流</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>VLM 的推理延迟主要来自视觉编码器还是 LLM</li>
+<li><strong>在 8GB 卡上跑 VLM 的体验</strong></li>
+</ul>
+<hr>
+<h4 id="Day-38：VLM-云租实验（云租-1×A100，Qwen2-5-VL-7B）"><a href="#Day-38：VLM-云租实验（云租-1×A100，Qwen2-5-VL-7B）" class="headerlink" title="Day 38：VLM 云租实验（云租 1×A100，Qwen2.5-VL-7B）"></a>Day 38：VLM 云租实验（<strong>云租 1×A100，Qwen2.5-VL-7B</strong>）</h4><ul>
+<li><input disabled="" type="checkbox"> <strong>租用 1×A100</strong>（Lambda Cloud，约 $1.3&#x2F;小时）</li>
+<li><input disabled="" type="checkbox"> 启动 Qwen2.5-VL-7B：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python -m sglang.launch_server \</span><br><span class="line">  --model-path Qwen/Qwen2.5-VL-7B-Instruct \</span><br><span class="line">  --tp-size 1</span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 发送多图请求</li>
+<li><input disabled="" type="checkbox"> 对比单图和多图的延迟</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>7B VLM 与 3B VLM 的质量差异</li>
+<li>多图输入的 token 排列方式</li>
+</ul>
+<hr>
+<h4 id="Day-39：本周复盘"><a href="#Day-39：本周复盘" class="headerlink" title="Day 39：本周复盘"></a>Day 39：本周复盘</h4><ul>
+<li><input disabled="" type="checkbox"> 画一张 VLM 的数据流图</li>
+<li><input disabled="" type="checkbox"> 回答：Qwen2.5-VL 的视觉 token 和文本 token 在 LLM 的输入层如何拼接？</li>
+<li><input disabled="" type="checkbox"> 回答：如果要支持视频输入，需要修改哪些文件？</li>
+</ul>
+<hr>
+<h3 id="Week-8：扩散模型"><a href="#Week-8：扩散模型" class="headerlink" title="Week 8：扩散模型"></a>Week 8：扩散模型</h3><h4 id="Day-40：扩散模型管线（本地读代码-实验）"><a href="#Day-40：扩散模型管线（本地读代码-实验）" class="headerlink" title="Day 40：扩散模型管线（本地读代码 + 实验）"></a>Day 40：扩散模型管线（本地读代码 + 实验）</h4><ul>
+<li><input disabled="" type="checkbox"> 阅读 <code>docs/diffusion/index.md</code></li>
+<li><input disabled="" type="checkbox"> 安装扩散模块：<code>uv pip install &quot;sglang[diffusion]&quot; --prerelease=allow</code></li>
+<li><input disabled="" type="checkbox"> <strong>本地用 RTX 5060 生成一张图片</strong>：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sglang generate \</span><br><span class="line">  --model-path Qwen/Qwen-Image \</span><br><span class="line">  --prompt <span class="string">&quot;A beautiful sunset&quot;</span> \</span><br><span class="line">  --save-output</span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 精读 <code>python/sglang/multimodal_gen/</code> 目录结构</li>
+</ul>
+<p><strong>看完扩散模块之后能了解</strong>：</p>
+<ul>
+<li>SGLang Diffusion 支持的模型</li>
+<li>扩散模型的推理管线与 LLM 的差异</li>
+</ul>
+<hr>
+<h4 id="Day-41：TeaCache-加速（本地实验）"><a href="#Day-41：TeaCache-加速（本地实验）" class="headerlink" title="Day 41：TeaCache 加速（本地实验）"></a>Day 41：TeaCache 加速（本地实验）</h4><ul>
+<li><input disabled="" type="checkbox"> 阅读 <code>docs/diffusion/performance/cache/teacache.md</code></li>
+<li><input disabled="" type="checkbox"> 理解 TeaCache 原理</li>
+<li><input disabled="" type="checkbox"> <strong>本地对比启用和不启用 TeaCache 的生成时间</strong>：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启用 TeaCache</span></span><br><span class="line">sglang generate --model-path Qwen/Qwen-Image --prompt <span class="string">&quot;...&quot;</span> --use-teacache</span><br><span class="line"><span class="comment"># 不启用</span></span><br><span class="line">sglang generate --model-path Qwen/Qwen-Image --prompt <span class="string">&quot;...&quot;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>TeaCache 利用了扩散模型的什么特性来加速</li>
+<li>Cache-DiT 和 TeaCache 的区别</li>
+</ul>
+<hr>
+<h4 id="Day-42：扩散模型深入实验（本地）"><a href="#Day-42：扩散模型深入实验（本地）" class="headerlink" title="Day 42：扩散模型深入实验（本地）"></a>Day 42：扩散模型深入实验（本地）</h4><ul>
+<li><input disabled="" type="checkbox"> 启动扩散服务：<code>sglang serve --model-path Qwen/Qwen-Image --port 30010</code></li>
+<li><input disabled="" type="checkbox"> 对比不同 prompt 长度、不同分辨率下的生成时间</li>
+<li><input disabled="" type="checkbox"> 用 <code>nvidia-smi</code> 观察显存占用</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>扩散模型的吞吐瓶颈在哪里</li>
+<li>分辨率对显存和速度的影响</li>
+</ul>
+<hr>
+<h4 id="Day-43：本周复盘"><a href="#Day-43：本周复盘" class="headerlink" title="Day 43：本周复盘"></a>Day 43：本周复盘</h4><ul>
+<li><input disabled="" type="checkbox"> 画一张扩散模型的推理流程图</li>
+<li><input disabled="" type="checkbox"> 回答：扩散模型和 LLM 在 batching 策略上有什么差异？</li>
+</ul>
+<hr>
+<h3 id="Week-9：RL-Infra"><a href="#Week-9：RL-Infra" class="headerlink" title="Week 9：RL Infra"></a>Week 9：RL Infra</h3><h4 id="Day-44：Memory-Saver（本地读代码）"><a href="#Day-44：Memory-Saver（本地读代码）" class="headerlink" title="Day 44：Memory Saver（本地读代码）"></a>Day 44：Memory Saver（本地读代码）</h4><ul>
+<li><input disabled="" type="checkbox"> 精读 <code>python/sglang/srt/utils/torch_memory_saver_adapter.py</code></li>
+<li><input disabled="" type="checkbox"> 理解 <code>release_memory_occupation()</code> 如何释放 KV cache 和 weights</li>
+<li><input disabled="" type="checkbox"> 理解 CUDA 虚拟内存机制</li>
+</ul>
+<p><strong>看完 Memory Saver 之后能了解</strong>：</p>
+<ul>
+<li>为什么 <code>enable-memory-saver</code> 能在不杀进程的情况下释放显存</li>
+<li>这对 RL 的 rollout-training 交替有什么帮助</li>
+</ul>
+<hr>
+<h4 id="Day-45：权重更新（本地读代码）"><a href="#Day-45：权重更新（本地读代码）" class="headerlink" title="Day 45：权重更新（本地读代码）"></a>Day 45：权重更新（本地读代码）</h4><ul>
+<li><input disabled="" type="checkbox"> 精读 <code>python/sglang/srt/managers/scheduler_update_weights_mixin.py</code></li>
+<li><input disabled="" type="checkbox"> 理解三种更新策略：from_disk、from_tensor、from_distributed</li>
+<li><input disabled="" type="checkbox"> 理解 <code>FlattenedTensorBucket</code> 的设计</li>
+</ul>
+<p><strong>看完权重更新之后能了解</strong>：</p>
+<ul>
+<li>RL 训练后如何把新权重同步到推理引擎</li>
+<li>三种更新策略的适用场景</li>
+</ul>
+<hr>
+<h4 id="Day-46-47：最小-RL-循环（云租-2×A100）"><a href="#Day-46-47：最小-RL-循环（云租-2×A100）" class="headerlink" title="Day 46-47：最小 RL 循环（云租 2×A100）"></a>Day 46-47：最小 RL 循环（<strong>云租 2×A100</strong>）</h4><ul>
+<li><input disabled="" type="checkbox"> <strong>租用 2×A100</strong></li>
+<li><input disabled="" type="checkbox"> 启动 Policy Model（带 memory saver）：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">python -m sglang.launch_server \</span><br><span class="line">  --model-path Qwen/Qwen2.5-3B-Instruct \</span><br><span class="line">  --tp-size 1 \</span><br><span class="line">  --enable-memory-saver \</span><br><span class="line">  --port 30000</span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 启动 Reward Model：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">python -m sglang.launch_server \</span><br><span class="line">  --model-path Qwen/Qwen2.5-Math-RM-72B \</span><br><span class="line">  --tp-size 2 \</span><br><span class="line">  --is-embedding-model \</span><br><span class="line">  --port 30001</span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 写最小 Python 脚本实现完整 RL 循环</li>
+<li><input disabled="" type="checkbox"> 观察权重更新后生成结果的变化</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>RL 训练循环如何与 SGLang 交互</li>
+<li>权重更新对生成结果的影响</li>
+<li><strong>这是你第一次搭建完整的 RL Infra</strong></li>
+</ul>
+<hr>
+<h4 id="Day-48：RL-测试精读"><a href="#Day-48：RL-测试精读" class="headerlink" title="Day 48：RL 测试精读"></a>Day 48：RL 测试精读</h4><ul>
+<li><input disabled="" type="checkbox"> 精读 <code>test/registered/rl/</code> 下所有 11 个测试</li>
+<li><input disabled="" type="checkbox"> 跑通 3 个最重要的测试</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>SGLang 官方如何测试 RL 功能</li>
+</ul>
+<hr>
+<h4 id="Day-49：全局复盘"><a href="#Day-49：全局复盘" class="headerlink" title="Day 49：全局复盘"></a>Day 49：全局复盘</h4><ul>
+<li><input disabled="" type="checkbox"> 回答：为什么 <code>enable-memory-saver</code> 能在不杀进程的情况下释放显存？</li>
+<li><input disabled="" type="checkbox"> 回答：<code>update_weights_from_distributed</code> 中 NCCL group 的生命周期如何管理？</li>
+<li><input disabled="" type="checkbox"> 回答：为什么 <code>deterministic_inference</code> 对 GRPO 很重要？</li>
+<li><input disabled="" type="checkbox"> 全局检查：Phase 0-3 的所有 <code>[ ]</code> 是否都变为 <code>[x]</code></li>
+<li><input disabled="" type="checkbox"> 写一篇总结博客</li>
+</ul>
+<hr>
+<h2 id="附录：云租平台速查表"><a href="#附录：云租平台速查表" class="headerlink" title="附录：云租平台速查表"></a>附录：云租平台速查表</h2><table>
+<thead>
+<tr>
+<th>平台</th>
+<th>单卡价格</th>
+<th>多卡价格</th>
+<th>特点</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Lambda Cloud</strong></td>
+<td>$1.29&#x2F;小时</td>
+<td>2×A100: $2.58&#x2F;小时</td>
+<td>最便宜、按秒计费</td>
+<td>TP&#x3D;2&#x2F;4 入门</td>
+</tr>
+<tr>
+<td><strong>RunPod</strong></td>
+<td>$1.49&#x2F;小时</td>
+<td>4×A100: $6&#x2F;小时</td>
+<td>社区镜像丰富</td>
+<td>多模态实验</td>
+</tr>
+<tr>
+<td><strong>DataCrunch</strong></td>
+<td>-</td>
+<td>8×A100: $8&#x2F;小时</td>
+<td>整节点最便宜</td>
+<td>TP&#x3D;8 大模型</td>
+</tr>
+<tr>
+<td><strong>Vast.ai</strong></td>
+<td>$0.80-1.20&#x2F;小时</td>
+<td>按需</td>
+<td>最便宜 spot</td>
+<td>预算紧张</td>
+</tr>
+<tr>
+<td><strong>AutoDL</strong></td>
+<td>¥2.50&#x2F;小时</td>
+<td>按需</td>
+<td>国内可用</td>
+<td>国内用户</td>
+</tr>
+</tbody></table>
+<h3 id="云租启动模板"><a href="#云租启动模板" class="headerlink" title="云租启动模板"></a>云租启动模板</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Lambda Cloud / RunPod 通用启动</span></span><br><span class="line">ssh ubuntu@&lt;your-ip&gt;</span><br><span class="line"><span class="built_in">sudo</span> apt update &amp;&amp; <span class="built_in">sudo</span> apt install -y git-lfs tmux htop nvtop</span><br><span class="line">curl -LsSf https://astral.sh/uv/install.sh | sh</span><br><span class="line"><span class="built_in">source</span> <span class="variable">$HOME</span>/.local/bin/env</span><br><span class="line">uv pip install sglang</span><br></pre></td></tr></table></figure>
+
+<h3 id="显存速查表"><a href="#显存速查表" class="headerlink" title="显存速查表"></a>显存速查表</h3><table>
+<thead>
+<tr>
+<th>模型</th>
+<th>显存（FP16）</th>
+<th>RTX 5060 8GB</th>
+<th>推荐</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Qwen2.5-1.5B</td>
+<td>~3GB</td>
+<td>✅ 轻松</td>
+<td>Phase 1 首选</td>
+</tr>
+<tr>
+<td>Qwen2.5-3B</td>
+<td>~6GB</td>
+<td>✅ 能跑</td>
+<td>Phase 1 进阶</td>
+</tr>
+<tr>
+<td>Phi-4-mini (3.8B)</td>
+<td>~7GB</td>
+<td>⚠️ 接近上限</td>
+<td>Phase 1 极限测试</td>
+</tr>
+<tr>
+<td>Qwen2.5-VL-3B</td>
+<td>~6GB</td>
+<td>✅ 能跑</td>
+<td>Phase 3 VLM</td>
+</tr>
+<tr>
+<td>Qwen&#x2F;Qwen-Image</td>
+<td>~6GB</td>
+<td>✅ 能跑</td>
+<td>Phase 3 扩散</td>
+</tr>
+<tr>
+<td>Qwen2.5-7B</td>
+<td>~14GB</td>
+<td>❌ 不行</td>
+<td>必须云租</td>
+</tr>
+<tr>
+<td>Qwen2.5-14B</td>
+<td>~28GB</td>
+<td>❌ 不行</td>
+<td>云租 TP&#x3D;2</td>
+</tr>
+<tr>
+<td>Qwen2.5-72B</td>
+<td>~144GB</td>
+<td>❌ 不行</td>
+<td>云租 TP&#x3D;8</td>
+</tr>
+</tbody></table>
+<hr>
+<blockquote>
+<p><strong>使用指南</strong>：每完成一步就把 <code>[ ]</code> 改成 <code>[x]</code>，然后告诉我你的进度，例如：”我在 Day 11，RadixCache 的 <code>match_prefix</code> 返回值我理解不了”。我会基于你的进度精准回答，不需要重复前面内容。</p>
+</blockquote>
 
     </div>
 
