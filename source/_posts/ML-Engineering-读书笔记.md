@@ -1,5 +1,5 @@
 ---
-title: ML Engineering 读书笔记
+title: ML Engineering 读书笔记（逐日展开版）
 date: 2026-06-01 14:05:00
 categories: 读书笔记
 tags:
@@ -12,257 +12,444 @@ tags:
 >
 > 作者：Stas Bekman（BLOOM-176B、IDEFICS-80B 训练工程师）
 > 许可：CC BY-SA 4.0
-
-这是一本面向 LLM/VLM 训练工程师和操作人员的开放技术手册，涵盖从硬件选型到训练、推理、调试的全流程实战经验。以下内容按照原书结构整理，方便日后查阅和学习。
+>
+> 这是一本面向 LLM/VLM 训练工程师的开放技术手册。本文按"先读理论 → 再跑实验 → 最后总结"的路径逐日展开，每步都有 `[ ]` 进度标识和预期收获。
 
 <!-- more -->
 
 ---
 
-## 一、AI 战场工程（Insights）
+## 写在前面
 
-### 1.1 AI 竞赛中什么最重要？
+### 你的硬件能做什么
 
-**训练阶段：**
-1. 多快能训练出一个更好的模型（先发优势）
-2. 花了多少钱（训练后是否还有钱付工资？）
+| 配置 | 能跑什么 | 不能跑什么 |
+|------|----------|------------|
+| RTX 5060 8GB | 读代码、跑小模型、验证概念 | 训练 7B+ 模型、多卡分布式 |
+| CPU AMD 9600X | 数据预处理、编译 | 大规模训练 |
 
-**推理阶段：**
-1. 低延迟（用户习惯毫秒级响应，秒级会流失）
-2. 高吞吐（能同时处理多少查询）
-3. 每个用户的成本（能否租更多 GPU 来服务更多用户？）
-
-### 1.2 LLM 训练需要什么？
-
-1. **快速的计算能力** —— 主要由矩阵乘法主导
-2. **足够快的内存、IO、网络和 CPU** —— 来为计算单元供数
-
-**推论：** 如果你买了最快的加速器，但在其他组件上省钱，那就是浪费钱，训练会更慢。
-
-### 1.3 ML 的"主力军"
-
-- **加速器**：GPU、TPU、IPU、FPGA、HPU、QPU、RDU 等
-- 最近的 CPU 也越来越多地被用于推理
-
-### 1.4 信息分享文化
-
-AI 领域有一个令人惊讶的现象：几乎所有人都会与社区分享大量发现。虽然公司不会披露所有 IP，但很多知识或模型权重都会公开。
-- Twitter 是跟踪最新动态的核心平台
-
-### 1.5 ML 工程师的天堂与地狱
-
-**天堂：**
-- 有人专门维护硬件和系统的 HPC/全托管云集群
-- 大量可独占使用的节点
-- 快速的节点间连接，不与他人共享
-- 巨大的本地 NVMe 共享文件系统
--  barebones Linux + SLURM，最小化软件栈
-- 拥有 `sudo` 权限
-
-**地狱：**
-- 需要自己当系统管理员的云/内部集群
-- 缓慢的小型共享文件系统（NFS？）
-- 缓慢的节点间网络导致加速器利用率低
-- 网络与其他用户共享，导致不稳定
-- 超级复杂的云控制台，连简单设置都要点无数个屏幕
+**学习策略**：理解原理不需要大模型。BLOOM-176B 的分布式策略和 1B 模型的原理是一样的，只是规模差异。用本地小模型验证概念，大模型训练的知识通过阅读和思考来掌握。
 
 ---
 
-## 二、硬件（Hardware）
+## Part 1：AI 战场工程（Day 1-3）
 
-### 2.1 计算（Compute）
+### Day 1：全书概览与目录梳理
 
-**加速器（Accelerator）**：ML 的主力军
-- GPU、TPU、IPU、FPGA、HPUs、QPUs、RDUs
-- 选择加速器时需关注：理论 TFLOPS、内存大小和带宽
+- [ ] 打开 https://github.com/stas00/ml-engineering，阅读 README 的 Table of Contents
+- [ ] 下载 PDF/EPUB 版本（电子书链接在 README 中）
+- [ ] 快速浏览每个 Part 的标题，标记你最感兴趣的部分
+- [ ] 记录：全书共 7 个 Part，你目前对哪个最陌生？
 
-**CPU**：
-- CPU 亲和性（affinity）设置很重要
-- 需要足够快的 CPU 来预处理数据并调度加速器
-
-**CPU 内存**：
-- "多少 CPU 内存才够？" —— 这是全书最短的章节
-- 答案：越多越好，但关键是平衡
-
-### 2.2 存储（Storage）
-
-ML 工作负载有 3 种截然不同的 IO 需求：
-
-1. **DataLoader 读取** —— 需要超快的可持续读取，持续数小时甚至数天
-2. **Checkpoint 写入** —— 需要超快的突发写入，越快越好，否则会阻塞训练
-3. **代码加载** —— 中等速度读写，需要共享以便所有节点看到相同代码
-
-**理想的文件系统选择：**
-
-分布式并行文件系统是最高效的解决方案：
-- **GPFS**（IBM，现称 IBM Storage Scale）
-- **WekaIO**
-- **Lustre FS**（开源）
-
-其他选择：
-- BeeGFS
-- DAOS（Intel）
-- NetApp、VAST
-
-**案例研究：** 在 JeanZay HPC（法国），2021 年用 GPFS + NVMe 在 384 个进程上并行保存 2.3TB checkpoint 只用了 40 秒。
-
-### 2.3 网络（Network）
-
-节点有 3 种网络，速度差异很大：
-
-1. **前端网络（Frontend）** —— 互联网连接、分布式存储、编排（SLURM/K8s），通常 100-400Gbps
-2. **后端网络（Backend）** —— 加速器间通信，需要极高的带宽
-3. **带外网络（Out-of-band）** —— 管理/监控用途
-
-**关键概念：**
-- **RDMA**（Remote Direct Memory Access）：绕过 CPU 直接读写远程内存
-- **RoCE**（RDMA over Converged Ethernet）
-- **InfiniBand（IB）**：高性能计算网络的事实标准
-- **NVLink/NVSwitch**：NVIDIA GPU 之间的高速互联
-
-**单工 vs 双工：** 注意区分单向（Unidirectional）和双向（Duplex）带宽，后者通常是前者的 2 倍。
+**做完之后能了解**：
+- 这本书覆盖的范围：从硬件选型到训练、推理、调试的全流程
+- 哪些章节是你知识盲区（比如可能从没接触过 SLURM 或分布式文件系统）
+- 全书结构可以作为你未来遇到训练问题时的"查阅地图"
 
 ---
 
-## 三、编排（Orchestration）
+### Day 2：AI 竞赛的本质 —— 训练与推理的成本
 
-### 3.1 SLURM
+- [ ] 精读 Part 1 "The AI Battlefield Engineering" 的第一节
+- [ ] 列出作者说的 AI 竞赛中最重要的 6 个指标：
+  - 训练侧：_____、_____
+  - 推理侧：_____、_____、_____
+  - 成本侧：_____
+- [ ] **思考**：如果你要训练一个 7B 模型，估算一下需要的 GPU 小时数（查一下 Llama-3 的训练成本作为参考）
 
-Simple Linux Utility for Resource Management，在大多数 HPC 环境中都能找到，已有 20 多年历史。
-
-**SLURM on Kubernetes：**
-- **Slinky**：SLURM 原作者开发的框架
-- **Soperator**：Nebius 出品
-
-### 3.2 Kubernetes
-
-K8s，最流行的容器编排系统，用于自动化部署、扩展和管理容器化应用。
-
-### 3.3 其他编排方案
-
-- **dstack**：K8s 和 Slurm 的轻量级开源替代，支持 NVIDIA、AMD、TPU
-- **SkyPilot**：统一执行、高成本节省、高 GPU 可用性
-- **OpenHPC**：提供 HPC Linux 集群所需的各种预构建组件
-- **run.ai**：被 NVIDIA 收购，计划开源
-- **Docker Swarm**：Docker 官方的容器编排工具
+**做完之后能了解**：
+- 为什么训练大模型不是"堆卡就行"，而是**系统工程**
+- "买了最快的加速器但在内存/网络/存储上省钱 = 浪费钱" 这句话的底层逻辑
 
 ---
 
-## 四、训练（Training）
+### Day 3：ML 工程师的天堂与地狱
 
-### 4.1 模型并行（Model Parallelism）
+- [ ] 精读 Part 1 的 "ML Engineer's heaven and hell"
+- [ ] 左边列 "天堂" 的特征，右边列 "地狱" 的特征
+- [ ] **对比**：你目前的工作/学习环境更接近天堂还是地狱？
+- [ ] 思考：如果你只能改善一个"地狱"条件，优先改善哪个？（通常网络 > 存储 > 计算）
 
-当模型太大，单个加速器放不下时的策略：
-- **数据并行（DP）**：每个 GPU 持有完整模型副本，处理不同数据批次
-- **张量并行（TP）**：将模型层切分到多个 GPU
-- **流水线并行（PP）**：将模型按层分配到不同 GPU
-- **FSDP**：Fully Sharded Data Parallel，PyTorch 的分布式方案
-
-### 4.2 性能优化
-
-- 重叠计算与通信
-- 使用混合精度（FP16/BF16）加速训练
-- 优化数据加载器，避免 GPU 等待数据
-
-### 4.3 容错（Fault Tolerance）
-
-- 频繁保存 checkpoint
-- 使用弹性训练框架（如 Elastic Horovod、Torch Elastic）
-- 监控节点健康状态
-
-### 4.4 不稳定性（Instabilities）
-
-- Loss 爆炸：学习率过高、梯度裁剪不当
-- NaN/Inf：数值下溢/上溢
-- 使用 `--detect-anomaly` 或自定义检测工具
-
-### 4.5 Checkpoint
-
-- 保存频率：平衡恢复成本与丢失进度
-- 异步保存：避免阻塞训练
-- 案例：2.3TB checkpoint 在 384 进程上 40 秒完成（GPFS + NVMe）
+**做完之后能了解**：
+- 什么样的基础设施配置能让训练效率最大化
+- 为什么"慢速共享文件系统"和"与他人共享网络"是训练瓶颈
 
 ---
 
-## 五、推理（Inference）
+## Part 2：硬件（Day 4-8）
 
-### 5.1 核心概念
+### Day 4：加速器选型
 
-**Prefill 与 Decode：**
-- **Prefill**：一次性处理完整 prompt（类似训练），构建 KV Cache。延迟很小。
-- **Decode**：逐个生成新 token（回归式），无法并行化，是延迟的主要来源。
+- [ ] 精读 Part 2 "Compute" 的 Accelerator 章节
+- [ ] 整理一张对比表：
 
-**Online vs Offline 推理：**
-- **Online**：实时用户查询（聊天机器人、搜索引擎），需要低 TTFT（首 token 时间）和低延迟
-- **Offline**：批量处理（基准测试、合成数据生成），需要高吞吐
+| 加速器 | 适用场景 | 优缺点 |
+|--------|----------|--------|
+| NVIDIA GPU | 通用训练/推理 | 生态最好，最贵 |
+| AMD GPU (MI300X) | 大模型训练 | 性价比高，生态建设中 |
+| Google TPU | Google Cloud 用户 | 与 TensorFlow/JAX 深度集成 |
+| Intel Gaudi | 特定场景 | 价格优势 |
 
-**Grounding（ grounding/上下文）：**
-- 给预训练模型提供训练时未见过的额外信息
-- 主要技术：**RAG**（检索增强生成）、微调
+- [ ] 查一下当前 A100/H100/MI300X 的租赁价格（Lambda Cloud、RunPod 等）
+- [ ] **本地实验**：用 `nvidia-smi` 查看你的 RTX 5060 的显存带宽和算力
+  ```bash
+  nvidia-smi -q | grep -E "Product Name|Memory Bandwidth|CUDA Cores|Clock"
+  ```
 
-### 5.2 Batching
-
-**静态批处理（Static Batching）：**
-- 将前 N 个查询 batch 在一起
-- 问题：如果某个查询提前完成，必须等最慢的完成才能返回
-
-**动态批处理（Continuous/In-flight Batching）：**
-- 完成的查询立即移除，新查询立即加入
-- batch 中不同位置可能处于完全不同的生成阶段
-- 显著提高响应速度，是 vLLM 等推理引擎的核心优化
+**做完之后能了解**：
+- 为什么 GPU 是 ML 训练的首选（并行计算架构适合矩阵乘法）
+- 不同加速器的 trade-off：NVIDIA 生态 vs AMD 价格 vs TPU 深度集成
 
 ---
 
-## 六、开发与调试（Development）
+### Day 5：存储系统
 
-### 6.1 快速调试方法论
+- [ ] 精读 Part 2 "Storage" 章节
+- [ ] 理解 3 种 ML IO 需求：
+  1. DataLoader 读取：_____（读/写速度要求）
+  2. Checkpoint 写入：_____（读/写速度要求）
+  3. 代码加载：_____（读/写速度要求）
+- [ ] **本地实验**：测试你的本地存储速度
+  ```bash
+  # 测试顺序写入速度
+  dd if=/dev/zero of=/tmp/test_write bs=1G count=1 oflag=direct
+  # 测试顺序读取速度
+  dd if=/tmp/test_write of=/dev/null bs=1G count=1 iflag=direct
+  # 测试随机读取（模拟 DataLoader）
+  fio --name=randread --ioengine=libaio --iodepth=16 --rw=randread --bs=4k --direct=1 --size=1G --numjobs=4
+  ```
+- [ ] 对比你的存储速度和书中提到的 GPFS/WekaIO/Lustre 的性能差距
 
-**两个核心需求：**
-1. **快速迭代**：从重启到关键点的等待时间应控制在几秒
-2. **小数据**：用最小数据调试，更容易记住、比较和心算
-
-**数据选择策略：**
-- 程序崩溃时：任何随机/合成数据都可以
-- 程序能跑但质量不对：需要真实数据
-- 用 `rand` 或精心设计的合成数据（如 `[[1.0, 2.0], [3.0, 4.0]]`）
-- ML 调试：用 10K 参数模型调功能，1B 模型测质量，175B 模型做最终训练
-
-### 6.2 调试 PyTorch 程序
-
-- 使用 `torch-distributed-gpu-test.py` 检查所有 GPU 是否能互相通信
-- 诊断 Hanging 和 Deadlock（多节点多 GPU Python 程序）
-- 检测 Underflow/Overflow
-- 使用 `NicerTrace.py` 改进 trace 输出
-
-### 6.3 网络调试
-
-- 使用 `all_reduce_bench.py` 替代 nccl-tests 进行网络吞吐量基准测试
-- 检查 RDMA 连接状态
-- 验证 NCCL 环境变量设置
-
-### 6.4 测试
-
-- 编写可复现的测试
-- 使用 tiny models/tokenizers/datasets 加速测试
-- 持续集成（CI）确保代码质量
+**做完之后能了解**：
+- 为什么 "用一个超级快的文件系统解决所有问题" 不如 "用 2-3 个不同文件系统分别优化"
+- 你的本地 NVMe 速度是否可能成为训练瓶颈（如果是 SSD 而非 NVMe，大概率是）
 
 ---
 
-## 七、实用工具
+### Day 6：网络架构
 
-| 工具 | 用途 |
-|------|------|
-| `all_reduce_bench.py` | 网络吞吐量基准测试（比 nccl-tests 更简单） |
-| `torch-distributed-gpu-test.py` | 快速测试节点间 GPU 连通性 |
-| `mamf-finder.py` | 测量加速器实际可达 TFLOPS |
-| `printflock.py` | 多 GPU 环境下非交错打印 |
-| `NicerTrace.py` | 改进的 Python trace 模块 |
+- [ ] 精读 Part 2 "Network" 章节
+- [ ] 理解 3 种网络：
+  - 前端网络（Frontend）：用途 _____，典型速度 _____
+  - 后端网络（Backend）：用途 _____，典型速度 _____
+  - 带外网络（Out-of-band）：用途 _____
+- [ ] 理解关键概念：
+  - RDMA：_____
+  - InfiniBand：_____
+  - NVLink：_____
+- [ ] **思考**：如果你只有 2 台服务器，每台 8×A100，用什么互联方案性价比最高？（答案：如果同一机架，NVLink + 100Gbps 以太网；如果跨机架，IB/RoCE）
+
+**做完之后能了解**：
+- 为什么网络往往是分布式训练的瓶颈（而非 GPU 算力）
+- 单工 vs 双工带宽的区别（书中提到的 600GBps 是双工，实际单向只有 300GBps）
 
 ---
 
-## 八、资源与更新
+### Day 7：编排系统
 
-- **电子书**：提供 PDF 和 EPUB 格式
-- **社区讨论**：GitHub Discussions 供交流
-- **更新通知**：作者 Twitter @StasBekman
-- **许可证**：Attribution-ShareAlike 4.0 International
+- [ ] 精读 Part 3 "Orchestration"
+- [ ] 对比 SLURM 和 Kubernetes：
+
+| 特性 | SLURM | Kubernetes |
+|------|-------|------------|
+| 设计目标 | HPC/科学计算 | 容器编排 |
+| 学习曲线 | 较陡 | 较平缓 |
+| GPU 调度 | 原生支持 | 需要 Device Plugin |
+| 适用场景 | 大规模训练 | 推理服务 |
+
+- [ ] **本地实验**：如果你有 SLURM 环境，跑 `sinfo` 和 `squeue` 查看集群状态；如果没有，阅读 `docs/slurm_for_users.md`
+- [ ] 理解为什么 "SLURM on Kubernetes"（Slinky/Soperator）是趋势
+
+**做完之后能了解**：
+- SLURM 的 job → partition → node → task 层级结构
+- 为什么大多数 HPC 集群用 SLURM 而非 K8s
+
+---
+
+### Day 8：硬件周复盘
+
+- [ ] 不看笔记，回答：
+  - 如果你要搭建一个 8×A100 的训练集群，存储、网络、编排分别选什么？
+  - 为什么 "买最快的 GPU 但配慢速网络" 是浪费？
+  - 你的本地机器的瓶颈是什么？（存储？网络？还是计算？）
+
+---
+
+## Part 3：训练（Day 9-12）
+
+### Day 9：模型并行策略
+
+- [ ] 精读 Part 4 "Training" 的 Model Parallelism 章节
+- [ ] 画图理解四种并行：
+  - **Data Parallel (DP)**：每张卡持有一个完整的模型副本，各自处理不同 batch
+  - **Tensor Parallel (TP)**：把一层切分到多张卡，每张卡算一部分
+  - **Pipeline Parallel (PP)**：把模型的不同层分配到不同卡
+  - **Sequence Parallel (SP)**：把序列维度切分
+- [ ] **本地实验**：用 PyTorch 模拟 DP
+  ```python
+  import torch
+  import torch.nn as nn
+  from torch.nn.parallel import DataParallel
+
+  model = nn.Linear(10, 10)
+  dp_model = DataParallel(model, device_ids=[0])  # 单卡模拟
+  input = torch.randn(4, 10).cuda()
+  output = dp_model(input)
+  print(f"Input shape: {input.shape}, Output shape: {output.shape}")
+  ```
+- [ ] 理解 FSDP（Fully Sharded Data Parallel）：把模型参数、梯度、优化器状态都分片到各卡
+
+**做完之后能了解**：
+- 为什么需要多种并行策略（单一策略无法满足所有需求）
+- DP、TP、PP 的适用场景和组合方式
+
+---
+
+### Day 10：性能优化与 Checkpoint
+
+- [ ] 精读 Part 4 的 "Performance" 和 "Checkpoints" 章节
+- [ ] 理解混合精度训练（FP16/BF16）的原理
+  - FP16：1 位符号 + 5 位指数 + 10 位尾数
+  - BF16：1 位符号 + 8 位指数 + 7 位尾数
+  - 为什么 BF16 更稳定但精度略低？
+- [ ] **本地实验**：对比 FP32、FP16、BF16 的内存占用
+  ```python
+  import torch
+  x_fp32 = torch.randn(1000, 1000)
+  x_fp16 = x_fp32.half()
+  x_bf16 = x_fp32.bfloat16()
+  print(f"FP32: {x_fp32.element_size() * x_fp32.nelement() / 1024**2:.2f} MB")
+  print(f"FP16: {x_fp16.element_size() * x_fp16.nelement() / 1024**2:.2f} MB")
+  print(f"BF16: {x_bf16.element_size() * x_bf16.nelement() / 1024**2:.2f} MB")
+  ```
+- [ ] 理解 Checkpoint 策略：
+  - 保存频率 vs 训练中断损失
+  - 异步 Checkpoint（不阻塞训练）
+
+**做完之后能了解**：
+- 混合精度训练如何让速度翻倍、内存减半
+- BF16 比 FP16 更适合大模型训练的原因（更大的动态范围）
+
+---
+
+### Day 11：训练不稳定性
+
+- [ ] 精读 Part 4 的 "Instabilities" 章节
+- [ ] 列出常见的训练不稳定现象：
+  - Loss 爆炸：_____
+  - NaN/Inf：_____
+  - 梯度消失：_____
+- [ ] **本地实验**：用一个小模型故意制造 NaN
+  ```python
+  import torch
+  x = torch.tensor([1e30], requires_grad=True)
+  y = x * x  # 1e60，超出 FP32 范围
+  print(y)  # 输出 inf
+  ```
+- [ ] 理解解决方案：
+  - 梯度裁剪（Gradient Clipping）
+  - 损失缩放（Loss Scaling）
+  - 学习率预热（Learning Rate Warmup）
+
+**做完之后能了解**：
+- 训练不稳定不是"玄学"，而是可以系统性地诊断和解决的
+- 为什么大模型训练特别容易出现 NaN（大矩阵乘法容易数值溢出）
+
+---
+
+### Day 12：训练周复盘
+
+- [ ] 回答：
+  - 如果你要训练一个 70B 模型，需要多少 GPU？用什么并行策略组合？
+  - 为什么 Checkpoint 要异步保存？
+  - 梯度裁剪的阈值怎么选？
+
+---
+
+## Part 4：推理（Day 13-15）
+
+### Day 13：Prefill vs Decode
+
+- [ ] 精读 Part 5 "Inference"
+- [ ] 画图理解两个阶段：
+  ```
+  Prefill:  prompt tokens → 并行处理 → 生成第一个 token
+  Decode:   已生成 tokens → 逐个生成 → 直到结束
+  ```
+- [ ] **本地实验**：用 SGLang 或 Transformers 测量 prefill 和 decode 的延迟差异
+  ```bash
+  # 用 SGLang 启动一个小模型
+  python -m sglang.launch_server --model-path Qwen/Qwen2.5-1.5B-Instruct --tp-size 1
+  # 发送短 prompt（100 tokens）
+  curl ... -d '{"messages":[{"role":"user","content":"Short"}]}'
+  # 发送长 prompt（2000 tokens）
+  curl ... -d '{"messages":[{"role":"user","content":"Very long prompt..."}]}'
+  ```
+- [ ] 理解：为什么 prefill 延迟 = f(prompt_length)，decode 延迟 = f(output_length)
+
+**做完之后能了解**：
+- 推理延迟的两个独立组成部分
+- 为什么 "长 prompt 的首次响应慢" 是正常的（prefill 需要处理整个 prompt）
+
+---
+
+### Day 14：Batching 策略
+
+- [ ] 精读 Part 5 的 "Batching" 章节
+- [ ] 对比两种 batching：
+
+| 特性 | Static Batching | Continuous Batching |
+|------|-----------------|---------------------|
+| 实现复杂度 | 简单 | 复杂 |
+| 吞吐 | 低 | 高 |
+| 延迟 | 高（等最慢的） | 低（完成即返回） |
+| 代表框架 | 早期 vLLM | SGLang、vLLM 0.3+ |
+
+- [ ] **思考**：为什么 Continuous Batching 能显著提高吞吐？（关键：移除已完成请求，立即加入新请求）
+
+**做完之后能了解**：
+- Continuous Batching 是现代推理引擎的核心优化
+- 为什么它被称为 "in-flight batching"
+
+---
+
+### Day 15：推理周复盘 + 工具链实验
+
+- [ ] 跑通书中提到的三个工具：
+  - `all_reduce_bench.py`：测试网络带宽
+  - `torch-distributed-gpu-test.py`：测试多卡连通性
+  - `mamf-finder.py`：测量实际 TFLOPS
+- [ ] **本地实验**：测量 RTX 5060 的实际 FP16 TFLOPS
+  ```bash
+  # 下载工具
+  wget https://raw.githubusercontent.com/stas00/ml-engineering/master/compute/accelerator/mamf-finder.py
+  python mamf-finder.py
+  ```
+- [ ] 对比实测值和理论值（RTX 5060 理论 FP16 算力约 19 TFLOPS）
+
+**做完之后能了解**：
+- 你的 GPU 实际能达到多少算力（通常只有理论的 60-80%）
+- 为什么实测值低于理论值（内存带宽瓶颈、启动开销等）
+
+---
+
+## Part 5：调试与开发（Day 16-18）
+
+### Day 16：调试方法论
+
+- [ ] 精读 Part 6 "Debugging and Troubleshooting"
+- [ ] 掌握两个核心原则：
+  1. 快速迭代：_____
+  2. 小数据：_____
+- [ ] **本地实验**：用小数据复现一个 bug
+  ```python
+  # 故意制造一个 shape mismatch
+  import torch
+  a = torch.randn(2, 3)
+  b = torch.randn(4, 3)
+  c = a + b  # RuntimeError: shape mismatch
+  ```
+- [ ] 理解：为什么 "用 tiny model 调试" 比 "用 175B model 调试" 高效 100 倍
+
+**做完之后能了解**：
+- 调试不是"碰运气"，而是可以系统化的方法论
+- "小数据 + 快速迭代" 是调试的万能钥匙
+
+---
+
+### Day 17：PyTorch 调试实战
+
+- [ ] 精读 Part 6 的 "Debugging PyTorch" 章节
+- [ ] 掌握三个工具：
+  - `torch.autograd.set_detect_anomaly(True)`：自动检测 NaN
+  - `torch.cuda.memory_summary()`：显存分析
+  - `pdb` 或 `ipdb`：断点调试
+- [ ] **本地实验**：用 `detect_anomaly` 定位 NaN 来源
+  ```python
+  import torch
+  torch.autograd.set_detect_anomaly(True)
+  x = torch.tensor([1e20], requires_grad=True)
+  y = x * x
+  z = y.sqrt()  # 可能产生 inf
+  z.backward()
+  ```
+- [ ] 学习 `py-spy` 的使用：`py-spy top --pid <pid>`
+
+**做完之后能了解**：
+- PyTorch 的调试工具链
+- 如何在训练过程中实时监控显存和性能
+
+---
+
+### Day 18：测试策略
+
+- [ ] 精读 Part 6 的 "Testing" 章节
+- [ ] 理解测试分层：
+  - 单元测试：测试一个函数
+  - 集成测试：测试一组模块
+  - 端到端测试：测试完整流程
+- [ ] **本地实验**：为一个小函数写测试
+  ```python
+  import pytest
+
+  def add(a, b):
+      return a + b
+
+  def test_add():
+      assert add(1, 2) == 3
+      assert add(-1, 1) == 0
+
+  if __name__ == "__main__":
+      pytest.main([__file__, "-v"])
+  ```
+
+**做完之后能了解**：
+- 为什么 ML 项目特别需要测试（随机性、数值稳定性）
+- 如何用 `pytest` 和 `hypothesis` 写 ML 测试
+
+---
+
+## Part 6：全局复盘（Day 19）
+
+### Day 19：全书总结与自我检验
+
+- [ ] 不看笔记，回答以下问题：
+  1. 如果要训练 BLOOM-176B，需要哪些硬件组件？按重要性排序：_____
+  2. 为什么 "买 H100 但配 NFS" 是错误决策？_____
+  3. RDMA 解决了什么问题？_____
+  4. SLURM 的 `sbatch` 和 `srun` 有什么区别？_____
+  5. FSDP 和 DDP 的区别是什么？_____
+  6. 为什么 Continuous Batching 比 Static Batching 吞吐高？_____
+  7. Prefill 和 Decode 哪个对延迟贡献更大？为什么？_____
+  8. 调试时为什么先用小数据？_____
+- [ ] 记录：这本书对你最有价值的 3 个知识点
+- [ ] 记录：你还想深入了解但没覆盖到的 3 个主题
+
+---
+
+## 附录：核心概念速查表
+
+| 概念 | 一句话解释 |
+|------|-----------|
+| RadixAttention | SGLang 的注意力机制，支持前缀缓存 |
+| RDMA | 绕过 CPU，直接读写远程 GPU 内存 |
+| InfiniBand | HPC 网络协议，低延迟高带宽 |
+| SLURM | HPC 作业调度系统 |
+| FSDP | 全分片数据并行，把模型/梯度/优化器状态都分片 |
+| Mixed Precision | FP16/BF16 训练，速度翻倍 |
+| Gradient Clipping | 限制梯度范数，防止爆炸 |
+| Continuous Batching | 动态移除已完成请求，立即加入新请求 |
+| Prefill | 一次性处理整个 prompt，生成第一个 token |
+| Decode | 逐个生成后续 token |
+
+---
+
+## 附录：本地可复现实验清单
+
+| 实验 | 命令/代码 | 预期结果 |
+|------|-----------|----------|
+| 测试存储速度 | `fio --name=randread --rw=randread` | 顺序读 > 500MB/s，随机读 > 50MB/s |
+| 测量 GPU 算力 | `python mamf-finder.py` | 达到理论值的 60-80% |
+| 混合精度内存对比 | `x_fp16 = x_fp32.half()` | FP16 内存减半 |
+| 制造 NaN | `x = torch.tensor([1e20]); y = x*x` | 输出 `inf` |
+| py-spy 监控 | `py-spy top --pid <pid>` | 看到 Python 线程的 CPU 占用 |
