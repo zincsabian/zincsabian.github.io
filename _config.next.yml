@@ -70,8 +70,8 @@ excerpt_description: true
 
 # Automatically Excerpt. Not recommend.
 auto_excerpt:
-  enable: false
-  length: 150
+  enable: true
+  length: 300
 
 # -------------------------------------------------------------
 # Footer Settings
