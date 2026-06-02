@@ -232,9 +232,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2026-06-01 14:07:00 / 修改时间：14:03:42" itemprop="dateCreated datePublished" datetime="2026-06-01T14:07:00+08:00">2026-06-01</time>
+      <time title="创建时间：2026-06-01 14:07:00" itemprop="dateCreated datePublished" datetime="2026-06-01T14:07:00+08:00">2026-06-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-06-02 09:14:15" itemprop="dateModified" datetime="2026-06-02T09:14:15+08:00">2026-06-02</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -258,50 +264,17 @@
     <div class="post-body" itemprop="articleBody">
           <blockquote>
 <p>原书地址：<a target="_blank" rel="noopener" href="https://github.com/stas00/the-art-of-debugging">https://github.com/stas00/the-art-of-debugging</a></p>
+<p>作者：Stas Bekman（1995 年起从事软件开发）<br>许可：CC BY-SA 4.0</p>
 </blockquote>
-<h2 id="核心理念"><a href="#核心理念" class="headerlink" title="核心理念"></a>核心理念</h2><p>这本书的目标是教你：</p>
-<ol>
-<li><strong>快速调试正常问题</strong></li>
-<li><strong>让复杂问题变得可调试</strong></li>
-</ol>
-<blockquote>
-<p>（改编自 Perl 的口号：”Easy things should be easy and hard things should be possible”）</p>
-</blockquote>
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>这是一本持续演进中的调试方法论和可复制粘贴的配方集合，用于成功调试简单和复杂的软件问题。部分章节已经相当完整，有些将在后续阶段完成，还有一些尚未开始。</p>
-<p>除了调试方法论外，本书的第二个重点是分享作者发现的最佳工具，以便成功完成调试工作，同时理想地”在此过程中少掉几根头发”。</p>
-<p>作者 Stas Bekman 自 1995 年起就开始从事软件开发，其中大量工作涉及调试。多年来，他发展了各种高效的方法论来发现问题的根源——这是解决问题之前最困难的阶段。因为一旦问题被理解，通常解决方案就触手可及。</p>
-<h2 id="主要内容"><a href="#主要内容" class="headerlink" title="主要内容"></a>主要内容</h2><h3 id="1-Fast-Debugging-Methodology（快速调试方法论）"><a href="#1-Fast-Debugging-Methodology（快速调试方法论）" class="headerlink" title="1. Fast Debugging Methodology（快速调试方法论）"></a>1. Fast Debugging Methodology（快速调试方法论）</h3><p>高效的调试流程和思维框架，帮助快速定位问题根源。</p>
-<h3 id="2-Debugging-Compiled-Programs（调试编译程序）"><a href="#2-Debugging-Compiled-Programs（调试编译程序）" class="headerlink" title="2. Debugging Compiled Programs（调试编译程序）"></a>2. Debugging Compiled Programs（调试编译程序）</h3><p>涉及的工具和概念包括：</p>
-<ul>
-<li><code>gdb</code> — GNU 调试器</li>
-<li><code>ldd</code> — 查看动态链接依赖</li>
-<li><code>nm</code> — 列出目标文件中的符号</li>
-<li><code>LD_LIBRARY_PATH</code> — 动态链接库搜索路径</li>
-<li><code>LD_PRELOAD</code> — 预加载共享库</li>
-</ul>
-<h3 id="3-Debugging-Python（调试-Python）"><a href="#3-Debugging-Python（调试-Python）" class="headerlink" title="3. Debugging Python（调试 Python）"></a>3. Debugging Python（调试 Python）</h3><ul>
-<li><code>py-spy</code> — 无侵入式 Python 性能分析器</li>
-<li>Python 路径问题排查</li>
-<li>自动打印调试技巧</li>
-</ul>
-<h3 id="4-Debugging-PyTorch（调试-PyTorch）"><a href="#4-Debugging-PyTorch（调试-PyTorch）" class="headerlink" title="4. Debugging PyTorch（调试 PyTorch）"></a>4. Debugging PyTorch（调试 PyTorch）</h3><ul>
-<li>CPU 和 GPU 内存问题</li>
-<li>性能瓶颈分析</li>
-<li>模型调试</li>
-<li>张量相关问题</li>
-</ul>
-<h3 id="5-Unix-Tools-For-Debugging（Unix-调试工具）"><a href="#5-Unix-Tools-For-Debugging（Unix-调试工具）" class="headerlink" title="5. Unix Tools For Debugging（Unix 调试工具）"></a>5. Unix Tools For Debugging（Unix 调试工具）</h3><ul>
-<li><code>bash</code> 脚本调试</li>
-<li><code>strace</code> — 系统调用追踪</li>
-<li><code>make</code> 构建调试</li>
-<li>Shell prompt 调试技巧</li>
-<li><code>nohup</code> 后台任务管理</li>
-</ul>
-<h3 id="6-Debugging-Machine-Learning-Projects（调试机器学习项目）"><a href="#6-Debugging-Machine-Learning-Projects（调试机器学习项目）" class="headerlink" title="6. Debugging Machine Learning Projects（调试机器学习项目）"></a>6. Debugging Machine Learning Projects（调试机器学习项目）</h3><p>外部资源集合，针对 ML 项目特有的调试场景。</p>
-<h2 id="写作背景"><a href="#写作背景" class="headerlink" title="写作背景"></a>写作背景</h2><p>作者提到，在调试过程中，同事时常建议他将这些方法分享给世界。虽然他一直认为这些方法很难泛化，但最近这个”埋下的种子”似乎发芽了。因此，在接下来的章节中，他将尝试分享一些见解，以缓解这个有时非常困难的过程。</p>
-<p>由于作者没有保存用例，在真空中写调试内容非常困难，因此需要一段时间来积累这些内容。预计这些页面将在很长一段时间内保持”进行中”（WIP）状态。但希望一些想法能尽早传达给读者，并帮助减轻他们在专业项目和业余项目中的调试负担。</p>
-<h2 id="许可证"><a href="#许可证" class="headerlink" title="许可证"></a>许可证</h2><p>Attribution-ShareAlike 4.0 International</p>
-
+<p>本书是一本持续演进中的调试方法论和可复制粘贴的配方集合，目标是教你<strong>快速调试正常问题</strong>，并让<strong>复杂问题变得可调试</strong>。以下内容按原书结构整理，包含大量可直接使用的代码片段和工具推荐。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/06/01/The-Art-of-Debugging-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -355,9 +328,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2026-06-01 14:06:00 / 修改时间：14:03:42" itemprop="dateCreated datePublished" datetime="2026-06-01T14:06:00+08:00">2026-06-01</time>
+      <time title="创建时间：2026-06-01 14:06:00" itemprop="dateCreated datePublished" datetime="2026-06-01T14:06:00+08:00">2026-06-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-06-02 09:14:15" itemprop="dateModified" datetime="2026-06-02T09:14:15+08:00">2026-06-02</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -381,86 +360,17 @@
     <div class="post-body" itemprop="articleBody">
           <blockquote>
 <p>原书地址：<a target="_blank" rel="noopener" href="https://github.com/cfregly/ai-performance-engineering">https://github.com/cfregly/ai-performance-engineering</a></p>
+<p>作者：Chris Fregly（Netflix、Databricks、AWS 背景，O’Reilly 作者）<br>许可：Apache 2.0</p>
 </blockquote>
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>本书是 O’Reilly 书籍《AI Systems Performance Engineering》的配套代码、工具和资源仓库，涵盖 GPU 优化、分布式训练、推理扩展以及现代 AI 工作负载的全栈性能调优。</p>
-<p>现代 AI 系统需要的不仅仅是原始 FLOPs——它们需要以 goodput 为驱动、以分析为先的硬件、软件和算法工程。这本实践指南展示了如何将 GPU、互连网络和运行时堆栈转化为高效、可靠的训练和推理管道。</p>
-<p>作者 Chris Fregly 曾在 Netflix、Databricks 和 AWS 推动性能工程创新，并著有《Data Science on AWS》和《Generative AI on AWS》等 O’Reilly 书籍。</p>
-<h2 id="核心学习要点"><a href="#核心学习要点" class="headerlink" title="核心学习要点"></a>核心学习要点</h2><ul>
-<li><strong>以 goodput 为目标进行分析</strong> — 使用 Nsight Systems&#x2F;Compute 和 PyTorch Profiler 找到真正的瓶颈点</li>
-<li><strong>充分利用内存和带宽</strong> — 优化布局、缓存和数据移动，持续为 GPU 供数</li>
-<li><strong>编译器调优</strong> — 利用 PyTorch 编译器堆栈和 Triton 生成高影响力内核，无需 C++ 样板代码</li>
-<li><strong>合理扩展训练</strong> — 应用并行策略（DP、FSDP、TP、PP、CP 和 MoE），重叠计算&#x2F;通信以最小化气泡</li>
-<li><strong>高效服务万亿参数模型</strong> — 使用 vLLM、SGLang、TensorRT-LLM 和 NVIDIA Dynamo，结合分离式 Prefill&#x2F;Decode 和分页 KV Cache</li>
-<li><strong>降低每 token 成本</strong> — 针对每瓦特性能和每美元吞吐量进行工程优化，而非仅追求峰值速度</li>
-<li><strong>AI 辅助优化</strong> — 让 AI 帮助合成和调优内核，因为系统规模已超出手动调整的能力</li>
-</ul>
-<h2 id="章节概览"><a href="#章节概览" class="headerlink" title="章节概览"></a>章节概览</h2><h3 id="第-1-3-章：基础与系统调优"><a href="#第-1-3-章：基础与系统调优" class="headerlink" title="第 1-3 章：基础与系统调优"></a>第 1-3 章：基础与系统调优</h3><ul>
-<li>AI 系统性能工程师的角色</li>
-<li>基准测试与分析方法论</li>
-<li>CPU&#x2F;GPU “Superchip” 架构</li>
-<li>NVIDIA Grace CPU、Blackwell GPU、Tensor Cores</li>
-<li>OS、Docker 和 Kubernetes 调优</li>
-<li>NUMA 感知与 CPU 绑定</li>
-</ul>
-<h3 id="第-4-5-章：网络与存储"><a href="#第-4-5-章：网络与存储" class="headerlink" title="第 4-5 章：网络与存储"></a>第 4-5 章：网络与存储</h3><ul>
-<li>重叠通信与计算</li>
-<li>NCCL 分布式多 GPU 通信</li>
-<li>NVIDIA GPUDirect Storage</li>
-<li>分布式并行文件系统</li>
-<li>多模态数据处理（NVIDIA DALI）</li>
-</ul>
-<h3 id="第-6-12-章：GPU-架构与-CUDA-编程"><a href="#第-6-12-章：GPU-架构与-CUDA-编程" class="headerlink" title="第 6-12 章：GPU 架构与 CUDA 编程"></a>第 6-12 章：GPU 架构与 CUDA 编程</h3><ul>
-<li>GPU 架构深入理解（SM、Threads、Warps、Blocks）</li>
-<li>CUDA 编程与内存层次结构</li>
-<li>Roofline 模型分析</li>
-<li>合并&#x2F;非合并全局内存访问</li>
-<li>Shared Memory Tiling、Warp Shuffle</li>
-<li>内核融合、混合精度与 Tensor Cores</li>
-<li>CUTLASS、Inline PTX、SASS 调优</li>
-<li>Intra-Kernel &#x2F; Inter-Kernel 流水线</li>
-<li>CUDA Graphs、Dynamic Parallelism、NVSHMEM</li>
-</ul>
-<h3 id="第-13-14-章：PyTorch-与编译器"><a href="#第-13-14-章：PyTorch-与编译器" class="headerlink" title="第 13-14 章：PyTorch 与编译器"></a>第 13-14 章：PyTorch 与编译器</h3><ul>
-<li>PyTorch Profiler 与 NVTX Markers</li>
-<li>torch.compile 深度解析</li>
-<li>OpenAI Triton 自定义内核编写</li>
-<li>PyTorch XLA Backend</li>
-</ul>
-<h3 id="第-15-19-章：推理优化"><a href="#第-15-19-章：推理优化" class="headerlink" title="第 15-19 章：推理优化"></a>第 15-19 章：推理优化</h3><ul>
-<li>分离式 Prefill&#x2F;Decode 架构</li>
-<li>MoE 模型并行策略</li>
-<li>推测解码与并行解码</li>
-<li>vLLM、SGLang、TensorRT-LLM、NVIDIA Dynamo</li>
-<li>FlashMLA、ThunderMLA、FlexDecoding</li>
-<li>KV Cache 利用率调优</li>
-<li>动态自适应推理引擎优化</li>
-</ul>
-<h3 id="第-20-章：AI-辅助性能优化"><a href="#第-20-章：AI-辅助性能优化" class="headerlink" title="第 20 章：AI 辅助性能优化"></a>第 20 章：AI 辅助性能优化</h3><ul>
-<li>AlphaTensor AI 发现的算法</li>
-<li>自动化 GPU 内核优化</li>
-<li>自我改进的 AI Agent</li>
-<li>向百万 GPU 集群扩展</li>
-</ul>
-<h2 id="200-项性能检查清单"><a href="#200-项性能检查清单" class="headerlink" title="200+ 项性能检查清单"></a>200+ 项性能检查清单</h2><p>本书附带一个涵盖整个生命周期的 200+ 项性能检查清单，包括：</p>
-<ul>
-<li>性能调优思维与成本优化</li>
-<li>可复现性与文档最佳实践</li>
-<li>系统架构与硬件规划</li>
-<li>操作系统和驱动优化</li>
-<li>GPU 编程与 CUDA 调优</li>
-<li>分布式训练和网络优化</li>
-<li>高效推理与服务</li>
-<li>功耗和热管理</li>
-<li>最新分析工具和技术</li>
-<li>架构特定优化</li>
-</ul>
-<h2 id="社区资源"><a href="#社区资源" class="headerlink" title="社区资源"></a>社区资源</h2><ul>
-<li>每月举办线上&#x2F;线下 meetup，覆盖 20+ 城市、100k+ 成员</li>
-<li>YouTube 频道分享技术讲座</li>
-<li>近期主题包括：动态自适应 RL 推理 CUDA 内核调优、高性能 Agentic AI 推理系统等</li>
-</ul>
-<h2 id="许可证"><a href="#许可证" class="headerlink" title="许可证"></a>许可证</h2><p>Apache 2.0 License</p>
-
+<p>本书是 O’Reilly 书籍《AI Systems Performance Engineering》的配套资源，系统性地覆盖从 GPU 微架构到分布式推理的全栈性能优化。以下按照原书章节结构整理核心要点，便于系统性学习。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/06/01/AI-Performance-Engineering-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -514,9 +424,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2026-06-01 14:05:00 / 修改时间：14:03:42" itemprop="dateCreated datePublished" datetime="2026-06-01T14:05:00+08:00">2026-06-01</time>
+      <time title="创建时间：2026-06-01 14:05:00" itemprop="dateCreated datePublished" datetime="2026-06-01T14:05:00+08:00">2026-06-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-06-02 09:14:15" itemprop="dateModified" datetime="2026-06-02T09:14:15+08:00">2026-06-02</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -540,49 +456,17 @@
     <div class="post-body" itemprop="articleBody">
           <blockquote>
 <p>原书地址：<a target="_blank" rel="noopener" href="https://github.com/stas00/ml-engineering">https://github.com/stas00/ml-engineering</a></p>
+<p>作者：Stas Bekman（BLOOM-176B、IDEFICS-80B 训练工程师）<br>许可：CC BY-SA 4.0</p>
 </blockquote>
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>本书是一个开放的方法论、工具和分步指南集合，旨在帮助成功训练和微调大型语言模型（LLM）和多模态模型（VLM），以及相关的推理工作。</p>
-<p>这是一本面向 LLM&#x2F;VLM 训练工程师和操作人员的实用技术资料，包含大量可以直接复制粘贴的脚本和命令，帮助快速解决实际问题。</p>
-<p>作者 Stas Bekman 在训练开源 BLOOM-176B 模型（2022年）、IDEFICS-80B 多模态模型（2023年）以及 Contextual.AI 的 RAG 模型（2024年）过程中积累了大量实战经验，并将这些经验整理成这本持续更新的笔记集。</p>
-<h2 id="主要内容结构"><a href="#主要内容结构" class="headerlink" title="主要内容结构"></a>主要内容结构</h2><h3 id="Part-1-Insights（洞察）"><a href="#Part-1-Insights（洞察）" class="headerlink" title="Part 1. Insights（洞察）"></a>Part 1. Insights（洞察）</h3><ol>
-<li><strong>The AI Battlefield Engineering</strong> — 成功所需了解的核心知识</li>
-<li><strong>How to Choose a Cloud Provider</strong> — 帮助获得成功云计算体验的关键问题</li>
-</ol>
-<h3 id="Part-2-Hardware（硬件）"><a href="#Part-2-Hardware（硬件）" class="headerlink" title="Part 2. Hardware（硬件）"></a>Part 2. Hardware（硬件）</h3><ol>
-<li><strong>Compute</strong> — 加速器、CPU、CPU 内存</li>
-<li><strong>Storage</strong> — 本地、分布式和共享文件系统</li>
-<li><strong>Network</strong> — 节点内和节点间网络</li>
-</ol>
-<h3 id="Part-3-Orchestration（编排）"><a href="#Part-3-Orchestration（编排）" class="headerlink" title="Part 3. Orchestration（编排）"></a>Part 3. Orchestration（编排）</h3><ol>
-<li><strong>Orchestration Systems</strong> — 管理容器和资源</li>
-<li><strong>SLURM</strong> — Simple Linux Utility for Resource Management</li>
-</ol>
-<h3 id="Part-4-Training（训练）"><a href="#Part-4-Training（训练）" class="headerlink" title="Part 4. Training（训练）"></a>Part 4. Training（训练）</h3><ol>
-<li><strong>Training</strong> — 与模型训练相关的指南</li>
-</ol>
-<h3 id="Part-5-Inference（推理）"><a href="#Part-5-Inference（推理）" class="headerlink" title="Part 5. Inference（推理）"></a>Part 5. Inference（推理）</h3><ol>
-<li><strong>Inference</strong> — 模型推理的洞察与实践</li>
-</ol>
-<h3 id="Part-6-Development（开发）"><a href="#Part-6-Development（开发）" class="headerlink" title="Part 6. Development（开发）"></a>Part 6. Development（开发）</h3><ol>
-<li><strong>Debugging and Troubleshooting</strong> — 如何调试简单和复杂的问题</li>
-<li><strong>And more debugging</strong> — 更多调试方法</li>
-<li><strong>Testing</strong> — 大量让测试编写变得愉快的技巧和工具</li>
-</ol>
-<h3 id="Part-7-Miscellaneous（杂项）"><a href="#Part-7-Miscellaneous（杂项）" class="headerlink" title="Part 7. Miscellaneous（杂项）"></a>Part 7. Miscellaneous（杂项）</h3><ol>
-<li><strong>Resources</strong> — LLM&#x2F;VLM 编年史与资源集合</li>
-</ol>
-<h2 id="实用工具"><a href="#实用工具" class="headerlink" title="实用工具"></a>实用工具</h2><ul>
-<li><strong>all_reduce_bench.py</strong> — 比 nccl-tests 更简单的网络吞吐量基准测试工具</li>
-<li><strong>torch-distributed-gpu-test.py</strong> — 快速测试节点间连接性的工具</li>
-<li><strong>mamf-finder.py</strong> — 测量加速器实际可达 TFLOPS 的工具</li>
-</ul>
-<h2 id="其他资源"><a href="#其他资源" class="headerlink" title="其他资源"></a>其他资源</h2><ul>
-<li>提供 PDF 和 EPUB 电子书版本</li>
-<li>配套有社区 Discussions 供交流</li>
-<li>作者 Twitter 渠道发布重要更新</li>
-</ul>
-<h2 id="许可证"><a href="#许可证" class="headerlink" title="许可证"></a>许可证</h2><p>Attribution-ShareAlike 4.0 International</p>
-
+<p>这是一本面向 LLM&#x2F;VLM 训练工程师和操作人员的开放技术手册，涵盖从硬件选型到训练、推理、调试的全流程实战经验。以下内容按照原书结构整理，方便日后查阅和学习。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/06/01/ML-Engineering-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -626,7 +510,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/06/01/%E6%8E%A8%E8%8D%90%E4%B8%A4%E6%9C%AC%E5%9F%BA%E7%A1%80%E4%B9%A6%E7%B1%8D%E5%8F%82%E8%80%83/" class="post-title-link" itemprop="url">推荐两本基础书籍参考</a>
+          <a href="/2026/06/01/%E6%8E%A8%E8%8D%90%E4%B8%A4%E6%9C%AC%E5%9F%BA%E7%A1%80%E4%B9%A6%E7%B1%8D%E5%8F%82%E8%80%83/" class="post-title-link" itemprop="url">推荐几本基础书籍参考</a>
         </h2>
 
         <div class="post-meta-container">
@@ -636,9 +520,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2026-06-01 14:00:00 / 修改时间：14:03:42" itemprop="dateCreated datePublished" datetime="2026-06-01T14:00:00+08:00">2026-06-01</time>
+      <time title="创建时间：2026-06-01 14:00:00" itemprop="dateCreated datePublished" datetime="2026-06-01T14:00:00+08:00">2026-06-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-06-02 09:14:15" itemprop="dateModified" datetime="2026-06-02T09:14:15+08:00">2026-06-02</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -660,13 +550,15 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>如果最近有时间，推荐几本基础书籍参考：</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/stas00/ml-engineering">Machine Learning Engineering</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/cfregly/ai-performance-engineering">AI Performance Engineering</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/stas00/the-art-of-debugging">The Art of Debugging</a></li>
-</ul>
-
+          <p>如果最近有时间，推荐几本基础书籍参考，都是 GitHub 上的开源书籍，可以在线阅读或下载电子书：</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/06/01/%E6%8E%A8%E8%8D%90%E4%B8%A4%E6%9C%AC%E5%9F%BA%E7%A1%80%E4%B9%A6%E7%B1%8D%E5%8F%82%E8%80%83/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -728,7 +620,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-06-01 14:03:42" itemprop="dateModified" datetime="2026-06-01T14:03:42+08:00">2026-06-01</time>
+      <time title="修改时间：2026-06-02 09:14:15" itemprop="dateModified" datetime="2026-06-02T09:14:15+08:00">2026-06-02</time>
     </span>
 
   
