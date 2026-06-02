@@ -1,5 +1,5 @@
 ---
-title: SGLang 结构学习完全规划（逐日展开版）
+title: SGLang 结构学习完全规划（基于 RTX 5060 8GB + 云租分布式）
 date: 2026-06-02 10:00:00
 categories: 读书笔记
 tags:
@@ -9,7 +9,11 @@ tags:
   - 多模态
 ---
 
-> 基于 `~/devroot/sglang` 实际源码整理。每步标注"做完/看完 xxx 之后能了解 xxx"，可直接按日执行。
+> 本文基于你的实际硬件配置设计：
+> - **本地**：RTX 5060 8GB + AMD 9600X
+> - **云租**：分布式阶段按需租用多卡
+>
+> 每步都有 `[ ]` 进度标识，完成后打勾 `[x]`，方便你根据进度提问。
 
 <!-- more -->
 
@@ -17,61 +21,107 @@ tags:
 
 ## 写在前面
 
-本文将学习路径拆到**天级粒度**。每天 2-3 小时，按"读代码 → 做实验 → 写笔记"三段式推进。如果某天完不成，顺延即可，不必赶进度。
+### 硬件现实
 
-> 核心原则：**不理解的地方停下来，加日志、打断点、改代码、看输出**，直到理解为止。不要囫囵吞枣。
+你的 RTX 5060 有 **8GB 显存**。这意味着：
+
+| 模型大小 | 显存需求 | 能否本地跑 | 推荐度 |
+|----------|----------|------------|--------|
+| 1B-2B | 3-5 GB | ✅ 轻松 | ⭐⭐⭐⭐⭐ |
+| 3B-4B | 6-8 GB | ✅ 能跑 | ⭐⭐⭐⭐⭐ |
+| 7B-8B | 14-16 GB | ❌ 不行 | 必须云租 |
+| 14B+ | 28GB+ | ❌ 不行 | 必须云租 |
+
+**好消息**：学习 SGLang 的核心架构**不需要大模型**。3B 模型的架构和 70B 完全一样，只是层数/维度不同。理解 Scheduler、KV Cache、Attention 后端的原理与模型大小无关。
+
+**策略**：
+- **Phase 0-1**（Day 1-19）：全部本地用 1.5B-3B 模型完成
+- **Phase 2**（Day 20-34）：本地读代码理解逻辑，关键实验云租 2-8 卡
+- **Phase 3**（Day 35-49）：VLM/扩散小模型本地跑，大模型和 RL 云租
+
+### 进度标识说明
+
+每步开头都有 `[ ]`，完成后改为 `[x]`。你可以：
+1. 在博客页面上按 `Ctrl+F` 搜索 `[ ]` 快速找到未完成的步骤
+2. 根据当前进度问我问题，例如"我在 Day 5，ZMQ 通信这里卡住了"
+3. 我会根据你的进度精准回答，不需要从头解释
 
 ---
 
 ## Phase 0：环境准备（Day 1-2）
 
-### Day 1：拉代码、建环境、跑通单卡
+### Day 1：拉代码、建环境、跑通本地单卡
 
-**动作：**
-1. 确认已克隆 `~/devroot/sglang`，切到最新 release 分支：`git checkout $(git describe --tags --abbrev=0)`
-2. 阅读 `README.md` 的 About 和 Getting Started 两节
-3. 按 `docs/get_started/install.md` 装依赖，推荐用 `uv`
-4. 单卡启动 Llama-3.1-8B：`python -m sglang.launch_server --model-path meta-llama/Llama-3.1-8B-Instruct --tp-size 1`
-5. 用 `curl` 发一条请求验证服务正常
-6. 安装 `tmux`、`htop`、`nvtop`，熟悉 GPU 监控
+- [ ] 确认已克隆 `~/devroot/sglang`，切到最新 release 分支：`git checkout $(git describe --tags --abbrev=0)`
+- [ ] 阅读 `README.md` 的 About 和 Getting Started 两节
+- [ ] 按 `docs/get_started/install.md` 装依赖，推荐用 `uv`
+- [ ] **本地启动 Qwen2.5-1.5B（确保 8GB 不爆显存）**：
+  ```bash
+  python -m sglang.launch_server \
+    --model-path Qwen/Qwen2.5-1.5B-Instruct \
+    --tp-size 1 \
+    --mem-fraction-static 0.85
+  ```
+- [ ] 用 `curl` 发一条请求验证服务正常
+- [ ] 安装 `tmux`、`htop`、`nvtop`，熟悉 GPU 监控
+- [ ] 确认 `nvidia-smi` 中显存占用 < 8GB
 
-**做完之后能了解：**
-- SGLang 项目整体目录结构（`python/`、`sgl-kernel/`、`sgl-model-gateway/`、`benchmark/`、`docs/`）
-- 如何从源码安装和运行一个推理服务
-- 单卡启动服务的最小命令集
+**做完之后能了解**：
+- SGLang 项目整体目录结构（`python/`、`sgl-kernel/`、`sgl-model-gateway/`）
+- 如何在你的 RTX 5060 上从源码安装和运行推理服务
+- `--mem-fraction-static` 参数对显存控制的作用
+
+**💡 RTX 5060 提示**：8GB 卡启动时建议始终加 `--mem-fraction-static 0.85`，给系统留 1GB 余量，避免 CUDA 初始化时 OOM。
 
 ---
 
 ### Day 2：目录结构梳理 + CI 初探
 
-**动作：**
-1. 阅读 `.github/workflows/` 中任意 2 个 CI yaml，了解测试矩阵（哪些 Python 版本、哪些 GPU、哪些模型）
-2. 阅读 `test/README.md`，了解测试分类：`test/srt/`（单元测试）、`test/registered/`（集成测试）、`test/manual/`（手工测试）
-3. 跑通一个集成测试：`python -m pytest test/registered/test_xxx.py -v -s`
-4. 在 `python/sglang/srt/managers/scheduler.py` 的 `event_loop_normal` 第一行加一行 `logger.info("scheduler started")`，重新安装后验证日志出现
-5. 用 `py-spy top --pid <sglang_pid>` 观察运行时线程状态
+- [ ] 阅读 `.github/workflows/` 中任意 2 个 CI yaml，了解测试矩阵
+- [ ] 阅读 `test/README.md`，了解测试分类
+- [ ] **本地跑通一个集成测试**：
+  ```bash
+  python -m pytest test/registered/test_xxx.py -v -s \
+    --model-path Qwen/Qwen2.5-1.5B-Instruct
+  ```
+- [ ] 在 `scheduler.py` 加一行日志，重新安装后验证生效
+- [ ] 用 `py-spy top --pid <sglang_pid>` 观察运行时线程状态
+- [ ] 对比 `nvidia-smi` 中 GPU 利用率 vs `py-spy` 中 Python 线程状态
 
-**做完之后能了解：**
-- SGLang 的三层结构边界：Python Runtime、`sgl-kernel`（C++/CUDA）、`sgl-model-gateway`（Rust）
-- 如何修改代码并验证修改生效
-- CI 的门控规则（什么测试不通过不能合入）
+**做完之后能了解**：
+- SGLang 的三层结构边界：Python Runtime、`sgl-kernel`、`sgl-model-gateway`
+- 如何在 8GB 卡上修改代码并验证修改生效
+- CI 门控规则
 
 ---
 
-## Phase 1：单卡核心架构（Day 3-17）
+## Phase 1：单卡核心架构（Day 3-19）
+
+> **全部本地完成**，使用 1.5B-3B 模型。推荐模型矩阵：
+> | 实验 | 推荐模型 | 显存占用 | 原因 |
+> |------|----------|----------|------|
+> | 通用学习 | Qwen2.5-1.5B | ~4GB | 最保险，有余量加日志 |
+> | Attention 对比 | Qwen2.5-3B | ~6GB | 足够展示不同后端差异 |
+> | 极限测试 | Phi-4-mini (3.8B) | ~7GB | 接近上限，测内存压力 |
+
+---
 
 ### Week 1：宏观架构与数据流
 
 #### Day 3：HTTP 入口与请求路由
 
-**动作：**
-1. 精读 `python/sglang/srt/entrypoints/http_server.py`
-2. 找到 `generate_request`、`chat_completions` 两个路由处理函数
-3. 在 `generate_request` 入口处加日志，打印 `request.model_dump_json()`
-4. 发一条请求，确认日志输出与预期一致
-5. 画出函数调用链：`generate_request` → 哪个函数 → 最终发到哪里
+- [ ] 精读 `python/sglang/srt/entrypoints/http_server.py`
+- [ ] 找到 `generate_request`、`chat_completions` 两个路由处理函数
+- [ ] 在 `generate_request` 入口处加日志，打印 `request.model_dump_json()`
+- [ ] **本地发请求，确认日志输出**：
+  ```bash
+  curl http://localhost:30000/v1/chat/completions \
+    -H "Content-Type: application/json" \
+    -d '{"model":"default","messages":[{"role":"user","content":"Hello"}]}'
+  ```
+- [ ] 画出函数调用链：`generate_request` → 哪个函数 → 最终发到哪里
 
-**看完 `http_server.py` 之后能了解：**
+**看完 `http_server.py` 之后能了解**：
 - 请求进入 SGLang 的第一个 Python 函数是谁
 - FastAPI 路由如何注册（OpenAI API 兼容层）
 - 请求体中的字段如何被解析和校验
@@ -80,74 +130,64 @@ tags:
 
 #### Day 4：Engine 类与子进程启动
 
-**动作：**
-1. 精读 `python/sglang/srt/entrypoints/engine.py`
-2. 找到 `Engine.__init__`，逐行理解：
-   - 什么时候创建 `TokenizerManager`
-   - 什么时候 `fork`/`spawn` 出 Scheduler 子进程
-   - 什么时候启动 Detokenizer 子进程
-3. 在 `Engine.__init__` 的每个子进程启动前后加日志
-4. 启动服务，观察进程树：`ps aux | grep sglang`，确认有几个进程
+- [ ] 精读 `python/sglang/srt/entrypoints/engine.py`
+- [ ] 找到 `Engine.__init__`，逐行理解：TokenizerManager 创建、Scheduler 子进程 fork、Detokenizer 子进程启动
+- [ ] 在 `Engine.__init__` 的每个子进程启动前后加日志
+- [ ] **本地启动服务，观察进程树**：`ps aux | grep sglang`，确认有几个进程
 
-**看完 `engine.py` 之后能了解：**
+**看完 `engine.py` 之后能了解**：
 - SGLang 为什么用多进程（Python GIL、CUDA Context 隔离）
 - 主进程、Scheduler 进程、Detokenizer 进程的关系
-- `TokenizerManager` 在主进程中承担什么角色
 
 ---
 
 #### Day 5：TokenizerManager 与 ZMQ 通信
 
-**动作：**
-1. 精读 `python/sglang/srt/managers/tokenizer_manager.py`
-2. 找到 `generate_request` 方法，理解它如何把 HTTP 请求转成内部 `Req` 对象
-3. 找到 ZMQ socket 的创建代码，确认类型（PUSH/PULL/REQ/REP）
-4. 在 `generate_request` 和 `recv_from_tokenizer` 两处加日志，观察请求 ID 的流转
-5. 画一张图：主进程 ↔ Scheduler 进程 ↔ Detokenizer 进程，标注 ZMQ socket 类型
+- [ ] 精读 `python/sglang/srt/managers/tokenizer_manager.py`
+- [ ] 找到 `generate_request`，理解它如何把 HTTP 请求转成内部 `Req` 对象
+- [ ] 找到 ZMQ socket 创建代码，确认类型（PUSH/PULL/REQ/REP）
+- [ ] 在 `generate_request` 和 `recv_from_tokenizer` 两处加日志，观察请求 ID 流转
+- [ ] 画一张图：主进程 ↔ Scheduler 进程 ↔ Detokenizer 进程，标注 ZMQ socket 类型
 
-**看完 `tokenizer_manager.py` 之后能了解：**
+**看完 `tokenizer_manager.py` 之后能了解**：
 - Tokenize/Detokenize 在哪个进程执行
 - ZMQ 的 PUSH/PULL 模式如何保证请求不丢失
-- `Req` 对象在进程间如何序列化
 
 ---
 
 #### Day 6：Scheduler 事件循环（上）
 
-**动作：**
-1. 精读 `python/sglang/srt/managers/scheduler.py` 的 `event_loop_normal()`
-2. 只看前 50 行：理解循环的生命周期（init → loop → cleanup）
-3. 找到 `recv_from_tokenizer()`，理解它如何接收新请求
-4. 找到 `schedule()` 的调用点，理解"调度决策"发生在循环的哪个阶段
-5. 加日志：在每次循环迭代开头打印 `len(self.waiting_queue)`、`len(self.running_queue)`
+- [ ] 精读 `python/sglang/srt/managers/scheduler.py` 的 `event_loop_normal()`，只看前 50 行
+- [ ] 理解循环生命周期：init → loop → cleanup
+- [ ] 找到 `recv_from_tokenizer()`，理解它如何接收新请求
+- [ ] 找到 `schedule()` 的调用点
+- [ ] 加日志：每次循环迭代开头打印 `len(self.waiting_queue)`、`len(self.running_queue)`
+- [ ] **本地发 3 条请求，观察 queue 长度变化**
 
-**看完 `scheduler.py` 前半之后能了解：**
-- Scheduler 是一个什么样的循环（事件驱动还是轮询）
+**看完 `scheduler.py` 前半之后能了解**：
+- Scheduler 是一个什么样的循环
 - `waiting_queue` 和 `running_queue` 的区别
-- 一个请求进入 Scheduler 后的第一步是什么
 
 ---
 
-#### Day 7：Scheduler 事件循环（下）+ 一个请求的完整追踪
+#### Day 7：Scheduler 事件循环（下）+ 完整追踪
 
-**动作：**
-1. 继续精读 `scheduler.py`，理解 `run_batch()` → `process_batch_result()` 的流程
-2. 找到 `ForwardMode` 枚举，列出所有可能的模式
-3. **追踪任务**：在以下位置加日志，发一条请求，收集完整日志链：
-   - `http_server.py::generate_request`
-   - `tokenizer_manager.py::generate_request`
-   - `scheduler.py::event_loop_normal`（循环开始）
-   - `scheduler.py::schedule()`（调度决策）
-   - `tp_worker.py::forward_batch_generation`
-   - `model_runner.py::forward`
-   - `detokenizer_manager.py`
-   - `tokenizer_manager.py`（HTTP 响应）
-4. 按日志时间戳排序，画出完整调用时序图
+- [ ] 继续精读 `scheduler.py`，理解 `run_batch()` → `process_batch_result()`
+- [ ] 找到 `ForwardMode` 枚举，列出所有模式
+- [ ] **追踪任务**：在以下位置加日志，发一条请求，收集完整日志链：
+  - `http_server.py::generate_request`
+  - `tokenizer_manager.py::generate_request`
+  - `scheduler.py::event_loop_normal`
+  - `scheduler.py::schedule()`
+  - `tp_worker.py::forward_batch_generation`
+  - `model_runner.py::forward`
+  - `detokenizer_manager.py`
+- [ ] 按时间戳排序，画出完整调用时序图
 
-**做完追踪之后能了解：**
+**做完追踪之后能了解**：
 - 一个 Generate 请求从 HTTP 到 GPU 再回到 HTTP 经历了几次进程切换
-- 每个阶段耗时多少（哪一步是瓶颈）
 - `ForwardMode.PREFILL` 和 `ForwardMode.DECODE` 分别在什么时候触发
+- **这是整个 Phase 1 最重要的实验，务必完成**
 
 ---
 
@@ -155,115 +195,95 @@ tags:
 
 #### Day 8：ScheduleBatch 数据结构
 
-**动作：**
-1. 精读 `python/sglang/srt/managers/schedule_batch.py`
-2. 理解 `ScheduleBatch` 类的字段：`reqs`、`running_bs`、`extend_bs`、`decode_bs`、`input_ids`、`positions`...
-3. 理解 `Req` 类的字段：`origin_input_ids`、`output_ids`、`sample_output_ids`...
-4. 在 `ScheduleBatch.__init__` 加日志，打印 batch 中各字段的 shape
-5. 对比 Prefill 和 Decode 时 `input_ids` 的 shape 差异
+- [ ] 精读 `python/sglang/srt/managers/schedule_batch.py`
+- [ ] 理解 `ScheduleBatch` 字段：`reqs`、`running_bs`、`extend_bs`、`decode_bs`、`input_ids`
+- [ ] 理解 `Req` 字段：`origin_input_ids`、`output_ids`、`sample_output_ids`
+- [ ] 在 `ScheduleBatch.__init__` 加日志，打印 batch 各字段的 shape
+- [ ] **对比 Prefill 和 Decode 时 `input_ids` 的 shape 差异**
 
-**看完 `schedule_batch.py` 之后能了解：**
-- SGLang 用 `ScheduleBatch` 封装一个 step 的所有信息
+**看完 `schedule_batch.py` 之后能了解**：
+- `ScheduleBatch` 如何封装一个 step 的所有信息
 - `reqs` 和 `running_bs`/`extend_bs`/`decode_bs` 的关系
-- 为什么 batch 中的请求可能有不同长度的 input
 
 ---
 
 #### Day 9：调度策略对比
 
-**动作：**
-1. 精读 `python/sglang/srt/managers/schedule_policy.py`
-2. 找到 `LPMSchedulePolicy`、`FCFSSchedulePolicy`、`DFSWeightSchedulePolicy`
-3. 理解每种策略的排序逻辑
-4. **实验**：修改策略排序函数，人为调整请求顺序，观察 TTFT/TPOT 变化
-5. 思考：为什么默认策略通常是 LPM（Longest Prefix Match）
+- [ ] 精读 `python/sglang/srt/managers/schedule_policy.py`
+- [ ] 找到 `LPMSchedulePolicy`、`FCFSSchedulePolicy`、`DFSWeightSchedulePolicy`
+- [ ] 理解每种策略的排序逻辑
+- [ ] **实验**：修改策略排序函数，调整请求顺序，观察 TTFT/TPOT 变化
+- [ ] 思考：为什么默认策略通常是 LPM
 
-**看完 `schedule_policy.py` 之后能了解：**
+**看完 `schedule_policy.py` 之后能了解**：
 - 调度策略的本质是"从 waiting_queue 中选择哪些请求进入下一个 step"
-- LPM vs FCFS 的 trade-off（prefix cache 命中率 vs 公平性）
-- 如何自定义调度策略
+- LPM vs FCFS 的 trade-off
 
 ---
 
 #### Day 10：Chunked Prefill
 
-**动作：**
-1. 在 `scheduler.py` 中搜索 `chunked_prefill_size`
-2. 理解长 prefill 如何被切分为多个 chunk
-3. 理解 `MIXED` forward mode：一个 batch 中同时有 prefill 和 decode
-4. **实验**：用一条 8K token 的长 prompt 测试，观察日志中 `ForwardMode` 的变化序列
-5. 对比：启用 chunked prefill 和不启用时，长 prompt 的 TTFT 差异
+- [ ] 在 `scheduler.py` 中搜索 `chunked_prefill_size`
+- [ ] 理解长 prefill 如何被切分为多个 chunk
+- [ ] 理解 `MIXED` forward mode：同时有 prefill 和 decode
+- [ ] **实验**：用一条 4K token 的长 prompt 测试，观察日志中 `ForwardMode` 变化序列
+- [ ] 对比启用和不启用 chunked prefill 时长 prompt 的 TTFT
 
-**做完之后能了解：**
+**做完之后能了解**：
 - Chunked Prefill 如何让长 prompt 不阻塞短 decode
 - `MIXED` mode 的 batch 构成特点
-- 为什么 decode 阶段不需要 chunking
 
 ---
 
 #### Day 11：RadixCache 前缀树
 
-**动作：**
-1. 精读 `python/sglang/srt/mem_cache/radix_cache.py`
-2. 理解 `RadixCache` 的数据结构（RadixTree 节点）
-3. 理解 `match_prefix()`：最长前缀匹配的搜索过程
-4. 理解 `insert()`：新 token 序列如何插入树
-5. 理解 `evict()`：LRU/LFU 淘汰策略
-6. **实验**：连续发送两条共享前缀的请求，在 `match_prefix()` 加日志，观察第二次命中 cache 的匹配长度
+- [ ] 精读 `python/sglang/srt/mem_cache/radix_cache.py`
+- [ ] 理解 `RadixCache` 的数据结构（RadixTree 节点）
+- [ ] 理解 `match_prefix()`、`insert()`、`evict()`
+- [ ] **实验**：连续发送两条共享前缀的请求，在 `match_prefix()` 加日志，观察第二次命中 cache 的匹配长度
 
-**看完 `radix_cache.py` 之后能了解：**
-- RadixCache 为什么用 radix tree 而不是 hash table（前缀压缩 + 最长匹配）
-- 缓存命中时，`match_prefix` 返回什么（哪些 token 可以复用）
-- 缓存淘汰策略如何影响命中率
+**看完 `radix_cache.py` 之后能了解**：
+- RadixCache 为什么用 radix tree 而不是 hash table
+- 缓存命中时哪些 token 可以复用
 
 ---
 
 #### Day 12：内存池设计
 
-**动作：**
-1. 精读 `python/sglang/srt/mem_cache/memory_pool.py`
-2. 理解 `ReqToTokenPool` 和 `TokenToKVPoolAllocator`
-3. 理解页分配 vs 连续分配
-4. 找到 `MemPoolType` 枚举：MHA、MLA、Hybrid
-5. 在 `alloc_token_slots()` 加日志，打印分配的 page 数量和位置
-6. 用 `nvidia-smi` 观察显存占用，与内存池统计对比
+- [ ] 精读 `python/sglang/srt/mem_cache/memory_pool.py`
+- [ ] 理解 `ReqToTokenPool` 和 `TokenToKVPoolAllocator`
+- [ ] 理解页分配 vs 连续分配
+- [ ] 找到 `MemPoolType` 枚举：MHA、MLA、Hybrid
+- [ ] 在 `alloc_token_slots()` 加日志，打印分配的 page 数量
+- [ ] 用 `nvidia-smi` 观察显存占用，与内存池统计对比
 
-**看完 `memory_pool.py` 之后能了解：**
+**看完 `memory_pool.py` 之后能了解**：
 - SGLang 的两级内存池设计
-- 为什么用页式分配而不是逐 token 分配
-- 不同注意力机制（MHA/MLA）的内存布局差异
+- 为什么用页式分配
 
 ---
 
 #### Day 13：OOM 与回退机制
 
-**动作：**
-1. 在 `scheduler.py` 中搜索 `retract_decode()`
-2. 理解动态回退机制：当显存不足时，将 decode 请求回退到 waiting_queue
-3. 理解 `token_to_kv_pool` 的 `clear()` 逻辑
-4. **实验**：发送大量请求使 GPU 接近 OOM，观察 `retract_decode()` 是否触发
-5. 阅读 `docs/advanced_features/hicache_design.md`，了解 HiCache 的 CPU/Disk offload
+- [ ] 在 `scheduler.py` 中搜索 `retract_decode()`
+- [ ] 理解动态回退机制：显存不足时将 decode 请求回退到 waiting_queue
+- [ ] **实验**：用 Phi-4-mini（接近 8GB 上限）发送大量请求，观察 `retract_decode()` 是否触发
+- [ ] 阅读 `docs/advanced_features/hicache_design.md`
 
-**看完 OOM 机制之后能了解：**
+**看完 OOM 机制之后能了解**：
 - SGLang 如何避免因显存不足导致崩溃
-- `retract_decode` 的触发条件
-- HiCache 如何在显存和内存/磁盘之间分层存储 KV
+- **在 8GB 卡上，这个机制尤其重要**
 
 ---
 
-#### Day 14：本周复盘 + 白板式验证
+#### Day 14：本周复盘
 
-**动作：**
-1. 不看代码，在白板/纸上画出完整请求流
-2. 回答：一个请求从 HTTP 到 GPU 再回到 HTTP 经历了几个进程？几次序列化/反序列化？
-3. 回答：RadixCache 的 radix tree 和 trie 有什么区别？为什么选 radix tree？
-4. 回答：`ScheduleBatch` 中 `reqs`、`running_bs`、`extend_bs`、`decode_bs` 的区别
-5. 回答：为什么 decode 阶段用 CUDA Graph，而 prefill 不用？
-6. 如果有答不上来的，回到对应文件再读
-
-**做完之后能了解：**
-- 自己对 Week 1-2 内容的掌握程度
-- 哪些概念还需要加强
+- [ ] 不看代码，在白板上画出完整请求流
+- [ ] 回答：一个请求从 HTTP 到 GPU 再回到 HTTP 经历了几个进程？
+- [ ] 回答：RadixCache 用 radix tree 而非 hash table 的根本原因
+- [ ] 回答：`ScheduleBatch` 中 `reqs`、`running_bs`、`extend_bs`、`decode_bs` 的区别
+- [ ] 回答：为什么 decode 阶段用 CUDA Graph，而 prefill 不用？
+- [ ] 有答不上来的，回到对应文件再读
 
 ---
 
@@ -271,615 +291,572 @@ tags:
 
 #### Day 15：Llama 模型定义
 
-**动作：**
-1. 精读 `python/sglang/srt/models/llama.py`
-2. 从 `LlamaForCausalLM.forward()` 开始追踪：
-   - `LlamaModel.forward()` → `LlamaDecoderLayer.forward()`
-   - `LlamaAttention.forward()` → `RadixAttention.forward()`
-   - `LlamaMLP.forward()` → `MergedColumnParallelLinear` → `RowParallelLinear`
-3. 对比 `transformers` 库中的 `LlamaForCausalLM` 实现，找出 SGLang 的差异
-4. 在 `LlamaAttention.forward()` 加日志，打印 `hidden_states.shape` 和 `position_ids`
+- [ ] 精读 `python/sglang/srt/models/llama.py`
+- [ ] 从 `LlamaForCausalLM.forward()` 追踪到 `LlamaAttention.forward()` 再到 `RadixAttention.forward()`
+- [ ] 对比 HuggingFace Transformers 的 Llama 实现
+- [ ] 在 `LlamaAttention.forward()` 加日志，打印 `hidden_states.shape`
 
-**看完 `llama.py` 之后能了解：**
-- SGLang 如何定义一个模型（与 HuggingFace Transformers 的差异）
-- `LlamaDecoderLayer` 的结构：Attention → MLP → LayerNorm
-- `RadixAttention` 在模型中的位置
+**看完 `llama.py` 之后能了解**：
+- SGLang 如何定义一个模型
+- `LlamaDecoderLayer` 的结构
 
 ---
 
 #### Day 16：RadixAttention 与 Attention 后端注册
 
-**动作：**
-1. 精读 `python/sglang/srt/layers/radix_attention.py`
-2. 理解 `RadixAttention.forward()` 如何统一调用不同的后端
-3. 精读 `python/sglang/srt/layers/attention/attention_registry.py`
-4. 理解 backend 选择逻辑（根据什么条件选 FlashInfer / FlashAttention / Triton）
-5. 列出 `python/sglang/srt/layers/attention/` 目录下所有 backend 文件
-6. **实验**：启动时分别用 `--attention-backend flashinfer`、`flash_attention`、`triton` 启动，观察哪种最快
+- [ ] 精读 `python/sglang/srt/layers/radix_attention.py`
+- [ ] 精读 `python/sglang/srt/layers/attention/attention_registry.py`
+- [ ] 理解 backend 选择逻辑
+- [ ] **实验**（本地，用 Qwen2.5-3B，显存约 6GB）：
+  ```bash
+  # 测试 FlashInfer
+  python -m sglang.launch_server --model-path Qwen/Qwen2.5-3B-Instruct --attention-backend flashinfer
+  # 测试 Triton
+  python -m sglang.launch_server --model-path Qwen/Qwen2.5-3B-Instruct --attention-backend triton
+  ```
+- [ ] 用 benchmark 对比两种后端的 prefill/decode 性能
 
-**看完 Attention 注册之后能了解：**
+**看完 Attention 注册之后能了解**：
 - SGLang 如何支持多种 Attention 后端
-- 不同后端的适用条件（GPU 类型、batch size、sequence length）
-- 如何添加一个新的 Attention 后端
+- 不同后端的适用条件
 
 ---
 
 #### Day 17：线性层与并行策略
 
-**动作：**
-1. 精读 `python/sglang/srt/layers/linear.py`
-2. 理解 `ColumnParallelLinear` 和 `RowParallelLinear`
-3. 理解 `MergedColumnParallelLinear`（用于 MLP 的 gate+up 合并）
-4. 对比：ColumnParallel 和 RowParallel 的 all-reduce 时机差异
-5. 在 `ColumnParallelLinear.forward()` 加日志，打印输入和输出 shape
-6. 理解 `QKVParallelLinear`（用于 Attention 的 qkv 合并）
+- [ ] 精读 `python/sglang/srt/layers/linear.py`
+- [ ] 理解 `ColumnParallelLinear` 和 `RowParallelLinear`
+- [ ] 理解 `MergedColumnParallelLinear`
+- [ ] 对比：ColumnParallel 和 RowParallel 的 all-reduce 时机差异
+- [ ] 在 `ColumnParallelLinear.forward()` 加日志，打印 shape
 
-**看完 `linear.py` 之后能了解：**
+**看完 `linear.py` 之后能了解**：
 - 张量并行的线性层实现
 - ColumnParallel 先切分后 all-reduce，RowParallel 先计算后 all-reduce
-- 为什么 MLP 的 gate 和 up 要合并成一个矩阵
 
 ---
 
 #### Day 18：CUDA Graph 与 Decode 加速
 
-**动作：**
-1. 精读 `python/sglang/srt/model_executor/cuda_graph_runner.py`
-2. 理解 CUDA Graph 捕获（capture）和重放（replay）机制
-3. 理解为什么 batch size 按 2 的幂次捕获（1, 2, 4, 8, 16...）
-4. 理解 Breakable CUDA Graph 的实现
-5. **实验**：对比启用和不启用 CUDA Graph 时 decode 的吞吐差异
-6. 思考：为什么 prefill 阶段不用 CUDA Graph
+- [ ] 精读 `python/sglang/srt/model_executor/cuda_graph_runner.py`
+- [ ] 理解 CUDA Graph 捕获和重放机制
+- [ ] 理解为什么 batch size 按 2 的幂次捕获
+- [ ] **实验**：对比启用和不启用 CUDA Graph 时 decode 的吞吐差异
+- [ ] 思考：为什么 prefill 阶段不用 CUDA Graph
 
-**看完 `cuda_graph_runner.py` 之后能了解：**
+**看完 `cuda_graph_runner.py` 之后能了解**：
 - CUDA Graph 消除 kernel 启动开销的原理
-- 为什么 decode 阶段收益大（重复执行、shape 固定）
-- SGLang 如何处理 CUDA Graph 捕获失败（动态 shape、同步操作）
+- 为什么 decode 阶段收益大
 
 ---
 
 #### Day 19：Phase 1 综合实验
 
-**动作：**
-1. 用 benchmark 跑一轮完整测试：`python -m sglang.bench_serving --backend sglang --num-prompt 1000`
-2. 用 `py-spy` 录制火焰图：`py-spy record -o phase1.svg --pid <sglang_pid>`
-3. 用 `nsys profile` 分析 GPU 热点
-4. 对比不同参数：`--attention-backend`、`--chunked-prefill-size`、`--enable-torch-compile`
-5. 记录 Phase 1 学习笔记
+- [ ] 用 benchmark 跑一轮完整测试：
+  ```bash
+  python -m sglang.bench_serving \
+    --backend sglang \
+    --num-prompt 500 \
+    --model-path Qwen/Qwen2.5-3B-Instruct
+  ```
+- [ ] 用 `py-spy` 录制火焰图
+- [ ] 对比不同参数：`--attention-backend`、`--chunked-prefill-size`
+- [ ] 记录 Phase 1 学习笔记
 
-**做完之后能了解：**
-- 如何系统化地 benchmark SGLang 性能
-- 不同参数对吞吐和延迟的影响
+**做完之后能了解**：
+- 如何系统化 benchmark SGLang 性能
 - 单卡推理的瓶颈通常在哪里
+- **此时你应能独立修改 Scheduler、Attention 后端、线性层，并验证效果**
 
 ---
 
 ## Phase 2：多卡分布式（Day 20-34）
 
+> **本地读代码理解逻辑，关键实验云租多卡**
+> 
+> **推荐云租配置**：
+> | 实验 | 推荐平台 | 配置 | 预估成本 |
+> |------|----------|------|----------|
+> | TP=2 入门 | Lambda Cloud | 2×A100 40GB | ~$2.5/小时 |
+> | TP=8 整节点 | DataCrunch | 8×A100 80GB | ~$8/小时 |
+> | 灵活按需 | RunPod | 2-4×A100 80GB | ~$3-6/小时 |
+
+---
+
 ### Week 4：Tensor Parallel
 
-#### Day 20：并行状态初始化
+#### Day 20：并行状态初始化（本地读代码）
 
-**动作：**
-1. 精读 `python/sglang/srt/distributed/parallel_state.py`
-2. 找到 `initialize_model_parallel()`
-3. 理解 `--tp-size 8 --dp-size 2 --attn-cp-size 2` 时的 group 划分
-4. 画出进程组拓扑图：world_size=16 时，TP/DP/CP 各自包含哪些 rank
-5. 理解 `_TP`、`_ATTN_TP`、`_MOE_EP`、`_MOE_DP` 四个全局变量
+- [ ] 精读 `python/sglang/srt/distributed/parallel_state.py`
+- [ ] 找到 `initialize_model_parallel()`
+- [ ] 理解 `--tp-size 8 --dp-size 2 --attn-cp-size 2` 时的 group 划分
+- [ ] 画出进程组拓扑图
 
-**看完 `parallel_state.py` 之后能了解：**
+**看完 `parallel_state.py` 之后能了解**：
 - SGLang 如何初始化多个并行进程组
-- TP 和 Attention-CP 的区别（为什么需要分开）
-- MoE 的 EP（Expert Parallel）和 DP（Data Parallel）如何与 TP 共存
+- TP 和 Attention-CP 的区别
 
 ---
 
-#### Day 21：通信操作 API
+#### Day 21：通信操作 API（本地读代码）
 
-**动作：**
-1. 精读 `python/sglang/srt/distributed/communication_op.py`
-2. 列出所有高层通信 API：`all_reduce`、`all_gather`、`reduce_scatter`、`all_to_all`
-3. 理解每种操作在 TP/PP/DP 中的使用场景
-4. 在 `all_reduce` 加日志，打印 tensor shape 和 group size
-5. 对比：NCCL 的 `all_reduce` 和 GLOO 的 `all_reduce` 的差异
+- [ ] 精读 `python/sglang/srt/distributed/communication_op.py`
+- [ ] 列出所有高层通信 API
+- [ ] 理解每种操作在 TP/PP/DP 中的使用场景
 
-**看完 `communication_op.py` 之后能了解：**
+**看完 `communication_op.py` 之后能了解**：
 - 分布式通信的基本原语
 - all-reduce 和 all-gather 的区别
-- SGLang 如何封装底层通信库
 
 ---
 
-#### Day 22：双卡 TP 实验
+#### Day 22：双卡 TP 实验（**云租 2×A100**）
 
-**动作：**
-1. 云租 2×A100（或本地 2×RTX 4090）
-2. 启动 TP=2：`python -m sglang.launch_server --model-path meta-llama/Llama-3.1-70B-Instruct --tp-size 2`
-3. 用 `nvidia-smi` 观察两个 GPU 的显存占用，确认模型被切分
-4. 对比 TP=1 和 TP=2 的吞吐差异
-5. 在 `parallel_state.py` 加日志，确认 two process groups 已创建
+- [ ] **租用 2×A100**（Lambda Cloud 或 RunPod，约 $2.5/小时）
+- [ ] 启动 TP=2：
+  ```bash
+  python -m sglang.launch_server \
+    --model-path Qwen/Qwen2.5-14B-Instruct \
+    --tp-size 2 \
+    --host 0.0.0.0 \
+    --port 30000
+  ```
+- [ ] 用 `nvidia-smi` 观察两个 GPU 的显存占用，确认模型被切分
+- [ ] 对比 TP=1（本地 3B）和 TP=2（云租 14B）的吞吐差异
+- [ ] 在 `parallel_state.py` 加日志，确认 two process groups 已创建
 
-**做完之后能了解：**
-- TP=2 时模型权重如何被切分（每层分成两份）
+**做完之后能了解**：
+- TP=2 时模型权重如何被切分
 - 双卡通信开销有多大
-- TP 的吞吐收益和延迟代价
+- **这是你第一次体验分布式推理**
 
 ---
 
-#### Day 23：线性层 All-Reduce 追踪
+#### Day 23：线性层 All-Reduce 追踪（云租 2×A100）
 
-**动作：**
-1. 回到 `linear.py`，追踪 `ColumnParallelLinear` 和 `RowParallelLinear` 的 all-reduce 调用
-2. 确认：`ColumnParallelLinear` 的 all-reduce 发生在 `forward()` 末尾
-3. 确认：`RowParallelLinear` 的 all-reduce 发生在 `forward()` 开头
-4. **思考**：为什么这样设计？（数学等价性 + 通信隐藏）
-5. 在 all-reduce 前后加时间戳，测量通信耗时
+- [ ] 回到 `linear.py`，追踪 `ColumnParallelLinear` 和 `RowParallelLinear` 的 all-reduce
+- [ ] 确认通信时机差异
+- [ ] 在 all-reduce 前后加时间戳，测量通信耗时
+- [ ] **思考**：为什么这样设计？（数学等价性 + 通信隐藏）
 
-**做完之后能了解：**
+**做完之后能了解**：
 - ColumnParallel 和 RowParallel 的通信时机差异
-- 为什么 MLP 通常用 Column + Row 的组合
 - 通信耗时占 forward 时间的比例
 
 ---
 
 #### Day 24：本周复盘
 
-**动作：**
-1. 画一张 TP 拓扑图：rank 0 和 rank 1 各自持有哪些层、哪些权重
-2. 回答：`parallel_state.py` 中 `_TP`、`_ATTN_TP`、`_MOE_EP`、`_MOE_DP` 的关系
-3. 回答：为什么 attention 的 CP（Context Parallel）和 TP 要分开
-4. 记录 Phase 2 Week 4 笔记
+- [ ] 画一张 TP 拓扑图
+- [ ] 回答：`parallel_state.py` 中 `_TP`、`_ATTN_TP`、`_MOE_EP`、`_MOE_DP` 的关系
+- [ ] 回答：为什么 attention 的 CP 和 TP 要分开
 
 ---
 
 ### Week 5：Pipeline Parallel
 
-#### Day 25：PP 事件循环
+#### Day 25：PP 事件循环（本地读代码）
 
-**动作：**
-1. 精读 `python/sglang/srt/managers/scheduler_pp_mixin.py`
-2. 找到 `event_loop_pp()`，理解 PP 的事件循环与单卡循环的差异
-3. 理解 `async_send=True`：前向传播时异步发送激活值
-4. 理解 `_pp_commit_comm_work()`：提交通信工作
-5. 理解 `forward_stream` 和 `copy_stream` 的双流机制
+- [ ] 精读 `python/sglang/srt/managers/scheduler_pp_mixin.py`
+- [ ] 找到 `event_loop_pp()`，理解 PP 事件循环
+- [ ] 理解 `async_send=True` 和 `_pp_commit_comm_work()`
+- [ ] 理解 `forward_stream` 和 `copy_stream` 的双流机制
 
-**看完 `scheduler_pp_mixin.py` 之后能了解：**
+**看完 `scheduler_pp_mixin.py` 之后能了解**：
 - Pipeline Parallel 的事件循环如何调度多个 stage
 - 异步通信如何隐藏延迟
-- 双流机制如何 overlap 计算和通信
 
 ---
 
-#### Day 26：PP 层实现
+#### Day 26：PP 层实现（本地读代码）
 
-**动作：**
-1. 精读 `python/sglang/srt/layers/pipeline_parallel/`
-2. 理解 `PipelineParallelLayer` 的 forward 逻辑
-3. 理解 `send_forward()` 和 `recv_forward()`
-4. **实验**：启动 PP=4 + TP=2，用 `nsys profile` 录制时间线
-5. 观察：是否存在 bubble（空闲等待）
+- [ ] 精读 `python/sglang/srt/layers/pipeline_parallel/`
+- [ ] 理解 `PipelineParallelLayer` 的 forward 逻辑
+- [ ] 理解 `send_forward()` 和 `recv_forward()`
 
-**做完之后能了解：**
+**做完之后能了解**：
 - PP 的层如何在不同 GPU 上分配
 - 激活值如何在 stage 之间传输
-- Bubble 问题在哪里产生
 
 ---
 
-#### Day 27：PP 四卡实验
+#### Day 27：PP 四卡实验（**云租 4×A100**）
 
-**动作：**
-1. 云租 4×A100
-2. 启动 PP=4 + TP=1：`python -m sglang.launch_server --model-path ... --pp-size 4 --tp-size 1`
-3. 对比 PP=4 和 TP=4 的吞吐差异
-4. 用 `nsys profile` 分析 PP 的 bubble 比例
-5. 对比启用 `async_send` 和不启用时的差异
+- [ ] **租用 4×A100**（DataCrunch 或 RunPod，约 $5/小时）
+- [ ] 启动 PP=4 + TP=1：
+  ```bash
+  python -m sglang.launch_server \
+    --model-path Qwen/Qwen2.5-32B-Instruct \
+    --pp-size 4 \
+    --tp-size 1
+  ```
+- [ ] 对比 PP=4 和 TP=4 的吞吐差异
+- [ ] 用 `nsys profile` 分析 PP 的 bubble 比例
+  ```bash
+  nsys profile -o pp_profile \
+    python -m sglang.launch_server --model-path ... --pp-size 4
+  ```
 
-**做完之后能了解：**
+**做完之后能了解**：
 - PP 和 TP 的适用场景差异
 - PP 的 bubble 比例对性能的影响
-- 异步通信的收益
+- **这是你第一次用 nsys 分析分布式性能**
 
 ---
 
 #### Day 28：本周复盘
 
-**动作：**
-1. 画一张 PP=4 的流水线图，标注每个 stage 的输入输出
-2. 回答：PP 的 bubble 在 SGLang 中如何被缓解？
-3. 回答：什么时候选 PP、什么时候选 TP？
+- [ ] 画一张 PP=4 的流水线图
+- [ ] 回答：PP 的 bubble 在 SGLang 中如何被缓解？
+- [ ] 回答：什么时候选 PP、什么时候选 TP？
 
 ---
 
 ### Week 6：MoE 与 Expert Parallel
 
-#### Day 29：MoE 路由
+#### Day 29：MoE 路由（本地读代码）
 
-**动作：**
-1. 精读 `python/sglang/srt/layers/moe/topk.py`
-2. 理解 `topk` 路由：输入 hidden state → 计算每个 expert 的 score → 选 top-k
-3. 理解 `routing_weights` 和 `selected_experts`
-4. 在 `topk.py` 加日志，打印每个 token 路由到了哪些 expert
+- [ ] 精读 `python/sglang/srt/layers/moe/topk.py`
+- [ ] 理解 `topk` 路由逻辑
+- [ ] 理解 `routing_weights` 和 `selected_experts`
 
-**看完 `topk.py` 之后能了解：**
+**看完 `topk.py` 之后能了解**：
 - MoE 的路由决策如何做出
-- top-k 中的 k 是多少（通常是 2 或 6）
-- routing weights 如何用于加权求和
+- top-k 中的 k 是多少
 
 ---
 
-#### Day 30：Fused MoE Triton Kernel
+#### Day 30：Fused MoE Triton Kernel（本地读代码）
 
-**动作：**
-1. 精读 `python/sglang/srt/layers/moe/fused_moe_triton/`
-2. 理解 Triton MoE kernel 的输入输出
-3. 理解 `dispatch()` → `run_moe_core()` → `combine()` 的流程
-4. 对比 Triton MoE 和 `torch.nn.Linear` 实现的性能差异
+- [ ] 精读 `python/sglang/srt/layers/moe/fused_moe_triton/`
+- [ ] 理解 Triton MoE kernel 的输入输出
+- [ ] 理解 `dispatch()` → `run_moe_core()` → `combine()`
 
-**看完 Fused MoE 之后能了解：**
+**看完 Fused MoE 之后能了解**：
 - MoE 如何用 Triton 加速
 - dispatch 和 combine 阶段的计算逻辑
-- 为什么 MoE 需要专门的 fused kernel
 
 ---
 
-#### Day 31：DeepEP 与 Expert Parallel
+#### Day 31：DeepEP 与 Expert Parallel（本地读代码）
 
-**动作：**
-1. 精读 `python/sglang/srt/layers/moe/ep_moe/layer.py`
-2. 理解 `DeepEPMoE.forward()`
-3. 精读 `python/sglang/srt/layers/moe/token_dispatcher/deepep.py`
-4. 理解 all-to-all 通信：每个 GPU 把自己的 token 发送到对应的 expert GPU
-5. 对比：DeepEP 的 all-to-all 和普通 `torch.distributed.all_to_all` 的区别
+- [ ] 精读 `python/sglang/srt/layers/moe/ep_moe/layer.py`
+- [ ] 精读 `python/sglang/srt/layers/moe/token_dispatcher/deepep.py`
+- [ ] 理解 all-to-all 通信
+- [ ] 对比：DeepEP 的 all-to-all 和普通 `torch.distributed.all_to_all` 的区别
 
-**看完 DeepEP 之后能了解：**
+**看完 DeepEP 之后能了解**：
 - Expert Parallel 的通信模式
 - DeepEP 如何优化 all-to-all 通信
-- EP 和 TP 在 MoE 中的分工
 
 ---
 
-#### Day 32：MoE 双卡实验
+#### Day 32：MoE 双卡实验（**云租 2×A100**）
 
-**动作：**
-1. 云租 2×A100
-2. 启动 DeepSeek-V2-Lite（MoE 模型）：`python -m sglang.launch_server --model-path deepseek-ai/DeepSeek-V2-Lite-Chat --tp-size 2`
-3. 观察 `nvidia-smi`，确认 expert 的负载分布
-4. 对比 DeepSeek-V2-Lite 和 Dense 模型（如 Qwen2.5-7B）的吞吐差异
-5. 在 `topk.py` 统计每个 expert 被激活的频率
+- [ ] **租用 2×A100**
+- [ ] 启动 DeepSeek-V2-Lite（MoE 模型）：
+  ```bash
+  python -m sglang.launch_server \
+    --model-path deepseek-ai/DeepSeek-V2-Lite-Chat \
+    --tp-size 2
+  ```
+- [ ] 观察 `nvidia-smi`，确认 expert 的负载分布
+- [ ] 在 `topk.py` 统计每个 expert 被激活的频率
+- [ ] 对比 DeepSeek-V2-Lite 和 Dense 模型的吞吐差异
 
-**做完之后能了解：**
-- MoE 模型的实际显存占用（比同参数 Dense 模型低）
+**做完之后能了解**：
+- MoE 模型的实际显存占用
 - Expert 负载是否均衡
-- MoE 的吞吐优势
+- **这是你第一次跑 MoE 模型**
 
 ---
 
-#### Day 33：Phase 2 综合实验
+#### Day 33：Phase 2 综合实验（**云租 8×A100**）
 
-**动作：**
-1. 云租 8×A100 整节点
-2. 跑 DeepSeek-V2（或 Qwen2.5-72B）在 TP=8 和 TP=4+PP=2 两种配置下
-3. 用 benchmark 对比两种配置的吞吐
-4. 用 `nsys profile` 分析通信热点
-5. 记录 Phase 2 学习笔记
+- [ ] **租用 8×A100 整节点**（DataCrunch，约 $8/小时，租 2-3 小时即可）
+- [ ] 跑 Qwen2.5-72B：
+  ```bash
+  python -m sglang.launch_server \
+    --model-path Qwen/Qwen2.5-72B-Instruct \
+    --tp-size 8
+  ```
+- [ ] 对比 TP=8 和 TP=4+PP=2 两种配置
+- [ ] 用 `nsys profile` 分析通信热点
+- [ ] 记录 Phase 2 学习笔记
+
+**做完之后能了解**：
+- 70B+ 模型的推理体验
+- 整节点 8×A100 的通信模式
+- **这是你第一次体验大模型分布式推理**
 
 ---
 
 #### Day 34：本周复盘
 
-**动作：**
-1. 画一张 MoE 的 all-to-all 通信图
-2. 回答：DeepEP 的 all-to-all 和普通 `all_to_all` 有何不同？
-3. 回答：如果要支持一种新的 MoE 路由算法，需要修改哪些文件？
+- [ ] 画一张 MoE 的 all-to-all 通信图
+- [ ] 回答：DeepEP 的 all-to-all 和普通 `all_to_all` 有何不同？
+- [ ] 回答：如果要支持一种新的 MoE 路由算法，需要修改哪些文件？
 
 ---
 
 ## Phase 3：多模态与 RL（Day 35-49）
 
+> **多模态小模型本地跑，大模型和 RL 云租**
+>
+> **本地可跑的 VLM/扩散模型**：
+> | 模型 | 大小 | 显存 | 说明 |
+> |------|------|------|------|
+> | Qwen2.5-VL-3B | 3B | ~6GB | 最佳入门 VLM |
+> | LLaVA-1.5-7B（INT4） | 7B | ~5GB | 量化后本地可跑 |
+> | Qwen/Qwen-Image | - | ~6GB | 扩散模型 |
+>
+> **需要云租的**：
+> | 模型 | 大小 | 配置 | 说明 |
+> |------|------|------|------|
+> | Qwen2.5-VL-7B | 7B | 1×A100 | 标准 VLM |
+> | Qwen2.5-Math-RM-72B | 72B | 2×A100 | Reward Model |
+
+---
+
 ### Week 7：多模态 VLM
 
-#### Day 35：VLM 架构概览
+#### Day 35：VLM 架构概览（本地读代码）
 
-**动作：**
-1. 精读 `python/sglang/srt/models/qwen2_5_vl.py`
-2. 理解 Qwen2.5-VL 的三段式结构：Vision Encoder → Projector → LLM
-3. 对比 `python/sglang/srt/models/llava.py` 的 LLaVA 实现
-4. 理解不同 VLM 的视觉编码器差异：CLIP、SigLIP、ViT
+- [ ] 精读 `python/sglang/srt/models/qwen2_5_vl.py`
+- [ ] 理解三段式结构：Vision Encoder → Projector → LLM
+- [ ] 对比 `python/sglang/srt/models/llava.py` 的 LLaVA 实现
+- [ ] 理解不同 VLM 的视觉编码器差异
 
-**看完 Qwen2.5-VL 之后能了解：**
+**看完 Qwen2.5-VL 之后能了解**：
 - VLM 不是"一个模型"，而是"视觉编码器 + 投影层 + 语言模型"的拼接
-- 图像 token 如何与文本 token 拼接送入 LLM
-- 不同 VLM 的架构差异
+- 图像 token 如何与文本 token 拼接
 
 ---
 
-#### Day 36：Vision Encoder 与图像预处理
+#### Day 36：Vision Encoder 与图像预处理（本地读代码）
 
-**动作：**
-1. 在 `qwen2_5_vl.py` 中找到图像预处理代码
-2. 理解图像如何被 resize、patchify、转成视觉 token
-3. 打印一张图片的输入 shape：`(batch, num_patches, hidden_size)`
-4. 对比不同分辨率图片的 patch 数量
+- [ ] 在 `qwen2_5_vl.py` 中找到图像预处理代码
+- [ ] 理解图像 resize、patchify、转成视觉 token
+- [ ] 打印一张图片的输入 shape
 
-**做完之后能了解：**
+**做完之后能了解**：
 - 一张图片被转换成多少个视觉 token
 - 为什么不同 VLM 的 patch 数量不同
-- 图像预处理对延迟的影响
 
 ---
 
-#### Day 37：VLM 单卡实验
+#### Day 37：VLM 本地实验（**RTX 5060，Qwen2.5-VL-3B**）
 
-**动作：**
-1. 云租 1×A100
-2. 启动 Qwen2.5-VL-7B：`python -m sglang.launch_server --model-path Qwen/Qwen2.5-VL-7B-Instruct --tp-size 1`
-3. 发送图片+文本请求（OpenAI Vision API 格式）
-4. 对比纯文本请求和图片请求的延迟差异
-5. 在 `model_runner.py` 追踪图片请求的数据流
+- [ ] **本地启动 Qwen2.5-VL-3B**：
+  ```bash
+  python -m sglang.launch_server \
+    --model-path Qwen/Qwen2.5-VL-3B-Instruct \
+    --tp-size 1 \
+    --mem-fraction-static 0.85
+  ```
+- [ ] 发送图片+文本请求（OpenAI Vision API 格式）
+- [ ] 对比纯文本请求和图片请求的延迟差异
+- [ ] 在 `model_runner.py` 追踪图片请求的数据流
 
-**做完之后能了解：**
+**做完之后能了解**：
 - VLM 的推理延迟主要来自视觉编码器还是 LLM
-- 图片请求和纯文本请求在 SGLang 中的处理差异
+- **在 8GB 卡上跑 VLM 的体验**
 
 ---
 
-#### Day 38：多图输入
+#### Day 38：VLM 云租实验（**云租 1×A100，Qwen2.5-VL-7B**）
 
-**动作：**
-1. 精读 `python/sglang/srt/models/llava_onevision.py`
-2. 理解 LLaVA-OneVision 的多图输入处理
-3. 发送包含多张图片的请求
-4. 观察多张图片的视觉 token 如何拼接
-5. 对比单图和多图的延迟
+- [ ] **租用 1×A100**（Lambda Cloud，约 $1.3/小时）
+- [ ] 启动 Qwen2.5-VL-7B：
+  ```bash
+  python -m sglang.launch_server \
+    --model-path Qwen/Qwen2.5-VL-7B-Instruct \
+    --tp-size 1
+  ```
+- [ ] 发送多图请求
+- [ ] 对比单图和多图的延迟
 
-**做完之后能了解：**
-- 多图输入时 token 如何排列
-- 长上下文对多图推理的影响
+**做完之后能了解**：
+- 7B VLM 与 3B VLM 的质量差异
+- 多图输入的 token 排列方式
 
 ---
 
 #### Day 39：本周复盘
 
-**动作：**
-1. 画一张 VLM 的数据流图：Image → Vision Encoder → Projector → LLM → Text
-2. 回答：Qwen2.5-VL 的视觉 token 和文本 token 在 LLM 的输入层如何拼接？
-3. 回答：如果要支持视频输入，需要修改哪些文件？
+- [ ] 画一张 VLM 的数据流图
+- [ ] 回答：Qwen2.5-VL 的视觉 token 和文本 token 在 LLM 的输入层如何拼接？
+- [ ] 回答：如果要支持视频输入，需要修改哪些文件？
 
 ---
 
 ### Week 8：扩散模型
 
-#### Day 40：扩散模型管线
+#### Day 40：扩散模型管线（本地读代码 + 实验）
 
-**动作：**
-1. 阅读 `docs/diffusion/index.md`
-2. 安装扩散模块：`uv pip install "sglang[diffusion]" --prerelease=allow`
-3. 用 `sglang generate` 生成一张图片
-4. 精读 `python/sglang/multimodal_gen/` 目录结构
-5. 理解 Diffusion 的 Pipeline：Text Encoder → UNet/DiT → VAE Decoder
+- [ ] 阅读 `docs/diffusion/index.md`
+- [ ] 安装扩散模块：`uv pip install "sglang[diffusion]" --prerelease=allow`
+- [ ] **本地用 RTX 5060 生成一张图片**：
+  ```bash
+  sglang generate \
+    --model-path Qwen/Qwen-Image \
+    --prompt "A beautiful sunset" \
+    --save-output
+  ```
+- [ ] 精读 `python/sglang/multimodal_gen/` 目录结构
 
-**看完扩散模块之后能了解：**
-- SGLang Diffusion 支持哪些模型（Wan、Hunyuan、Qwen-Image、FLUX）
+**看完扩散模块之后能了解**：
+- SGLang Diffusion 支持的模型
 - 扩散模型的推理管线与 LLM 的差异
-- 为什么扩散模型也需要 batching 和 caching
 
 ---
 
-#### Day 41：TeaCache 加速
+#### Day 41：TeaCache 加速（本地实验）
 
-**动作：**
-1. 阅读 `docs/diffusion/performance/cache/teacache.md`
-2. 理解 TeaCache 的原理：利用扩散模型的单调收敛特性，跳过部分去噪步
-3. 对比启用和不启用 TeaCache 的生成时间
-4. 在 `python/sglang/multimodal_gen/runtime/cache/` 找到 TeaCache 实现
+- [ ] 阅读 `docs/diffusion/performance/cache/teacache.md`
+- [ ] 理解 TeaCache 原理
+- [ ] **本地对比启用和不启用 TeaCache 的生成时间**：
+  ```bash
+  # 启用 TeaCache
+  sglang generate --model-path Qwen/Qwen-Image --prompt "..." --use-teacache
+  # 不启用
+  sglang generate --model-path Qwen/Qwen-Image --prompt "..."
+  ```
 
-**做完之后能了解：**
+**做完之后能了解**：
 - TeaCache 利用了扩散模型的什么特性来加速
 - Cache-DiT 和 TeaCache 的区别
-- 缓存策略对图像质量的影响
 
 ---
 
-#### Day 42：扩散模型实验
+#### Day 42：扩散模型深入实验（本地）
 
-**动作：**
-1. 云租 1×A100
-2. 启动扩散服务：`sglang serve --model-path Qwen/Qwen-Image --port 30010`
-3. 发送文本生成图片请求
-4. 对比不同 prompt 长度、不同分辨率下的生成时间
-5. 对比不同模型（Qwen-Image vs FLUX）的性能
+- [ ] 启动扩散服务：`sglang serve --model-path Qwen/Qwen-Image --port 30010`
+- [ ] 对比不同 prompt 长度、不同分辨率下的生成时间
+- [ ] 用 `nvidia-smi` 观察显存占用
 
-**做完之后能了解：**
-- 扩散模型的吞吐瓶颈在哪里（UNet/DiT 还是 VAE）
+**做完之后能了解**：
+- 扩散模型的吞吐瓶颈在哪里
 - 分辨率对显存和速度的影响
 
 ---
 
 #### Day 43：本周复盘
 
-**动作：**
-1. 画一张扩散模型的推理流程图
-2. 回答：SGLang Diffusion 的 TeaCache 利用了扩散模型的什么特性？
-3. 回答：扩散模型和 LLM 在 batching 策略上有什么差异？
+- [ ] 画一张扩散模型的推理流程图
+- [ ] 回答：扩散模型和 LLM 在 batching 策略上有什么差异？
 
 ---
 
 ### Week 9：RL Infra
 
-#### Day 44：Memory Saver
+#### Day 44：Memory Saver（本地读代码）
 
-**动作：**
-1. 精读 `python/sglang/srt/utils/torch_memory_saver_adapter.py`
-2. 理解 `release_memory_occupation()` 如何释放 KV cache 和 weights
-3. 理解 CUDA 虚拟内存机制（保留虚拟地址，释放物理内存）
-4. 启动带 `--enable-memory-saver` 的服务
-5. 调用 `/release_memory_occupation` 和 `/resume_memory_occupation` API，观察 `nvidia-smi` 显存变化
+- [ ] 精读 `python/sglang/srt/utils/torch_memory_saver_adapter.py`
+- [ ] 理解 `release_memory_occupation()` 如何释放 KV cache 和 weights
+- [ ] 理解 CUDA 虚拟内存机制
 
-**看完 Memory Saver 之后能了解：**
+**看完 Memory Saver 之后能了解**：
 - 为什么 `enable-memory-saver` 能在不杀进程的情况下释放显存
-- CUDA 虚拟内存和物理内存的区别
 - 这对 RL 的 rollout-training 交替有什么帮助
 
 ---
 
-#### Day 45：权重更新
+#### Day 45：权重更新（本地读代码）
 
-**动作：**
-1. 精读 `python/sglang/srt/managers/scheduler_update_weights_mixin.py`
-2. 理解三种更新策略：from_disk、from_tensor、from_distributed
-3. 理解 `FlattenedTensorBucket` 的设计
-4. **实验**：用 `update_weights_from_tensor` 更新一个层的权重，观察推理结果变化
+- [ ] 精读 `python/sglang/srt/managers/scheduler_update_weights_mixin.py`
+- [ ] 理解三种更新策略：from_disk、from_tensor、from_distributed
+- [ ] 理解 `FlattenedTensorBucket` 的设计
 
-**看完权重更新之后能了解：**
+**看完权重更新之后能了解**：
 - RL 训练后如何把新权重同步到推理引擎
-- 三种更新策略的适用场景和性能差异
-- `NCCL group` 的生命周期管理
+- 三种更新策略的适用场景
 
 ---
 
-#### Day 46：Reward Model 服务
+#### Day 46-47：最小 RL 循环（**云租 2×A100**）
 
-**动作：**
-1. 云租 2×A100
-2. 启动 Reward Model：`python -m sglang.launch_server --model-path Qwen/Qwen2.5-Math-RM-72B --tp-size 2 --is-embedding-model`
-3. 精读 `python/sglang/srt/entrypoints/engine_score_mixin.py`
-4. 发送 score 请求，对比 `generate()` 和 `score()` 在 scheduler 中的处理差异
+- [ ] **租用 2×A100**
+- [ ] 启动 Policy Model（带 memory saver）：
+  ```bash
+  python -m sglang.launch_server \
+    --model-path Qwen/Qwen2.5-3B-Instruct \
+    --tp-size 1 \
+    --enable-memory-saver \
+    --port 30000
+  ```
+- [ ] 启动 Reward Model：
+  ```bash
+  python -m sglang.launch_server \
+    --model-path Qwen/Qwen2.5-Math-RM-72B \
+    --tp-size 2 \
+    --is-embedding-model \
+    --port 30001
+  ```
+- [ ] 写最小 Python 脚本实现完整 RL 循环
+- [ ] 观察权重更新后生成结果的变化
 
-**做完之后能了解：**
-- Reward Model 在 RL 流程中的作用
-- SGLang 如何同时服务 Policy Model 和 Reward Model
-- Score API 与 Generate API 的内部差异
-
----
-
-#### Day 47：最小 RL 循环
-
-**动作：**
-1. 写一个最小 Python 脚本：
-   - 向 Policy Model 发送 generate 请求（rollout）
-   - 向 Reward Model 发送 score 请求（打分）
-   - 向 Policy Model 发送 update_weights_from_tensor（更新权重）
-   - 再次发送 generate 请求（下一轮 rollout）
-2. 观察权重更新后生成结果的变化
-3. 理解 `pause_generation` + `update_weights` + `continue_generation` 的流程
-
-**做完之后能了解：**
+**做完之后能了解**：
 - RL 训练循环如何与 SGLang 交互
 - 权重更新对生成结果的影响
-- 如何实现 mid-rollout 权重更新
+- **这是你第一次搭建完整的 RL Infra**
 
 ---
 
 #### Day 48：RL 测试精读
 
-**动作：**
-1. 精读 `test/registered/rl/` 下所有 11 个测试
-2. 理解每个测试验证的 RL 功能点
-3. 跑通 3 个最重要的测试
+- [ ] 精读 `test/registered/rl/` 下所有 11 个测试
+- [ ] 跑通 3 个最重要的测试
 
-**做完之后能了解：**
+**做完之后能了解**：
 - SGLang 官方如何测试 RL 功能
-- 哪些边界条件需要特别注意
 
 ---
 
-#### Day 49：本周复盘 + 全局复盘
+#### Day 49：全局复盘
 
-**动作：**
-1. 回答：为什么 `enable-memory-saver` 能在不杀进程的情况下释放显存？CUDA 虚拟内存机制如何工作？
-2. 回答：`update_weights_from_distributed` 中 NCCL group 的生命周期如何管理？
-3. 回答：为什么 `deterministic_inference` 对 GRPO 很重要？
-4. 全局复盘：回看 Phase 0-3 的所有验证检查点，确认全部通过
-5. 写一篇总结博客："我如何花 49 天学会 SGLang"
-
----
-
-## 附录：可复现指令速查表
-
-### 单卡启动
-```bash
-python -m sglang.launch_server \
-  --model-path meta-llama/Llama-3.1-8B-Instruct \
-  --tp-size 1 \
-  --host 0.0.0.0 \
-  --port 30000
-```
-
-### TP 启动
-```bash
-python -m sglang.launch_server \
-  --model-path Qwen/Qwen2.5-72B-Instruct \
-  --tp-size 8 \
-  --host 0.0.0.0 \
-  --port 30000
-```
-
-### PP 启动
-```bash
-python -m sglang.launch_server \
-  --model-path Qwen/Qwen2.5-72B-Instruct \
-  --tp-size 2 \
-  --pp-size 4 \
-  --host 0.0.0.0 \
-  --port 30000
-```
-
-### VLM 启动
-```bash
-python -m sglang.launch_server \
-  --model-path Qwen/Qwen2.5-VL-7B-Instruct \
-  --tp-size 1 \
-  --host 0.0.0.0 \
-  --port 30000
-```
-
-### 扩散模型启动
-```bash
-sglang serve --model-path Qwen/Qwen-Image --port 30010
-```
-
-### RL 启动
-```bash
-python -m sglang.launch_server \
-  --model-path meta-llama/Llama-3.1-8B-Instruct \
-  --tp-size 1 \
-  --enable-memory-saver \
-  --host 0.0.0.0 \
-  --port 30000
-```
-
-### Benchmark
-```bash
-python -m sglang.bench_serving \
-  --backend sglang \
-  --num-prompt 1000 \
-  --request-rate 10
-```
-
-### Profile
-```bash
-nsys profile -o sglang_profile \
-  python -m sglang.launch_server --model-path ... --tp-size 8
-```
-
-### 客户端测试
-```bash
-curl http://localhost:30000/v1/chat/completions \
-  -H "Content-Type: application/json" \
-  -d '{"model":"default","messages":[{"role":"user","content":"Hello"}]}'
-```
+- [ ] 回答：为什么 `enable-memory-saver` 能在不杀进程的情况下释放显存？
+- [ ] 回答：`update_weights_from_distributed` 中 NCCL group 的生命周期如何管理？
+- [ ] 回答：为什么 `deterministic_inference` 对 GRPO 很重要？
+- [ ] 全局检查：Phase 0-3 的所有 `[ ]` 是否都变为 `[x]`
+- [ ] 写一篇总结博客
 
 ---
 
-## 附录：模型选择速查表
+## 附录：云租平台速查表
 
-| 阶段 | 模型 | 大小 | 并行策略 | VRAM |
-|------|------|------|----------|------|
-| Phase 1 | Llama-3.1-8B-Instruct | 8B | TP=1 | 16GB |
-| Phase 1 | Qwen2.5-7B-Instruct | 7B | TP=1 | 14GB |
-| Phase 2 | DeepSeek-V2-Lite | 16B | TP=2 | 32GB |
-| Phase 2 | Qwen2.5-72B-Instruct | 72B | TP=8 | 144GB |
-| Phase 3 | Qwen2.5-VL-7B-Instruct | 7B | TP=1 | 16GB |
-| Phase 3 | Qwen/Qwen-Image | - | TP=1 | 16GB |
-| Phase 3 | Qwen2.5-Math-RM-72B | 72B | TP=2 | 144GB |
+| 平台 | 单卡价格 | 多卡价格 | 特点 | 适用场景 |
+|------|----------|----------|------|----------|
+| **Lambda Cloud** | $1.29/小时 | 2×A100: $2.58/小时 | 最便宜、按秒计费 | TP=2/4 入门 |
+| **RunPod** | $1.49/小时 | 4×A100: $6/小时 | 社区镜像丰富 | 多模态实验 |
+| **DataCrunch** | - | 8×A100: $8/小时 | 整节点最便宜 | TP=8 大模型 |
+| **Vast.ai** | $0.80-1.20/小时 | 按需 | 最便宜 spot | 预算紧张 |
+| **AutoDL** | ¥2.50/小时 | 按需 | 国内可用 | 国内用户 |
+
+### 云租启动模板
+
+```bash
+# Lambda Cloud / RunPod 通用启动
+ssh ubuntu@<your-ip>
+sudo apt update && sudo apt install -y git-lfs tmux htop nvtop
+curl -LsSf https://astral.sh/uv/install.sh | sh
+source $HOME/.local/bin/env
+uv pip install sglang
+```
+
+### 显存速查表
+
+| 模型 | 显存（FP16） | RTX 5060 8GB | 推荐 |
+|------|--------------|--------------|------|
+| Qwen2.5-1.5B | ~3GB | ✅ 轻松 | Phase 1 首选 |
+| Qwen2.5-3B | ~6GB | ✅ 能跑 | Phase 1 进阶 |
+| Phi-4-mini (3.8B) | ~7GB | ⚠️ 接近上限 | Phase 1 极限测试 |
+| Qwen2.5-VL-3B | ~6GB | ✅ 能跑 | Phase 3 VLM |
+| Qwen/Qwen-Image | ~6GB | ✅ 能跑 | Phase 3 扩散 |
+| Qwen2.5-7B | ~14GB | ❌ 不行 | 必须云租 |
+| Qwen2.5-14B | ~28GB | ❌ 不行 | 云租 TP=2 |
+| Qwen2.5-72B | ~144GB | ❌ 不行 | 云租 TP=8 |
+
+---
+
+> **使用指南**：每完成一步就把 `[ ]` 改成 `[x]`，然后告诉我你的进度，例如："我在 Day 11，RadixCache 的 `match_prefix` 返回值我理解不了"。我会基于你的进度精准回答，不需要重复前面内容。
