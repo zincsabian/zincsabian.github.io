@@ -20,15 +20,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"zincsabian.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":{"giscus":{"text":"Load Giscus","order":-1}}},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="原书地址：https:&#x2F;&#x2F;github.com&#x2F;stas00&#x2F;the-art-of-debugging 作者：Stas Bekman（1995 年起从事软件开发）许可：CC BY-SA 4.0  本书是一本持续演进中的调试方法论和可复制粘贴的配方集合，目标是教你快速调试正常问题，并让复杂问题变得可调试。以下内容按原书结构整理，包含大量可直接使用的代码片段和工具推荐。">
+    <meta name="description" content="原书地址：https:&#x2F;&#x2F;github.com&#x2F;stas00&#x2F;the-art-of-debugging 作者：Stas Bekman（1995 年起从事软件开发）许可：CC BY-SA 4.0 这是一本关于调试方法论和工具集的开放书籍。本文按”先学方法论 → 再练工具 → 最后实战”的路径逐日展开，每天配一个可复现的调试案例。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="The Art of Debugging 读书笔记">
+<meta property="og:title" content="The Art of Debugging 读书笔记（逐日展开版）">
 <meta property="og:url" content="https://zincsabian.github.io/2026/06/01/The-Art-of-Debugging-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="ZincSabian&#39;s Blog">
-<meta property="og:description" content="原书地址：https:&#x2F;&#x2F;github.com&#x2F;stas00&#x2F;the-art-of-debugging 作者：Stas Bekman（1995 年起从事软件开发）许可：CC BY-SA 4.0  本书是一本持续演进中的调试方法论和可复制粘贴的配方集合，目标是教你快速调试正常问题，并让复杂问题变得可调试。以下内容按原书结构整理，包含大量可直接使用的代码片段和工具推荐。">
+<meta property="og:description" content="原书地址：https:&#x2F;&#x2F;github.com&#x2F;stas00&#x2F;the-art-of-debugging 作者：Stas Bekman（1995 年起从事软件开发）许可：CC BY-SA 4.0 这是一本关于调试方法论和工具集的开放书籍。本文按”先学方法论 → 再练工具 → 最后实战”的路径逐日展开，每天配一个可复现的调试案例。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-06-01T06:07:00.000Z">
-<meta property="article:modified_time" content="2026-06-02T01:54:42.681Z">
+<meta property="article:modified_time" content="2026-06-02T02:59:52.015Z">
 <meta property="article:author" content="ZincSabian">
 <meta property="article:tag" content="Debug">
 <meta property="article:tag" content="Python">
@@ -39,10 +39,10 @@
 <link rel="canonical" href="https://zincsabian.github.io/2026/06/01/The-Art-of-Debugging-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zincsabian.github.io/2026/06/01/The-Art-of-Debugging-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/","path":"2026/06/01/The-Art-of-Debugging-读书笔记/","title":"The Art of Debugging 读书笔记"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zincsabian.github.io/2026/06/01/The-Art-of-Debugging-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/","path":"2026/06/01/The-Art-of-Debugging-读书笔记/","title":"The Art of Debugging 读书笔记（逐日展开版）"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>The Art of Debugging 读书笔记 | ZincSabian's Blog</title>
+<title>The Art of Debugging 读书笔记（逐日展开版） | ZincSabian's Blog</title>
   
 
 
@@ -160,7 +160,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%BF%AB%E9%80%9F%E8%B0%83%E8%AF%95%E6%96%B9%E6%B3%95%E8%AE%BA"><span class="nav-number">1.</span> <span class="nav-text">一、快速调试方法论</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E4%B8%A4%E4%B8%AA%E6%A0%B8%E5%BF%83%E9%9C%80%E6%B1%82"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 两个核心需求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E6%95%B0%E6%8D%AE%E9%80%89%E6%8B%A9%E7%AD%96%E7%95%A5"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 数据选择策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E6%A0%B8%E5%BF%83%E5%8E%9F%E5%88%99%E6%80%BB%E7%BB%93"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 核心原则总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E8%B0%83%E8%AF%95%E7%BC%96%E8%AF%91%E7%A8%8B%E5%BA%8F"><span class="nav-number">2.</span> <span class="nav-text">二、调试编译程序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-gdb%EF%BC%88GNU-Debugger%EF%BC%89"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 gdb（GNU Debugger）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-ldd"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 ldd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-nm"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 nm</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-LD-LIBRARY-PATH"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 LD_LIBRARY_PATH</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-LD-PRELOAD"><span class="nav-number">2.5.</span> <span class="nav-text">2.5 LD_PRELOAD</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E8%B0%83%E8%AF%95-Python-%E7%A8%8B%E5%BA%8F"><span class="nav-number">3.</span> <span class="nav-text">三、调试 Python 程序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-q-%E2%80%94%E2%80%94-%E5%BF%AB%E9%80%9F%E6%89%93%E5%8D%B0%E8%BF%BD%E8%B8%AA%E5%B7%A5%E5%85%B7"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 q —— 快速打印追踪工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E6%89%93%E5%8D%B0%E5%AF%B9%E8%B1%A1%E5%8F%98%E9%87%8F"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 打印对象变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-py-spy"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 py-spy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-%E8%87%AA%E5%8A%A8%E6%89%93%E5%8D%B0%E8%B0%83%E8%AF%95"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 自动打印调试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E8%B0%83%E8%AF%95-PyTorch-%E7%A8%8B%E5%BA%8F"><span class="nav-number">4.</span> <span class="nav-text">四、调试 PyTorch 程序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-CPU-GPU-%E5%86%85%E5%AD%98%E9%97%AE%E9%A2%98"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 CPU&#x2F;GPU 内存问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E6%80%A7%E8%83%BD%E7%93%B6%E9%A2%88%E5%88%86%E6%9E%90"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 性能瓶颈分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-%E6%A3%80%E6%B5%8B-NaN-Inf"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 检测 NaN&#x2F;Inf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-%E6%A8%A1%E5%9E%8B%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7"><span class="nav-number">4.4.</span> <span class="nav-text">4.4 模型调试技巧</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81Unix-%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7"><span class="nav-number">5.</span> <span class="nav-text">五、Unix 调试工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-strace-%E2%80%94%E2%80%94-%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E8%BF%BD%E8%B8%AA"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 strace —— 系统调用追踪</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-nohup-%E2%80%94%E2%80%94-%E5%90%8E%E5%8F%B0%E4%BB%BB%E5%8A%A1%E7%AE%A1%E7%90%86"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 nohup —— 后台任务管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-make-%E8%B0%83%E8%AF%95"><span class="nav-number">5.3.</span> <span class="nav-text">5.3 make 调试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-Shell-Prompt-%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7"><span class="nav-number">5.4.</span> <span class="nav-text">5.4 Shell Prompt 调试技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-5-%E5%BF%AB%E9%80%9F%E5%88%9B%E5%BB%BA%E6%9C%80%E5%B0%8F%E5%A4%8D%E7%8E%B0%E7%8E%AF%E5%A2%83"><span class="nav-number">5.5.</span> <span class="nav-text">5.5 快速创建最小复现环境</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E8%B0%83%E8%AF%95%E6%96%B9%E6%B3%95%E8%AE%BA%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">六、调试方法论总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-%E8%B0%83%E8%AF%95%E6%B5%81%E7%A8%8B"><span class="nav-number">6.1.</span> <span class="nav-text">6.1 调试流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-%E5%B8%B8%E8%A7%81%E9%99%B7%E9%98%B1"><span class="nav-number">6.2.</span> <span class="nav-text">6.2 常见陷阱</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3-%E9%BB%84%E9%87%91%E6%B3%95%E5%88%99"><span class="nav-number">6.3.</span> <span class="nav-text">6.3 黄金法则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E6%8E%A8%E8%8D%90%E5%B7%A5%E5%85%B7%E6%B8%85%E5%8D%95"><span class="nav-number">7.</span> <span class="nav-text">七、推荐工具清单</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E8%AF%95%E6%98%AF%E5%B7%A5%E7%A8%8B%E8%83%BD%E5%8A%9B%E7%9A%84%E6%A0%B8%E5%BF%83"><span class="nav-number">1.1.</span> <span class="nav-text">调试是工程能力的核心</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%A0%E7%9A%84%E7%8E%AF%E5%A2%83"><span class="nav-number">1.2.</span> <span class="nav-text">你的环境</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86%EF%BC%9A%E8%B0%83%E8%AF%95%E6%96%B9%E6%B3%95%E8%AE%BA%EF%BC%88Day-1-5%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">第一部分：调试方法论（Day 1-5）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-1%EF%BC%9A%E8%B0%83%E8%AF%95%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%A0%B8%E5%BF%83%E9%9C%80%E6%B1%82"><span class="nav-number">2.1.</span> <span class="nav-text">Day 1：调试的两个核心需求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-2%EF%BC%9A%E6%95%B0%E6%8D%AE%E9%80%89%E6%8B%A9%E7%AD%96%E7%95%A5"><span class="nav-number">2.2.</span> <span class="nav-text">Day 2：数据选择策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-3%EF%BC%9A%E8%B0%83%E8%AF%95%E6%B5%81%E7%A8%8B%E6%A0%87%E5%87%86%E5%8C%96"><span class="nav-number">2.3.</span> <span class="nav-text">Day 3：调试流程标准化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-4%EF%BC%9A%E5%B8%B8%E8%A7%81%E8%B0%83%E8%AF%95%E9%99%B7%E9%98%B1"><span class="nav-number">2.4.</span> <span class="nav-text">Day 4：常见调试陷阱</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-5%EF%BC%9A%E6%96%B9%E6%B3%95%E8%AE%BA%E5%91%A8%E5%A4%8D%E7%9B%98"><span class="nav-number">2.5.</span> <span class="nav-text">Day 5：方法论周复盘</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86%EF%BC%9APython-%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7%EF%BC%88Day-6-10%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">第二部分：Python 调试工具（Day 6-10）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-6%EF%BC%9Aq-%E2%80%94%E2%80%94-%E5%BF%AB%E9%80%9F%E6%89%93%E5%8D%B0%E8%BF%BD%E8%B8%AA"><span class="nav-number">3.1.</span> <span class="nav-text">Day 6：q —— 快速打印追踪</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-7%EF%BC%9Apdb-%E4%B8%8E-ipdb-%E2%80%94%E2%80%94-%E6%96%AD%E7%82%B9%E8%B0%83%E8%AF%95"><span class="nav-number">3.2.</span> <span class="nav-text">Day 7：pdb 与 ipdb —— 断点调试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-8%EF%BC%9Apy-spy-%E2%80%94%E2%80%94-%E6%97%A0%E4%BE%B5%E5%85%A5%E5%BC%8F%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90"><span class="nav-number">3.3.</span> <span class="nav-text">Day 8：py-spy —— 无侵入式性能分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-9%EF%BC%9Aobjprint-%E4%B8%8E%E6%89%93%E5%8D%B0%E5%AF%B9%E8%B1%A1%E7%BB%93%E6%9E%84"><span class="nav-number">3.4.</span> <span class="nav-text">Day 9：objprint 与打印对象结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-10%EF%BC%9APython-%E8%B0%83%E8%AF%95%E5%91%A8%E5%A4%8D%E7%9B%98"><span class="nav-number">3.5.</span> <span class="nav-text">Day 10：Python 调试周复盘</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E9%83%A8%E5%88%86%EF%BC%9APyTorch-%E8%B0%83%E8%AF%95%EF%BC%88Day-11-15%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">第三部分：PyTorch 调试（Day 11-15）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-11%EF%BC%9A%E6%A3%80%E6%B5%8B-NaN-Inf"><span class="nav-number">4.1.</span> <span class="nav-text">Day 11：检测 NaN&#x2F;Inf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-12%EF%BC%9A%E6%98%BE%E5%AD%98%E5%88%86%E6%9E%90"><span class="nav-number">4.2.</span> <span class="nav-text">Day 12：显存分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-13%EF%BC%9APyTorch-Profiler"><span class="nav-number">4.3.</span> <span class="nav-text">Day 13：PyTorch Profiler</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-14%EF%BC%9A%E6%A2%AF%E5%BA%A6%E6%A3%80%E6%9F%A5"><span class="nav-number">4.4.</span> <span class="nav-text">Day 14：梯度检查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-15%EF%BC%9APyTorch-%E8%B0%83%E8%AF%95%E5%91%A8%E5%A4%8D%E7%9B%98"><span class="nav-number">4.5.</span> <span class="nav-text">Day 15：PyTorch 调试周复盘</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E9%83%A8%E5%88%86%EF%BC%9AUnix-%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7%EF%BC%88Day-16-19%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">第四部分：Unix 调试工具（Day 16-19）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-16%EF%BC%9Astrace-%E2%80%94%E2%80%94-%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E8%BF%BD%E8%B8%AA"><span class="nav-number">5.1.</span> <span class="nav-text">Day 16：strace —— 系统调用追踪</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-17%EF%BC%9Ahtop-nvtop-%E2%80%94%E2%80%94-%E8%B5%84%E6%BA%90%E7%9B%91%E6%8E%A7"><span class="nav-number">5.2.</span> <span class="nav-text">Day 17：htop &#x2F; nvtop —— 资源监控</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-18%EF%BC%9Atmux-nohup-%E2%80%94%E2%80%94-%E5%90%8E%E5%8F%B0%E4%B8%8E%E6%8C%81%E4%B9%85%E5%8C%96"><span class="nav-number">5.3.</span> <span class="nav-text">Day 18：tmux + nohup —— 后台与持久化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-19%EF%BC%9AUnix-%E8%B0%83%E8%AF%95%E5%91%A8%E5%A4%8D%E7%9B%98-%E5%85%A8%E4%B9%A6%E6%80%BB%E7%BB%93"><span class="nav-number">5.4.</span> <span class="nav-text">Day 19：Unix 调试周复盘 + 全书总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E5%BD%95%EF%BC%9A%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7%E9%80%9F%E6%9F%A5%E8%A1%A8"><span class="nav-number">6.</span> <span class="nav-text">附录：调试工具速查表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E5%BD%95%EF%BC%9A%E8%B0%83%E8%AF%95%E5%86%B3%E7%AD%96%E6%A0%91"><span class="nav-number">7.</span> <span class="nav-text">附录：调试决策树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E5%BD%95%EF%BC%9A%E6%9C%AC%E5%9C%B0%E5%8F%AF%E5%A4%8D%E7%8E%B0%E8%B0%83%E8%AF%95%E6%A1%88%E4%BE%8B"><span class="nav-number">8.</span> <span class="nav-text">附录：本地可复现调试案例</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -226,12 +226,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="The Art of Debugging 读书笔记 | ZincSabian's Blog">
+      <meta itemprop="name" content="The Art of Debugging 读书笔记（逐日展开版） | ZincSabian's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          The Art of Debugging 读书笔记
+          The Art of Debugging 读书笔记（逐日展开版）
         </h1>
 
         <div class="post-meta-container">
@@ -249,7 +249,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-06-02 09:54:42" itemprop="dateModified" datetime="2026-06-02T09:54:42+08:00">2026-06-02</time>
+      <time title="修改时间：2026-06-02 10:59:52" itemprop="dateModified" datetime="2026-06-02T10:59:52+08:00">2026-06-02</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -273,217 +273,406 @@
     <div class="post-body" itemprop="articleBody"><blockquote>
 <p>原书地址：<a target="_blank" rel="noopener" href="https://github.com/stas00/the-art-of-debugging">https://github.com/stas00/the-art-of-debugging</a></p>
 <p>作者：Stas Bekman（1995 年起从事软件开发）<br>许可：CC BY-SA 4.0</p>
+<p>这是一本关于调试方法论和工具集的开放书籍。本文按”先学方法论 → 再练工具 → 最后实战”的路径逐日展开，每天配一个可复现的调试案例。</p>
 </blockquote>
-<p>本书是一本持续演进中的调试方法论和可复制粘贴的配方集合，目标是教你<strong>快速调试正常问题</strong>，并让<strong>复杂问题变得可调试</strong>。以下内容按原书结构整理，包含大量可直接使用的代码片段和工具推荐。</p>
 <span id="more"></span>
 
 <hr>
-<h2 id="一、快速调试方法论"><a href="#一、快速调试方法论" class="headerlink" title="一、快速调试方法论"></a>一、快速调试方法论</h2><h3 id="1-1-两个核心需求"><a href="#1-1-两个核心需求" class="headerlink" title="1.1 两个核心需求"></a>1.1 两个核心需求</h3><p>成功调试只需要满足两个条件：</p>
-<ol>
-<li><p><strong>快速迭代（Quick Iterations）</strong></p>
+<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><h3 id="调试是工程能力的核心"><a href="#调试是工程能力的核心" class="headerlink" title="调试是工程能力的核心"></a>调试是工程能力的核心</h3><p>编程时间分配：</p>
 <ul>
-<li>从重启程序到到达关键断点的时间应控制在<strong>几秒</strong>内</li>
-<li>如果需要等 10 分钟，重复 30 次，人会疲劳、会放弃，还会忘记之前的尝试</li>
-<li><strong>任何缩短循环时间的改进都会提高调试成功率</strong></li>
+<li>写代码：20%</li>
+<li>读代码：30%</li>
+<li><strong>调试：40%</strong></li>
+<li>开会：10%</li>
+</ul>
+<p>如果你每天工作 8 小时，<strong>超过 3 小时在调试</strong>。把调试效率提高一倍，等于每天多出 1.5 小时。</p>
+<h3 id="你的环境"><a href="#你的环境" class="headerlink" title="你的环境"></a>你的环境</h3><p>这本书的所有工具和方法都在你的 RTX 5060 + AMD 9600X 上完全可复现。不需要大模型，不需要多卡。</p>
+<hr>
+<h2 id="第一部分：调试方法论（Day-1-5）"><a href="#第一部分：调试方法论（Day-1-5）" class="headerlink" title="第一部分：调试方法论（Day 1-5）"></a>第一部分：调试方法论（Day 1-5）</h2><h3 id="Day-1：调试的两个核心需求"><a href="#Day-1：调试的两个核心需求" class="headerlink" title="Day 1：调试的两个核心需求"></a>Day 1：调试的两个核心需求</h3><ul>
+<li><input disabled="" type="checkbox"> 阅读本书 “Fast Debugging Methodology” 章节</li>
+<li><input disabled="" type="checkbox"> 理解两个核心需求：<ol>
+<li><strong>快速迭代</strong>：从重启到关键断点的等待时间应控制在<strong>几秒</strong></li>
+<li><strong>小数据</strong>：用最小数据复现问题</li>
+</ol>
+</li>
+<li><input disabled="" type="checkbox"> <strong>本地实验</strong>：故意写一个有 bug 的程序，分别用大模型和小模型来调试<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 有 bug 的函数：应该返回 a + b，但写成了 a * b</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">a, b</span>):</span><br><span class="line">    <span class="keyword">return</span> a * b  <span class="comment"># 故意写错</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 大数据调试：痛苦</span></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line">big_a = torch.randn(<span class="number">10000</span>, <span class="number">10000</span>)</span><br><span class="line">big_b = torch.randn(<span class="number">10000</span>, <span class="number">10000</span>)</span><br><span class="line">result = add(big_a, big_b)  <span class="comment"># 等 30 秒，结果还是错的，不知道哪里错了</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 小数据调试：清晰</span></span><br><span class="line">small_a = torch.tensor([[<span class="number">1.0</span>, <span class="number">2.0</span>], [<span class="number">3.0</span>, <span class="number">4.0</span>]])</span><br><span class="line">small_b = torch.tensor([[<span class="number">1.0</span>, <span class="number">1.0</span>], [<span class="number">1.0</span>, <span class="number">1.0</span>]])</span><br><span class="line">result = add(small_a, small_b)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br><span class="line"><span class="comment"># 预期：[[2, 3], [4, 5]]</span></span><br><span class="line"><span class="comment"># 实际：[[1, 2], [3, 4]]  # 明显是乘法不是加法！</span></span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 对比两种调试方式的效率差异</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>为什么 “用大数据调试” 是痛苦且低效的</li>
+<li>“小数据 + 快速迭代” 是调试的万能钥匙</li>
+</ul>
+<hr>
+<h3 id="Day-2：数据选择策略"><a href="#Day-2：数据选择策略" class="headerlink" title="Day 2：数据选择策略"></a>Day 2：数据选择策略</h3><ul>
+<li><input disabled="" type="checkbox"> 阅读 “Real data vs. random data vs. synthetic data” 章节</li>
+<li><input disabled="" type="checkbox"> 理解三种数据的选择策略：<ul>
+<li><strong>Random data</strong>：程序崩溃时用（不需要真实数据）</li>
+<li><strong>Synthetic data</strong>：需要跟踪数值时用（如 <code>[[1.0, 2.0], [3.0, 4.0]]</code>）</li>
+<li><strong>Real data</strong>：程序能跑但结果不对时用（需要真实数据验证质量）</li>
 </ul>
 </li>
-<li><p><strong>小数据（Small Payload）</strong></p>
+<li><input disabled="" type="checkbox"> <strong>本地实验</strong>：用 synthetic data 调试一个数值计算 bug<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 假设你在实现一个矩阵乘法</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">my_matmul</span>(<span class="params">a, b</span>):</span><br><span class="line">    <span class="comment"># 故意有一个 bug：忘记转置</span></span><br><span class="line">    <span class="keyword">return</span> a @ b.T  <span class="comment"># 应该是 a @ b</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 用 synthetic data：容易发现错误</span></span><br><span class="line">a = torch.tensor([[<span class="number">1.0</span>, <span class="number">2.0</span>], [<span class="number">3.0</span>, <span class="number">4.0</span>]])</span><br><span class="line">b = torch.tensor([[<span class="number">1.0</span>, <span class="number">0.0</span>], [<span class="number">0.0</span>, <span class="number">1.0</span>]])  <span class="comment"># 单位矩阵</span></span><br><span class="line">result = my_matmul(a, b)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br><span class="line"><span class="comment"># 预期：a @ I = a = [[1, 2], [3, 4]]</span></span><br><span class="line"><span class="comment"># 实际：因为 .T 的存在，结果是 [[1, 3], [2, 4]]</span></span><br><span class="line"><span class="comment"># 一眼看出错误！</span></span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 记录：你过去一周调试时，用的是哪种数据？有没有可以改进的地方？</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
 <ul>
-<li>用小甚至 tiny 的数据调试</li>
-<li>原因：<ul>
-<li>快速重启（配合上面的需求）</li>
-<li>容易记住、比较和心算</li>
+<li>不同调试阶段需要不同类型的数据</li>
+<li>synthetic data 的选择技巧：用容易心算的数字、用 stand-out 的值（如 <code>DEADBEEF</code>）</li>
 </ul>
-</li>
+<hr>
+<h3 id="Day-3：调试流程标准化"><a href="#Day-3：调试流程标准化" class="headerlink" title="Day 3：调试流程标准化"></a>Day 3：调试流程标准化</h3><ul>
+<li><input disabled="" type="checkbox"> 阅读 “Fast Debugging Methodology” 中关于调试流程的部分</li>
+<li><input disabled="" type="checkbox"> 理解标准调试流程：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1. 复现问题 → 确保能稳定复现</span><br><span class="line">2. 最小化 → 用最少的代码和数据复现</span><br><span class="line">3. 假设 → 提出可能的原因</span><br><span class="line">4. 验证 → 设计实验验证假设</span><br><span class="line">5. 修复 → 确认根因后修复</span><br><span class="line">6. 回归测试 → 确保修复没有引入新问题</span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> <strong>本地实验</strong>：用标准流程解决一个 bug<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 步骤 1：复现</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">buggy_function</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> x / (x - <span class="number">5</span>)  <span class="comment"># 当 x=5 时崩溃</span></span><br><span class="line"></span><br><span class="line">buggy_function(<span class="number">5</span>)  <span class="comment"># ZeroDivisionError</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 步骤 2：最小化</span></span><br><span class="line"><span class="comment"># 已经是最小化了，一行代码</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 步骤 3：假设</span></span><br><span class="line"><span class="comment"># 假设：分母为 0 时没处理</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 步骤 4：验证</span></span><br><span class="line"><span class="comment"># 验证：x=5 时，x-5=0，确实会 ZeroDivisionError</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 步骤 5：修复</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">fixed_function</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">if</span> x == <span class="number">5</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">float</span>(<span class="string">&#x27;inf&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> x / (x - <span class="number">5</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 步骤 6：回归测试</span></span><br><span class="line"><span class="keyword">assert</span> fixed_function(<span class="number">5</span>) == <span class="built_in">float</span>(<span class="string">&#x27;inf&#x27;</span>)</span><br><span class="line"><span class="keyword">assert</span> fixed_function(<span class="number">6</span>) == <span class="number">6.0</span></span><br><span class="line"><span class="keyword">assert</span> fixed_function(<span class="number">4</span>) == -<span class="number">4.0</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;All tests passed!&quot;</span>)</span><br></pre></td></tr></table></figure></li>
 </ul>
-</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 容易调试的数据</span></span><br><span class="line">tensor([[<span class="number">0.1</span>, <span class="number">0.2</span>],</span><br><span class="line">        [<span class="number">0.3</span>, <span class="number">0.4</span>]])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 难以调试的数据</span></span><br><span class="line">tensor([[<span class="number">0.8860</span>, <span class="number">0.7966</span>, <span class="number">0.0274</span>,  ..., <span class="number">0.4142</span>, <span class="number">0.7156</span>, <span class="number">0.3564</span>],</span><br><span class="line">        [<span class="number">0.3885</span>, <span class="number">0.1056</span>, <span class="number">0.3069</span>,  ..., <span class="number">0.8970</span>, <span class="number">0.8329</span>, <span class="number">0.0012</span>],</span><br><span class="line">        ...])</span><br></pre></td></tr></table></figure>
-
-<h3 id="1-2-数据选择策略"><a href="#1-2-数据选择策略" class="headerlink" title="1.2 数据选择策略"></a>1.2 数据选择策略</h3><p><strong>程序崩溃时：</strong></p>
+<p><strong>做完之后能了解</strong>：</p>
 <ul>
-<li>不需要真实数据，任何随机或合成数据都可以</li>
+<li>调试不是”碰运气”，而是可以系统化的六步法</li>
+<li>为什么 “先最小化再调试” 能节省 80% 的时间</li>
 </ul>
-<p><strong>程序能跑但结果不对时：</strong></p>
-<ul>
-<li>需要真实数据</li>
-</ul>
-<p><strong>数据渐进策略：</strong></p>
-<ol>
-<li>先用随机&#x2F;合成数据验证基本功能</li>
-<li>再用小规模真实数据验证质量</li>
-<li>最后用完整数据做最终验证</li>
-</ol>
-<p><strong>ML 场景的数据规模建议：</strong></p>
-<ul>
-<li>功能调试：10K 参数模型</li>
-<li>基本质量测试：1B 或 125M 参数模型</li>
-<li>最终训练：175B 参数模型</li>
-</ul>
-<p><strong>合成数据的技巧：</strong></p>
-<ul>
-<li>使用容易记住的数字：<code>[[1.0, 2.0], [3.0, 4.0]]</code></li>
-<li>使用 standout 的值：汇编调试中的 <code>DEADBEEF</code></li>
-</ul>
-<h3 id="1-3-核心原则总结"><a href="#1-3-核心原则总结" class="headerlink" title="1.3 核心原则总结"></a>1.3 核心原则总结</h3><blockquote>
-<p>先用最小的数据让程序跑通，再逐步扩大规模。</p>
-</blockquote>
 <hr>
-<h2 id="二、调试编译程序"><a href="#二、调试编译程序" class="headerlink" title="二、调试编译程序"></a>二、调试编译程序</h2><p>涉及的核心工具和概念：</p>
-<h3 id="2-1-gdb（GNU-Debugger）"><a href="#2-1-gdb（GNU-Debugger）" class="headerlink" title="2.1 gdb（GNU Debugger）"></a>2.1 gdb（GNU Debugger）</h3><ul>
-<li>设置断点：<code>break main</code></li>
-<li>单步执行：<code>step</code>、<code>next</code></li>
-<li>查看变量：<code>print var</code></li>
-<li>查看调用栈：<code>backtrace</code></li>
-<li>条件断点：<code>break file.c:10 if x &gt; 5</code></li>
-</ul>
-<h3 id="2-2-ldd"><a href="#2-2-ldd" class="headerlink" title="2.2 ldd"></a>2.2 ldd</h3><ul>
-<li>查看可执行文件的动态链接依赖</li>
-<li>检查是否缺少共享库</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ldd ./my_program</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-3-nm"><a href="#2-3-nm" class="headerlink" title="2.3 nm"></a>2.3 nm</h3><ul>
-<li>列出目标文件中的符号表</li>
-<li>检查函数&#x2F;变量是否存在</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nm -C my_program | grep my_function</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-4-LD-LIBRARY-PATH"><a href="#2-4-LD-LIBRARY-PATH" class="headerlink" title="2.4 LD_LIBRARY_PATH"></a>2.4 LD_LIBRARY_PATH</h3><ul>
-<li>指定动态链接库的搜索路径</li>
-<li>常用于切换不同版本的库</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=/path/to/custom/libs:<span class="variable">$LD_LIBRARY_PATH</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="2-5-LD-PRELOAD"><a href="#2-5-LD-PRELOAD" class="headerlink" title="2.5 LD_PRELOAD"></a>2.5 LD_PRELOAD</h3><ul>
-<li>预加载指定的共享库，覆盖原始函数</li>
-<li>常用于拦截系统调用、注入调试代码</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LD_PRELOAD=./my_hook.so ./my_program</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="三、调试-Python-程序"><a href="#三、调试-Python-程序" class="headerlink" title="三、调试 Python 程序"></a>三、调试 Python 程序</h2><h3 id="3-1-q-——-快速打印追踪工具"><a href="#3-1-q-——-快速打印追踪工具" class="headerlink" title="3.1 q —— 快速打印追踪工具"></a>3.1 q —— 快速打印追踪工具</h3><p><code>q</code> 包（<code>pip install q</code>）专为快速代码和函数追踪设计，输出到 <code>/tmp/q</code> 文件，不干扰正常的 stdout&#x2F;stderr。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> q</span><br><span class="line"></span><br><span class="line"><span class="comment"># 追踪任意表达式</span></span><br><span class="line">q(<span class="number">1</span> + <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 追踪函数（自动记录参数和返回值）</span></span><br><span class="line"><span class="meta">@q</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">a, b</span>):</span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line"></span><br><span class="line">add(<span class="number">1</span>, <span class="number">2</span>)</span><br></pre></td></tr></table></figure>
-
-<p>查看输出：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">tail</span> -F /tmp/q</span><br><span class="line"><span class="comment"># 输出：</span></span><br><span class="line"><span class="comment"># 0.0s &lt;module&gt;: 1+2=3</span></span><br><span class="line"><span class="comment"># 0.0s add(1, 2)</span></span><br><span class="line"><span class="comment"># 0.0s -&gt; 3</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>MacOS 注意：</strong> 使用前需要设置：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> TMPDIR=/tmp/</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-2-打印对象变量"><a href="#3-2-打印对象变量" class="headerlink" title="3.2 打印对象变量"></a>3.2 打印对象变量</h3><p>默认 <code>print(obj)</code> 只输出对象地址，不够友好：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">A</span>:</span><br><span class="line">    foo = <span class="number">1</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="variable language_">self</span>.bar = <span class="number">2</span></span><br><span class="line"></span><br><span class="line">a = A()</span><br><span class="line"><span class="built_in">print</span>(a)  <span class="comment"># &lt;__main__.A object at 0x...&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>添加 <code>__repr__</code> 方法：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">A</span>:</span><br><span class="line">    foo = <span class="number">1</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="variable language_">self</span>.bar = <span class="number">2</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__repr__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">f&quot;A(foo=<span class="subst">&#123;self.foo&#125;</span>, bar=<span class="subst">&#123;self.bar&#125;</span>)&quot;</span></span><br><span class="line"></span><br><span class="line">a = A()</span><br><span class="line"><span class="built_in">print</span>(a)  <span class="comment"># A(foo=1, bar=2)</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="3-3-py-spy"><a href="#3-3-py-spy" class="headerlink" title="3.3 py-spy"></a>3.3 py-spy</h3><ul>
-<li>无侵入式 Python 性能分析器</li>
-<li>不需要修改代码、不需要重启程序</li>
-<li>可以实时查看火焰图</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 实时查看 Top 函数</span></span><br><span class="line">py-spy top --pid &lt;pid&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成火焰图</span></span><br><span class="line">py-spy record -o profile.svg --pid &lt;pid&gt;</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-4-自动打印调试"><a href="#3-4-自动打印调试" class="headerlink" title="3.4 自动打印调试"></a>3.4 自动打印调试</h3><p>在函数入口处自动打印参数：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> functools</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">debug_print</span>(<span class="params">func</span>):</span><br><span class="line"><span class="meta">    @functools.wraps(<span class="params">func</span>)</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;Calling <span class="subst">&#123;func.__name__&#125;</span> with args=<span class="subst">&#123;args&#125;</span>, kwargs=<span class="subst">&#123;kwargs&#125;</span>&quot;</span>)</span><br><span class="line">        result = func(*args, **kwargs)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;func.__name__&#125;</span> returned <span class="subst">&#123;result&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="meta">@debug_print</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">my_function</span>(<span class="params">x, y</span>):</span><br><span class="line">    <span class="keyword">return</span> x + y</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="四、调试-PyTorch-程序"><a href="#四、调试-PyTorch-程序" class="headerlink" title="四、调试 PyTorch 程序"></a>四、调试 PyTorch 程序</h2><h3 id="4-1-CPU-GPU-内存问题"><a href="#4-1-CPU-GPU-内存问题" class="headerlink" title="4.1 CPU&#x2F;GPU 内存问题"></a>4.1 CPU&#x2F;GPU 内存问题</h3><p><strong>查看 GPU 内存使用：</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;Allocated: <span class="subst">&#123;torch.cuda.memory_allocated() / <span class="number">1e9</span>:<span class="number">.2</span>f&#125;</span> GB&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;Reserved: <span class="subst">&#123;torch.cuda.memory_reserved() / <span class="number">1e9</span>:<span class="number">.2</span>f&#125;</span> GB&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;Max allocated: <span class="subst">&#123;torch.cuda.max_memory_allocated() / <span class="number">1e9</span>:<span class="number">.2</span>f&#125;</span> GB&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<p><strong>检测内存泄漏：</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"></span><br><span class="line">before = torch.cuda.memory_allocated()</span><br><span class="line"><span class="comment"># 运行你的代码</span></span><br><span class="line">after = torch.cuda.memory_allocated()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;Memory delta: <span class="subst">&#123;(after - before) / <span class="number">1e6</span>:<span class="number">.2</span>f&#125;</span> MB&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-2-性能瓶颈分析"><a href="#4-2-性能瓶颈分析" class="headerlink" title="4.2 性能瓶颈分析"></a>4.2 性能瓶颈分析</h3><p><strong>PyTorch Profiler：</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torch.profiler <span class="keyword">import</span> profile, record_function, ProfilerActivity</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> profile(activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA]) <span class="keyword">as</span> prof:</span><br><span class="line">    <span class="keyword">with</span> record_function(<span class="string">&quot;model_inference&quot;</span>):</span><br><span class="line">        model(<span class="built_in">input</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(prof.key_averages().table(sort_by=<span class="string">&quot;cuda_time_total&quot;</span>, row_limit=<span class="number">10</span>))</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-3-检测-NaN-Inf"><a href="#4-3-检测-NaN-Inf" class="headerlink" title="4.3 检测 NaN&#x2F;Inf"></a>4.3 检测 NaN&#x2F;Inf</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启用异常检测（自动在出现 NaN/Inf 时抛出异常）</span></span><br><span class="line">torch.autograd.set_detect_anomaly(<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 手动检查张量</span></span><br><span class="line"><span class="keyword">if</span> torch.isnan(tensor).<span class="built_in">any</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;NaN detected!&quot;</span>)</span><br><span class="line"><span class="keyword">if</span> torch.isinf(tensor).<span class="built_in">any</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Inf detected!&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-4-模型调试技巧"><a href="#4-4-模型调试技巧" class="headerlink" title="4.4 模型调试技巧"></a>4.4 模型调试技巧</h3><p><strong>打印模型结构：</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(model)</span><br></pre></td></tr></table></figure>
-
-<p><strong>查看每层输出形状：</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torchsummary <span class="keyword">import</span> summary</span><br><span class="line">summary(model, input_size=(<span class="number">3</span>, <span class="number">224</span>, <span class="number">224</span>))</span><br></pre></td></tr></table></figure>
-
-<p><strong>检查梯度：</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> name, param <span class="keyword">in</span> model.named_parameters():</span><br><span class="line">    <span class="keyword">if</span> param.grad <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;name&#125;</span>: grad_norm=<span class="subst">&#123;param.grad.norm():<span class="number">.4</span>f&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="五、Unix-调试工具"><a href="#五、Unix-调试工具" class="headerlink" title="五、Unix 调试工具"></a>五、Unix 调试工具</h2><h3 id="5-1-strace-——-系统调用追踪"><a href="#5-1-strace-——-系统调用追踪" class="headerlink" title="5.1 strace —— 系统调用追踪"></a>5.1 strace —— 系统调用追踪</h3><p>追踪程序的所有系统调用：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 追踪所有系统调用</span></span><br><span class="line">strace ./my_program</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只追踪文件操作</span></span><br><span class="line">strace -e trace=file ./my_program</span><br><span class="line"></span><br><span class="line"><span class="comment"># 追踪网络操作</span></span><br><span class="line">strace -e trace=network ./my_program</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出到文件</span></span><br><span class="line">strace -o trace.log ./my_program</span><br></pre></td></tr></table></figure>
-
-<h3 id="5-2-nohup-——-后台任务管理"><a href="#5-2-nohup-——-后台任务管理" class="headerlink" title="5.2 nohup —— 后台任务管理"></a>5.2 nohup —— 后台任务管理</h3><p>让程序在后台持续运行，即使终端断开：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">nohup</span> python train.py &gt; output.log 2&gt;&amp;1 &amp;</span><br><span class="line"><span class="comment"># 查看任务</span></span><br><span class="line"><span class="built_in">tail</span> -f output.log</span><br></pre></td></tr></table></figure>
-
-<h3 id="5-3-make-调试"><a href="#5-3-make-调试" class="headerlink" title="5.3 make 调试"></a>5.3 make 调试</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 只打印命令，不执行</span></span><br><span class="line">make -n</span><br><span class="line"></span><br><span class="line"><span class="comment"># 详细模式</span></span><br><span class="line">make V=1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调试模式</span></span><br><span class="line">make -d</span><br></pre></td></tr></table></figure>
-
-<h3 id="5-4-Shell-Prompt-调试技巧"><a href="#5-4-Shell-Prompt-调试技巧" class="headerlink" title="5.4 Shell Prompt 调试技巧"></a>5.4 Shell Prompt 调试技巧</h3><p>在 PS1 中显示当前 Git 分支、Python 虚拟环境等信息：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 显示 Git 分支</span></span><br><span class="line"><span class="built_in">export</span> PS1=<span class="string">&#x27;\u@\h:\w$(__git_ps1 &quot; (%s)&quot;)\$ &#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示虚拟环境</span></span><br><span class="line"><span class="built_in">export</span> PS1=<span class="string">&#x27;($&#123;VIRTUAL_ENV##*/&#125;) &#x27;</span><span class="variable">$PS1</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="5-5-快速创建最小复现环境"><a href="#5-5-快速创建最小复现环境" class="headerlink" title="5.5 快速创建最小复现环境"></a>5.5 快速创建最小复现环境</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建隔离的测试目录</span></span><br><span class="line"><span class="built_in">mkdir</span> /tmp/debug_test &amp;&amp; <span class="built_in">cd</span> /tmp/debug_test</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用最小的数据集</span></span><br><span class="line">python -c <span class="string">&quot;import torch; torch.save(torch.randn(10, 10), &#x27;tiny_data.pt&#x27;)&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行测试</span></span><br><span class="line">python my_script.py --data tiny_data.pt</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="六、调试方法论总结"><a href="#六、调试方法论总结" class="headerlink" title="六、调试方法论总结"></a>六、调试方法论总结</h2><h3 id="6-1-调试流程"><a href="#6-1-调试流程" class="headerlink" title="6.1 调试流程"></a>6.1 调试流程</h3><ol>
-<li><strong>复现问题</strong> —— 确保能稳定复现</li>
-<li><strong>最小化</strong> —— 用最少的代码和数据复现</li>
-<li><strong>假设</strong> —— 提出可能的原因假设</li>
-<li><strong>验证</strong> —— 设计实验验证假设</li>
-<li><strong>修复</strong> —— 确认根因后修复</li>
-<li><strong>回归测试</strong> —— 确保修复没有引入新问题</li>
-</ol>
-<h3 id="6-2-常见陷阱"><a href="#6-2-常见陷阱" class="headerlink" title="6.2 常见陷阱"></a>6.2 常见陷阱</h3><ul>
+<h3 id="Day-4：常见调试陷阱"><a href="#Day-4：常见调试陷阱" class="headerlink" title="Day 4：常见调试陷阱"></a>Day 4：常见调试陷阱</h3><ul>
+<li><input disabled="" type="checkbox"> 阅读书中关于调试陷阱的部分</li>
+<li><input disabled="" type="checkbox"> 列出 5 个常见陷阱：<ol>
 <li><strong>确认偏误</strong>：只看支持自己假设的证据</li>
 <li><strong>过度复杂化</strong>：把简单问题想复杂</li>
 <li><strong>忽略日志</strong>：不仔细读错误信息就急着改代码</li>
 <li><strong>没有版本控制</strong>：改了代码后忘记原来是什么样子</li>
+<li><strong>假设环境没问题</strong>：”在我机器上能跑” 的陷阱</li>
+</ol>
+</li>
+<li><input disabled="" type="checkbox"> <strong>本地实验</strong>：故意犯一个确认偏误的错误<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 假设你认为 bug 是因为学习率太高</span></span><br><span class="line"><span class="comment"># 于是你只调学习率，但问题其实是梯度爆炸</span></span><br><span class="line"><span class="comment"># 你应该同时检查：学习率、梯度范数、loss 曲线、权重分布</span></span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 理解：为什么 “看错误信息” 能解决 50% 的 bug（大多数错误信息已经告诉你问题在哪）</li>
 </ul>
-<h3 id="6-3-黄金法则"><a href="#6-3-黄金法则" class="headerlink" title="6.3 黄金法则"></a>6.3 黄金法则</h3><blockquote>
-<p><strong>理解问题比修复问题更重要。</strong></p>
-<p>一旦真正理解了 bug 的原因，修复通常是轻而易举的。</p>
-</blockquote>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>调试中最常见的认知偏误</li>
+<li>如何避免 “在错误的方向上越走越远”</li>
+</ul>
 <hr>
-<h2 id="七、推荐工具清单"><a href="#七、推荐工具清单" class="headerlink" title="七、推荐工具清单"></a>七、推荐工具清单</h2><table>
+<h3 id="Day-5：方法论周复盘"><a href="#Day-5：方法论周复盘" class="headerlink" title="Day 5：方法论周复盘"></a>Day 5：方法论周复盘</h3><ul>
+<li><input disabled="" type="checkbox"> 回答：<ul>
+<li>调试的两个核心需求是什么？</li>
+<li>什么时候用 random data？什么时候用 synthetic data？什么时候用 real data？</li>
+<li>标准调试流程的 6 个步骤是什么？</li>
+<li>你最容易犯哪个调试陷阱？</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> 记录：过去一周的调试经历，用标准流程重新分析一次</li>
+</ul>
+<hr>
+<h2 id="第二部分：Python-调试工具（Day-6-10）"><a href="#第二部分：Python-调试工具（Day-6-10）" class="headerlink" title="第二部分：Python 调试工具（Day 6-10）"></a>第二部分：Python 调试工具（Day 6-10）</h2><h3 id="Day-6：q-——-快速打印追踪"><a href="#Day-6：q-——-快速打印追踪" class="headerlink" title="Day 6：q —— 快速打印追踪"></a>Day 6：q —— 快速打印追踪</h3><ul>
+<li><input disabled="" type="checkbox"> 阅读 “Debugging Python” 章节的 <code>q</code> 工具部分</li>
+<li><input disabled="" type="checkbox"> 安装 <code>q</code>：<code>pip install q</code></li>
+<li><input disabled="" type="checkbox"> <strong>本地实验</strong>：用 <code>q</code> 追踪一个函数的输入输出<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> q</span><br><span class="line"></span><br><span class="line"><span class="meta">@q</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">a, b</span>):</span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line"></span><br><span class="line"><span class="meta">@q</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">multiply</span>(<span class="params">a, b</span>):</span><br><span class="line">    <span class="keyword">return</span> a * b</span><br><span class="line"></span><br><span class="line">result = add(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">result = multiply(result, <span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看 /tmp/q 的输出</span></span><br><span class="line"><span class="comment"># cat /tmp/q</span></span><br><span class="line"><span class="comment"># 输出：</span></span><br><span class="line"><span class="comment"># 0.0s add(1, 2)</span></span><br><span class="line"><span class="comment"># 0.0s -&gt; 3</span></span><br><span class="line"><span class="comment"># 0.0s multiply(3, 3)</span></span><br><span class="line"><span class="comment"># 0.0s -&gt; 9</span></span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 理解 <code>q</code> 的优势：<ul>
+<li>输出到 <code>/tmp/q</code>，不干扰正常日志</li>
+<li>自动打印参数和返回值</li>
+<li>自带粗略的时间戳</li>
+</ul>
+</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>为什么 <code>q</code> 比 <code>print</code> 更适合调试（不污染 stdout，自动格式化）</li>
+<li>在已有大量日志输出的程序中，如何快速定位自己的调试信息</li>
+</ul>
+<hr>
+<h3 id="Day-7：pdb-与-ipdb-——-断点调试"><a href="#Day-7：pdb-与-ipdb-——-断点调试" class="headerlink" title="Day 7：pdb 与 ipdb —— 断点调试"></a>Day 7：pdb 与 ipdb —— 断点调试</h3><ul>
+<li><input disabled="" type="checkbox"> 阅读书中关于 Python 调试的部分</li>
+<li><input disabled="" type="checkbox"> 掌握 <code>pdb</code> 的基本命令：<ul>
+<li><code>b(reak) line_no</code>：设置断点</li>
+<li><code>c(ontinue)</code>：继续执行</li>
+<li><code>n(ext)</code>：执行下一行</li>
+<li><code>s(tep)</code>：进入函数</li>
+<li><code>r(eturn)</code>：执行到函数返回</li>
+<li><code>p(rint) var</code>：打印变量</li>
+<li><code>l(ist)</code>：显示当前代码</li>
+<li><code>q(uit)</code>：退出</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>本地实验</strong>：用 <code>pdb</code> 调试一个循环<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pdb</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">find_max</span>(<span class="params">numbers</span>):</span><br><span class="line">    max_val = numbers[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">for</span> i, num <span class="keyword">in</span> <span class="built_in">enumerate</span>(numbers):</span><br><span class="line">        <span class="keyword">if</span> num &gt; max_val:</span><br><span class="line">            max_val = num</span><br><span class="line">        <span class="keyword">if</span> i == <span class="number">3</span>:  <span class="comment"># 在第四次迭代时打断点</span></span><br><span class="line">            pdb.set_trace()</span><br><span class="line">    <span class="keyword">return</span> max_val</span><br><span class="line"></span><br><span class="line">result = find_max([<span class="number">3</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">9</span>, <span class="number">2</span>, <span class="number">6</span>])</span><br><span class="line"><span class="built_in">print</span>(result)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在 pdb 中输入：</span></span><br><span class="line"><span class="comment"># p max_val  # 查看当前最大值</span></span><br><span class="line"><span class="comment"># p i        # 查看当前索引</span></span><br><span class="line"><span class="comment"># p num      # 查看当前数字</span></span><br><span class="line"><span class="comment"># n          # 执行下一行</span></span><br><span class="line"><span class="comment"># c          # 继续执行</span></span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 对比 <code>pdb</code> 和 <code>ipdb</code>（<code>ipdb</code> 支持语法高亮和 tab 补全）</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>断点调试比 “加 print” 更高效（可以查看任意变量、任意时刻的状态）</li>
+<li><code>pdb</code> 是 Python 标准库的调试器，无需安装</li>
+</ul>
+<hr>
+<h3 id="Day-8：py-spy-——-无侵入式性能分析"><a href="#Day-8：py-spy-——-无侵入式性能分析" class="headerlink" title="Day 8：py-spy —— 无侵入式性能分析"></a>Day 8：py-spy —— 无侵入式性能分析</h3><ul>
+<li><input disabled="" type="checkbox"> 阅读 “Debugging Python” 章节的 <code>py-spy</code> 部分</li>
+<li><input disabled="" type="checkbox"> 安装 <code>py-spy</code>：<code>pip install py-spy</code></li>
+<li><input disabled="" type="checkbox"> <strong>本地实验</strong>：用 <code>py-spy</code> 分析一个慢程序<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># slow_program.py</span></span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">slow_function</span>():</span><br><span class="line">    time.sleep(<span class="number">1</span>)  <span class="comment"># 模拟慢操作</span></span><br><span class="line">    x = torch.randn(<span class="number">1000</span>, <span class="number">1000</span>)</span><br><span class="line">    y = torch.matmul(x, x)  <span class="comment"># 计算密集型</span></span><br><span class="line">    <span class="keyword">return</span> y</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">fast_function</span>():</span><br><span class="line">    <span class="keyword">return</span> <span class="number">42</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">    <span class="keyword">if</span> i % <span class="number">2</span> == <span class="number">0</span>:</span><br><span class="line">        slow_function()</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        fast_function()</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 终端 1：运行程序</span></span><br><span class="line">python slow_program.py</span><br><span class="line"></span><br><span class="line"><span class="comment"># 终端 2：用 py-spy 分析</span></span><br><span class="line">py-spy top --pid &lt;pid&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 录制火焰图</span></span><br><span class="line">py-spy record -o profile.svg --pid &lt;pid&gt;</span><br><span class="line"><span class="comment"># 用浏览器打开 profile.svg，观察时间分布</span></span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 观察火焰图，确认 <code>slow_function</code> 占用了大部分时间</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li><code>py-spy</code> 不需要修改代码、不需要重启程序</li>
+<li>火焰图能直观显示时间消耗在哪些函数上</li>
+<li>为什么 “无侵入式” 很重要（生产环境不能改代码）</li>
+</ul>
+<hr>
+<h3 id="Day-9：objprint-与打印对象结构"><a href="#Day-9：objprint-与打印对象结构" class="headerlink" title="Day 9：objprint 与打印对象结构"></a>Day 9：objprint 与打印对象结构</h3><ul>
+<li><input disabled="" type="checkbox"> 阅读 “Printing Object Variables” 部分</li>
+<li><input disabled="" type="checkbox"> 理解 <code>__repr__</code> 的作用：让对象打印更友好</li>
+<li><input disabled="" type="checkbox"> <strong>本地实验</strong>：对比有 <code>__repr__</code> 和没有的类<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 没有 __repr__</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">BadModel</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="variable language_">self</span>.layers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">        <span class="variable language_">self</span>.activation = <span class="string">&#x27;relu&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 有 __repr__</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">GoodModel</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="variable language_">self</span>.layers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">        <span class="variable language_">self</span>.activation = <span class="string">&#x27;relu&#x27;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__repr__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">f&quot;GoodModel(layers=<span class="subst">&#123;self.layers&#125;</span>, activation=&#x27;<span class="subst">&#123;self.activation&#125;</span>&#x27;)&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(BadModel())   <span class="comment"># &lt;__main__.BadModel object at 0x...&gt;</span></span><br><span class="line"><span class="built_in">print</span>(GoodModel())  <span class="comment"># GoodModel(layers=[1, 2, 3], activation=&#x27;relu&#x27;)</span></span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 安装 <code>objprint</code>：<code>pip install objprint</code></li>
+<li><input disabled="" type="checkbox"> 用 <code>objprint</code> 打印复杂对象的结构<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> objprint <span class="keyword">import</span> objprint</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"></span><br><span class="line">model = torch.nn.Linear(<span class="number">10</span>, <span class="number">10</span>)</span><br><span class="line">objprint(model)  <span class="comment"># 打印模型的完整结构</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>为什么调试时 “看到对象的内部结构” 很重要</li>
+<li><code>__repr__</code> 和 <code>__str__</code> 的区别（<code>__repr__</code> 是给开发者看的，<code>__str__</code> 是给用户看的）</li>
+</ul>
+<hr>
+<h3 id="Day-10：Python-调试周复盘"><a href="#Day-10：Python-调试周复盘" class="headerlink" title="Day 10：Python 调试周复盘"></a>Day 10：Python 调试周复盘</h3><ul>
+<li><input disabled="" type="checkbox"> 回答：<ul>
+<li><code>q</code> 和 <code>print</code> 的区别是什么？</li>
+<li><code>pdb</code> 的 <code>n</code> 和 <code>s</code> 有什么区别？</li>
+<li><code>py-spy</code> 为什么被称为 “无侵入式”？</li>
+<li>什么时候需要自定义 <code>__repr__</code>？</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> 记录：过去一周的 Python 调试中，你最常用的工具是什么？有没有可以改进的地方？</li>
+</ul>
+<hr>
+<h2 id="第三部分：PyTorch-调试（Day-11-15）"><a href="#第三部分：PyTorch-调试（Day-11-15）" class="headerlink" title="第三部分：PyTorch 调试（Day 11-15）"></a>第三部分：PyTorch 调试（Day 11-15）</h2><h3 id="Day-11：检测-NaN-Inf"><a href="#Day-11：检测-NaN-Inf" class="headerlink" title="Day 11：检测 NaN&#x2F;Inf"></a>Day 11：检测 NaN&#x2F;Inf</h3><ul>
+<li><input disabled="" type="checkbox"> 阅读 “Debugging PyTorch” 章节</li>
+<li><input disabled="" type="checkbox"> 掌握检测方法：<ul>
+<li><code>torch.isnan(tensor).any()</code>：检测 NaN</li>
+<li><code>torch.isinf(tensor).any()</code>：检测 Inf</li>
+<li><code>torch.autograd.set_detect_anomaly(True)</code>：自动检测</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>本地实验</strong>：故意制造 NaN，然后定位来源<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"></span><br><span class="line"><span class="comment"># 开启异常检测</span></span><br><span class="line">torch.autograd.set_detect_anomaly(<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">x = torch.tensor([<span class="number">1.0</span>], requires_grad=<span class="literal">True</span>)</span><br><span class="line">y = x.log()  <span class="comment"># log(1) = 0，正常</span></span><br><span class="line">z = y / <span class="number">0</span>    <span class="comment"># 除以 0！</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    z.backward()</span><br><span class="line"><span class="keyword">except</span> RuntimeError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Caught error: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="comment"># 会打印出 forward stack trace，告诉你哪一步出了问题</span></span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 理解 <code>detect_anomaly</code> 的工作原理：在反向传播时检查梯度是否为 NaN&#x2F;Inf</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>PyTorch 的 <code>detect_anomaly</code> 是定位 NaN 来源的神器</li>
+<li>为什么 NaN 一旦产生就会传播（任何运算 involving NaN 都是 NaN）</li>
+</ul>
+<hr>
+<h3 id="Day-12：显存分析"><a href="#Day-12：显存分析" class="headerlink" title="Day 12：显存分析"></a>Day 12：显存分析</h3><ul>
+<li><input disabled="" type="checkbox"> 阅读书中关于显存调试的部分</li>
+<li><input disabled="" type="checkbox"> 掌握显存分析工具：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看当前显存占用</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;Allocated: <span class="subst">&#123;torch.cuda.memory_allocated() / <span class="number">1e9</span>:<span class="number">.2</span>f&#125;</span> GB&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;Reserved: <span class="subst">&#123;torch.cuda.memory_reserved() / <span class="number">1e9</span>:<span class="number">.2</span>f&#125;</span> GB&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;Max allocated: <span class="subst">&#123;torch.cuda.max_memory_allocated() / <span class="number">1e9</span>:<span class="number">.2</span>f&#125;</span> GB&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重置峰值统计</span></span><br><span class="line">torch.cuda.reset_peak_memory_stats()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 显存摘要</span></span><br><span class="line"><span class="built_in">print</span>(torch.cuda.memory_summary())</span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> <strong>本地实验</strong>：追踪一次 forward 的显存变化<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"></span><br><span class="line">torch.cuda.reset_peak_memory_stats()</span><br><span class="line">before = torch.cuda.memory_allocated()</span><br><span class="line"></span><br><span class="line">model = torch.nn.Linear(<span class="number">4096</span>, <span class="number">4096</span>).cuda()</span><br><span class="line">x = torch.randn(<span class="number">256</span>, <span class="number">4096</span>, device=<span class="string">&#x27;cuda&#x27;</span>)</span><br><span class="line">y = model(x)</span><br><span class="line"></span><br><span class="line">after = torch.cuda.memory_allocated()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;Model: <span class="subst">&#123;(after - before) / <span class="number">1024</span>**<span class="number">2</span>:<span class="number">.2</span>f&#125;</span> MB&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;Peak: <span class="subst">&#123;torch.cuda.max_memory_allocated() / <span class="number">1024</span>**<span class="number">2</span>:<span class="number">.2</span>f&#125;</span> MB&quot;</span>)</span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 理解 <code>memory_allocated</code> 和 <code>memory_reserved</code> 的区别：<ul>
+<li><code>allocated</code>：PyTorch 实际使用的显存</li>
+<li><code>reserved</code>：CUDA 缓存池中的显存（包括已分配和未分配的空闲块）</li>
+</ul>
+</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>如何系统性地追踪显存泄漏</li>
+<li>为什么 <code>reserved &gt; allocated</code>（CUDA 内存池机制）</li>
+</ul>
+<hr>
+<h3 id="Day-13：PyTorch-Profiler"><a href="#Day-13：PyTorch-Profiler" class="headerlink" title="Day 13：PyTorch Profiler"></a>Day 13：PyTorch Profiler</h3><ul>
+<li><input disabled="" type="checkbox"> 阅读书中关于 PyTorch Profiler 的部分</li>
+<li><input disabled="" type="checkbox"> <strong>本地实验</strong>：用 PyTorch Profiler 分析一个模型<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torch.profiler <span class="keyword">import</span> profile, record_function, ProfilerActivity</span><br><span class="line"></span><br><span class="line">model = torch.nn.TransformerEncoder(</span><br><span class="line">    torch.nn.TransformerEncoderLayer(d_model=<span class="number">512</span>, nhead=<span class="number">8</span>),</span><br><span class="line">    num_layers=<span class="number">6</span></span><br><span class="line">).cuda()</span><br><span class="line">x = torch.randn(<span class="number">32</span>, <span class="number">100</span>, <span class="number">512</span>, device=<span class="string">&#x27;cuda&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> profile(</span><br><span class="line">    activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA],</span><br><span class="line">    record_shapes=<span class="literal">True</span>,</span><br><span class="line">    profile_memory=<span class="literal">True</span>,</span><br><span class="line">    with_stack=<span class="literal">True</span></span><br><span class="line">) <span class="keyword">as</span> prof:</span><br><span class="line">    <span class="keyword">with</span> record_function(<span class="string">&quot;model_forward&quot;</span>):</span><br><span class="line">        y = model(x)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印结果</span></span><br><span class="line"><span class="built_in">print</span>(prof.key_averages().table(sort_by=<span class="string">&quot;cuda_time_total&quot;</span>, row_limit=<span class="number">10</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 导出 Chrome trace</span></span><br><span class="line">prof.export_chrome_trace(<span class="string">&quot;trace.json&quot;</span>)</span><br><span class="line"><span class="comment"># 打开 chrome://tracing，加载 trace.json</span></span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 观察 Chrome trace，找到耗时最长的 kernel</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>PyTorch Profiler 是定位性能瓶颈的标准工具</li>
+<li>Chrome trace 能直观显示 CPU 和 GPU 的时间线</li>
+</ul>
+<hr>
+<h3 id="Day-14：梯度检查"><a href="#Day-14：梯度检查" class="headerlink" title="Day 14：梯度检查"></a>Day 14：梯度检查</h3><ul>
+<li><input disabled="" type="checkbox"> 理解梯度检查的重要性</li>
+<li><input disabled="" type="checkbox"> <strong>本地实验</strong>：检查一个模型的梯度<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"></span><br><span class="line">model = torch.nn.Sequential(</span><br><span class="line">    torch.nn.Linear(<span class="number">10</span>, <span class="number">10</span>),</span><br><span class="line">    torch.nn.ReLU(),</span><br><span class="line">    torch.nn.Linear(<span class="number">10</span>, <span class="number">1</span>)</span><br><span class="line">).cuda()</span><br><span class="line"></span><br><span class="line">x = torch.randn(<span class="number">32</span>, <span class="number">10</span>, device=<span class="string">&#x27;cuda&#x27;</span>)</span><br><span class="line">y = torch.randn(<span class="number">32</span>, <span class="number">1</span>, device=<span class="string">&#x27;cuda&#x27;</span>)</span><br><span class="line"></span><br><span class="line">loss_fn = torch.nn.MSELoss()</span><br><span class="line">pred = model(x)</span><br><span class="line">loss = loss_fn(pred, y)</span><br><span class="line">loss.backward()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查每层梯度</span></span><br><span class="line"><span class="keyword">for</span> name, param <span class="keyword">in</span> model.named_parameters():</span><br><span class="line">    <span class="keyword">if</span> param.grad <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">        grad_norm = param.grad.norm().item()</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;name&#125;</span>: grad_norm=<span class="subst">&#123;grad_norm:<span class="number">.4</span>f&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> torch.isnan(param.grad).<span class="built_in">any</span>():</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;  WARNING: NaN in gradient!&quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> grad_norm &lt; <span class="number">1e-6</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;  WARNING: Vanishing gradient!&quot;</span>)</span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 理解梯度消失和梯度爆炸的表现</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>为什么 “模型不收敛” 时首先要检查梯度</li>
+<li>梯度范数的正常范围（通常 0.1-10，太小说明梯度消失，太大说明梯度爆炸）</li>
+</ul>
+<hr>
+<h3 id="Day-15：PyTorch-调试周复盘"><a href="#Day-15：PyTorch-调试周复盘" class="headerlink" title="Day 15：PyTorch 调试周复盘"></a>Day 15：PyTorch 调试周复盘</h3><ul>
+<li><input disabled="" type="checkbox"> 回答：<ul>
+<li><code>torch.autograd.set_detect_anomaly(True)</code> 的原理是什么？</li>
+<li><code>memory_allocated</code> 和 <code>memory_reserved</code> 的区别？</li>
+<li>PyTorch Profiler 的 Chrome trace 怎么看？</li>
+<li>梯度范数多少算正常？多少算异常？</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> 记录：过去一周的 PyTorch 调试中，哪个工具帮你解决了实际问题？</li>
+</ul>
+<hr>
+<h2 id="第四部分：Unix-调试工具（Day-16-19）"><a href="#第四部分：Unix-调试工具（Day-16-19）" class="headerlink" title="第四部分：Unix 调试工具（Day 16-19）"></a>第四部分：Unix 调试工具（Day 16-19）</h2><h3 id="Day-16：strace-——-系统调用追踪"><a href="#Day-16：strace-——-系统调用追踪" class="headerlink" title="Day 16：strace —— 系统调用追踪"></a>Day 16：strace —— 系统调用追踪</h3><ul>
+<li><input disabled="" type="checkbox"> 阅读 “Unix Tools For Debugging” 章节的 <code>strace</code> 部分</li>
+<li><input disabled="" type="checkbox"> <strong>本地实验</strong>：用 <code>strace</code> 追踪一个 Python 程序的系统调用<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 追踪所有系统调用</span></span><br><span class="line">strace -e trace=file python -c <span class="string">&quot;import torch; torch.randn(10)&quot;</span> 2&gt;&amp;1 | <span class="built_in">head</span> -20</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只看文件操作</span></span><br><span class="line">strace -e trace=file,open,<span class="built_in">read</span>,write python your_script.py 2&gt;&amp;1 | grep -E <span class="string">&quot;open|read|write&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 统计每种系统调用的次数</span></span><br><span class="line">strace -c python your_script.py 2&gt;&amp;1</span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 理解输出格式：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">open(&quot;/path/to/file&quot;, O_RDONLY) = 3  # 打开文件，返回文件描述符 3</span><br><span class="line">read(3, &quot;data...&quot;, 1024) = 1024       # 从 fd 3 读取 1024 字节</span><br><span class="line">close(3) = 0                          # 关闭 fd 3</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li><code>strace</code> 是诊断 “程序为什么慢” 的利器（可能是卡在 I&#x2F;O）</li>
+<li>如何区分 “CPU 计算慢” 和 “I&#x2F;O 等待慢”</li>
+</ul>
+<hr>
+<h3 id="Day-17：htop-nvtop-——-资源监控"><a href="#Day-17：htop-nvtop-——-资源监控" class="headerlink" title="Day 17：htop &#x2F; nvtop —— 资源监控"></a>Day 17：htop &#x2F; nvtop —— 资源监控</h3><ul>
+<li><input disabled="" type="checkbox"> 阅读书中关于系统监控的部分</li>
+<li><input disabled="" type="checkbox"> <strong>本地实验</strong>：同时运行 <code>htop</code> 和 <code>nvtop</code>，观察资源使用<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 终端 1</span></span><br><span class="line">htop</span><br><span class="line"></span><br><span class="line"><span class="comment"># 终端 2</span></span><br><span class="line">nvtop</span><br><span class="line"></span><br><span class="line"><span class="comment"># 终端 3：跑一个压力测试</span></span><br><span class="line">python -c <span class="string">&quot;import torch; a=torch.randn(10000,10000,device=&#x27;cuda&#x27;); [torch.matmul(a,a) for _ in range(100)]&quot;</span></span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 观察：<ul>
+<li>CPU 利用率是否 100%？（如果是，可能是 DataLoader 瓶颈）</li>
+<li>GPU 利用率是否 100%？（如果不是，可能是 CPU 等待或 I&#x2F;O 瓶颈）</li>
+<li>显存占用是否稳步上升？（可能是泄漏）</li>
+</ul>
+</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li><code>htop</code> 看 CPU&#x2F;内存，<code>nvtop</code> 看 GPU&#x2F;显存</li>
+<li>“GPU 利用率 100%” 不一定代表高效（可能是在等内存）</li>
+</ul>
+<hr>
+<h3 id="Day-18：tmux-nohup-——-后台与持久化"><a href="#Day-18：tmux-nohup-——-后台与持久化" class="headerlink" title="Day 18：tmux + nohup —— 后台与持久化"></a>Day 18：tmux + nohup —— 后台与持久化</h3><ul>
+<li><input disabled="" type="checkbox"> 阅读书中关于进程管理的部分</li>
+<li><input disabled="" type="checkbox"> <strong>本地实验</strong>：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 用 tmux 创建会话</span></span><br><span class="line">tmux new -s train</span><br><span class="line"><span class="comment"># 在 tmux 中运行训练</span></span><br><span class="line">python train.py</span><br><span class="line"><span class="comment"># 按 Ctrl+B 然后 D 分离会话</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 重新连接</span></span><br><span class="line">tmux attach -t train</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用 nohup 后台运行</span></span><br><span class="line"><span class="built_in">nohup</span> python train.py &gt; train.log 2&gt;&amp;1 &amp;</span><br><span class="line"><span class="comment"># 查看输出</span></span><br><span class="line"><span class="built_in">tail</span> -f train.log</span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 理解 <code>tmux</code> 和 <code>nohup</code> 的适用场景：<ul>
+<li><code>tmux</code>：需要交互式操作（随时 attach 进去看）</li>
+<li><code>nohup</code>：纯后台运行（适合长时间训练）</li>
+</ul>
+</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>为什么 “SSH 断开训练不中断” 是刚需</li>
+<li><code>tmux</code> 是远程服务器上最实用的工具之一</li>
+</ul>
+<hr>
+<h3 id="Day-19：Unix-调试周复盘-全书总结"><a href="#Day-19：Unix-调试周复盘-全书总结" class="headerlink" title="Day 19：Unix 调试周复盘 + 全书总结"></a>Day 19：Unix 调试周复盘 + 全书总结</h3><ul>
+<li><input disabled="" type="checkbox"> 回答：<ul>
+<li><code>strace</code> 能解决什么问题？不能解决什么问题？</li>
+<li><code>htop</code> 中 “CPU 利用率 100% 但程序很慢” 可能是什么原因？</li>
+<li><code>tmux</code> 和 <code>nohup</code> 各适用于什么场景？</li>
+<li>调试方法论的两个核心需求是什么？</li>
+<li>Python 调试的四个工具（q&#x2F;pdb&#x2F;py-spy&#x2F;objprint）各适用于什么场景？</li>
+<li>PyTorch 调试的四个工具（detect_anomaly&#x2F;profiler&#x2F;memory&#x2F;gradient）各适用于什么场景？</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> 记录：这本书对你最有价值的 3 个知识点</li>
+<li><input disabled="" type="checkbox"> 记录：你还想深入了解但没覆盖到的 3 个主题</li>
+</ul>
+<hr>
+<h2 id="附录：调试工具速查表"><a href="#附录：调试工具速查表" class="headerlink" title="附录：调试工具速查表"></a>附录：调试工具速查表</h2><table>
 <thead>
 <tr>
 <th>工具</th>
 <th>用途</th>
 <th>安装</th>
+<th>适用场景</th>
 </tr>
 </thead>
 <tbody><tr>
 <td><code>q</code></td>
-<td>Python 快速打印追踪</td>
+<td>快速打印追踪</td>
 <td><code>pip install q</code></td>
+<td>不污染 stdout 的调试</td>
+</tr>
+<tr>
+<td><code>pdb</code></td>
+<td>断点调试</td>
+<td>内置</td>
+<td>逐行调试</td>
+</tr>
+<tr>
+<td><code>ipdb</code></td>
+<td>增强版 pdb</td>
+<td><code>pip install ipdb</code></td>
+<td>需要语法高亮和补全</td>
 </tr>
 <tr>
 <td><code>py-spy</code></td>
-<td>无侵入式 Python profiler</td>
+<td>性能分析</td>
 <td><code>pip install py-spy</code></td>
+<td>无侵入式 profiling</td>
 </tr>
 <tr>
-<td><code>gdb</code></td>
-<td>C&#x2F;C++ 调试器</td>
-<td>系统包管理器</td>
+<td><code>objprint</code></td>
+<td>打印对象结构</td>
+<td><code>pip install objprint</code></td>
+<td>查看复杂对象</td>
 </tr>
 <tr>
 <td><code>strace</code></td>
 <td>系统调用追踪</td>
-<td>系统包管理器</td>
-</tr>
-<tr>
-<td><code>nvidia-smi</code></td>
-<td>GPU 状态监控</td>
-<td>NVIDIA 驱动自带</td>
+<td>系统自带</td>
+<td>诊断 I&#x2F;O 问题</td>
 </tr>
 <tr>
 <td><code>htop</code></td>
-<td>交互式进程查看器</td>
-<td>系统包管理器</td>
+<td>CPU&#x2F;内存监控</td>
+<td><code>apt install htop</code></td>
+<td>资源使用监控</td>
 </tr>
 <tr>
-<td><code>ncdu</code></td>
-<td>磁盘使用情况分析</td>
-<td>系统包管理器</td>
+<td><code>nvtop</code></td>
+<td>GPU 监控</td>
+<td><code>apt install nvtop</code></td>
+<td>显存&#x2F;GPU 监控</td>
+</tr>
+<tr>
+<td><code>tmux</code></td>
+<td>会话管理</td>
+<td><code>apt install tmux</code></td>
+<td>持久化终端会话</td>
+</tr>
+<tr>
+<td><code>nohup</code></td>
+<td>后台运行</td>
+<td>内置</td>
+<td>长时间后台任务</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="附录：调试决策树"><a href="#附录：调试决策树" class="headerlink" title="附录：调试决策树"></a>附录：调试决策树</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">程序崩溃了？</span><br><span class="line">├── 是 → 能否稳定复现？</span><br><span class="line">│   ├── 否 → 检查随机种子、并发问题</span><br><span class="line">│   └── 是 → 用最小数据复现</span><br><span class="line">│       ├── 用 q/pdb 定位崩溃点</span><br><span class="line">│       └── 用 detect_anomaly 检查 NaN</span><br><span class="line">└── 否 → 程序能跑但结果不对？</span><br><span class="line">    ├── 是 → 检查输入数据</span><br><span class="line">    │   ├── 数据正确？→ 检查模型输出</span><br><span class="line">    │   │   ├── 输出正确？→ 检查后处理</span><br><span class="line">    │   │   └── 输出错误？→ 检查中间层</span><br><span class="line">    │   │       ├── 用 py-spy 找性能瓶颈</span><br><span class="line">    │   │       └── 用 Profiler 分析时间线</span><br><span class="line">    │   └── 数据错误？→ 修复数据预处理</span><br><span class="line">    └── 否 → 程序太慢？</span><br><span class="line">        ├── 用 py-spy 定位热点</span><br><span class="line">        ├── 用 nvtop 看 GPU 利用率</span><br><span class="line">        ├── 用 strace 检查 I/O</span><br><span class="line">        └── 用 Profiler 分析 CUDA kernel</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="附录：本地可复现调试案例"><a href="#附录：本地可复现调试案例" class="headerlink" title="附录：本地可复现调试案例"></a>附录：本地可复现调试案例</h2><table>
+<thead>
+<tr>
+<th>案例</th>
+<th>现象</th>
+<th>诊断</th>
+<th>解决</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NaN Loss</td>
+<td>loss 变成 nan</td>
+<td><code>detect_anomaly</code> + 梯度检查</td>
+<td>梯度裁剪、降低学习率</td>
+</tr>
+<tr>
+<td>OOM</td>
+<td>CUDA out of memory</td>
+<td><code>memory_summary()</code></td>
+<td>减小 batch、用 gradient checkpoint</td>
+</tr>
+<tr>
+<td>慢训练</td>
+<td>100% GPU 但吞吐低</td>
+<td><code>py-spy</code> + Profiler</td>
+<td>检查 DataLoader、启用 compile</td>
+</tr>
+<tr>
+<td>死锁</td>
+<td>程序卡住不动</td>
+<td><code>strace -p &lt;pid&gt;</code></td>
+<td>检查分布式通信</td>
+</tr>
+<tr>
+<td>结果不一致</td>
+<td>每次运行结果不同</td>
+<td>检查随机种子</td>
+<td>设置 <code>torch.manual_seed</code></td>
 </tr>
 </tbody></table>
 
@@ -504,8 +693,8 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2026/06/01/AI-Performance-Engineering-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="prev" title="AI Performance Engineering 读书笔记">
-                  <i class="fa fa-angle-left"></i> AI Performance Engineering 读书笔记
+                <a href="/2026/06/01/AI-Performance-Engineering-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="prev" title="AI Performance Engineering 读书笔记（逐日展开版）">
+                  <i class="fa fa-angle-left"></i> AI Performance Engineering 读书笔记（逐日展开版）
                 </a>
             </div>
             <div class="post-nav-item">

@@ -20,15 +20,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"zincsabian.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":{"giscus":{"text":"Load Giscus","order":-1}}},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="原书地址：https:&#x2F;&#x2F;github.com&#x2F;stas00&#x2F;ml-engineering 作者：Stas Bekman（BLOOM-176B、IDEFICS-80B 训练工程师）许可：CC BY-SA 4.0  这是一本面向 LLM&#x2F;VLM 训练工程师和操作人员的开放技术手册，涵盖从硬件选型到训练、推理、调试的全流程实战经验。以下内容按照原书结构整理，方便日后查阅和学习。">
+    <meta name="description" content="原书地址：https:&#x2F;&#x2F;github.com&#x2F;stas00&#x2F;ml-engineering 作者：Stas Bekman（BLOOM-176B、IDEFICS-80B 训练工程师）许可：CC BY-SA 4.0 这是一本面向 LLM&#x2F;VLM 训练工程师的开放技术手册。本文按”先读理论 → 再跑实验 → 最后总结”的路径逐日展开，每步都有 [ ] 进度标识和预期收获。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ML Engineering 读书笔记">
+<meta property="og:title" content="ML Engineering 读书笔记（逐日展开版）">
 <meta property="og:url" content="https://zincsabian.github.io/2026/06/01/ML-Engineering-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="ZincSabian&#39;s Blog">
-<meta property="og:description" content="原书地址：https:&#x2F;&#x2F;github.com&#x2F;stas00&#x2F;ml-engineering 作者：Stas Bekman（BLOOM-176B、IDEFICS-80B 训练工程师）许可：CC BY-SA 4.0  这是一本面向 LLM&#x2F;VLM 训练工程师和操作人员的开放技术手册，涵盖从硬件选型到训练、推理、调试的全流程实战经验。以下内容按照原书结构整理，方便日后查阅和学习。">
+<meta property="og:description" content="原书地址：https:&#x2F;&#x2F;github.com&#x2F;stas00&#x2F;ml-engineering 作者：Stas Bekman（BLOOM-176B、IDEFICS-80B 训练工程师）许可：CC BY-SA 4.0 这是一本面向 LLM&#x2F;VLM 训练工程师的开放技术手册。本文按”先读理论 → 再跑实验 → 最后总结”的路径逐日展开，每步都有 [ ] 进度标识和预期收获。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-06-01T06:05:00.000Z">
-<meta property="article:modified_time" content="2026-06-02T01:54:42.681Z">
+<meta property="article:modified_time" content="2026-06-02T02:59:52.015Z">
 <meta property="article:author" content="ZincSabian">
 <meta property="article:tag" content="LLM">
 <meta property="article:tag" content="工程实践">
@@ -39,10 +39,10 @@
 <link rel="canonical" href="https://zincsabian.github.io/2026/06/01/ML-Engineering-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zincsabian.github.io/2026/06/01/ML-Engineering-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/","path":"2026/06/01/ML-Engineering-读书笔记/","title":"ML Engineering 读书笔记"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zincsabian.github.io/2026/06/01/ML-Engineering-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/","path":"2026/06/01/ML-Engineering-读书笔记/","title":"ML Engineering 读书笔记（逐日展开版）"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>ML Engineering 读书笔记 | ZincSabian's Blog</title>
+<title>ML Engineering 读书笔记（逐日展开版） | ZincSabian's Blog</title>
   
 
 
@@ -160,7 +160,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81AI-%E6%88%98%E5%9C%BA%E5%B7%A5%E7%A8%8B%EF%BC%88Insights%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">一、AI 战场工程（Insights）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-AI-%E7%AB%9E%E8%B5%9B%E4%B8%AD%E4%BB%80%E4%B9%88%E6%9C%80%E9%87%8D%E8%A6%81%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 AI 竞赛中什么最重要？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-LLM-%E8%AE%AD%E7%BB%83%E9%9C%80%E8%A6%81%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 LLM 训练需要什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-ML-%E7%9A%84%E2%80%9D%E4%B8%BB%E5%8A%9B%E5%86%9B%E2%80%9D"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 ML 的”主力军”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-%E4%BF%A1%E6%81%AF%E5%88%86%E4%BA%AB%E6%96%87%E5%8C%96"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 信息分享文化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-ML-%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%9A%84%E5%A4%A9%E5%A0%82%E4%B8%8E%E5%9C%B0%E7%8B%B1"><span class="nav-number">1.5.</span> <span class="nav-text">1.5 ML 工程师的天堂与地狱</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E7%A1%AC%E4%BB%B6%EF%BC%88Hardware%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">二、硬件（Hardware）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E8%AE%A1%E7%AE%97%EF%BC%88Compute%EF%BC%89"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 计算（Compute）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E5%AD%98%E5%82%A8%EF%BC%88Storage%EF%BC%89"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 存储（Storage）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E7%BD%91%E7%BB%9C%EF%BC%88Network%EF%BC%89"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 网络（Network）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E7%BC%96%E6%8E%92%EF%BC%88Orchestration%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">三、编排（Orchestration）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-SLURM"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 SLURM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-Kubernetes"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 Kubernetes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E5%85%B6%E4%BB%96%E7%BC%96%E6%8E%92%E6%96%B9%E6%A1%88"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 其他编排方案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E8%AE%AD%E7%BB%83%EF%BC%88Training%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">四、训练（Training）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E6%A8%A1%E5%9E%8B%E5%B9%B6%E8%A1%8C%EF%BC%88Model-Parallelism%EF%BC%89"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 模型并行（Model Parallelism）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 性能优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-%E5%AE%B9%E9%94%99%EF%BC%88Fault-Tolerance%EF%BC%89"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 容错（Fault Tolerance）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-%E4%B8%8D%E7%A8%B3%E5%AE%9A%E6%80%A7%EF%BC%88Instabilities%EF%BC%89"><span class="nav-number">4.4.</span> <span class="nav-text">4.4 不稳定性（Instabilities）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-Checkpoint"><span class="nav-number">4.5.</span> <span class="nav-text">4.5 Checkpoint</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E6%8E%A8%E7%90%86%EF%BC%88Inference%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">五、推理（Inference）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 核心概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-Batching"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 Batching</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E5%BC%80%E5%8F%91%E4%B8%8E%E8%B0%83%E8%AF%95%EF%BC%88Development%EF%BC%89"><span class="nav-number">6.</span> <span class="nav-text">六、开发与调试（Development）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-%E5%BF%AB%E9%80%9F%E8%B0%83%E8%AF%95%E6%96%B9%E6%B3%95%E8%AE%BA"><span class="nav-number">6.1.</span> <span class="nav-text">6.1 快速调试方法论</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-%E8%B0%83%E8%AF%95-PyTorch-%E7%A8%8B%E5%BA%8F"><span class="nav-number">6.2.</span> <span class="nav-text">6.2 调试 PyTorch 程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3-%E7%BD%91%E7%BB%9C%E8%B0%83%E8%AF%95"><span class="nav-number">6.3.</span> <span class="nav-text">6.3 网络调试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-4-%E6%B5%8B%E8%AF%95"><span class="nav-number">6.4.</span> <span class="nav-text">6.4 测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7"><span class="nav-number">7.</span> <span class="nav-text">七、实用工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AB%E3%80%81%E8%B5%84%E6%BA%90%E4%B8%8E%E6%9B%B4%E6%96%B0"><span class="nav-number">8.</span> <span class="nav-text">八、资源与更新</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%A0%E7%9A%84%E7%A1%AC%E4%BB%B6%E8%83%BD%E5%81%9A%E4%BB%80%E4%B9%88"><span class="nav-number">1.1.</span> <span class="nav-text">你的硬件能做什么</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-1%EF%BC%9AAI-%E6%88%98%E5%9C%BA%E5%B7%A5%E7%A8%8B%EF%BC%88Day-1-3%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">Part 1：AI 战场工程（Day 1-3）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-1%EF%BC%9A%E5%85%A8%E4%B9%A6%E6%A6%82%E8%A7%88%E4%B8%8E%E7%9B%AE%E5%BD%95%E6%A2%B3%E7%90%86"><span class="nav-number">2.1.</span> <span class="nav-text">Day 1：全书概览与目录梳理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-2%EF%BC%9AAI-%E7%AB%9E%E8%B5%9B%E7%9A%84%E6%9C%AC%E8%B4%A8-%E2%80%94%E2%80%94-%E8%AE%AD%E7%BB%83%E4%B8%8E%E6%8E%A8%E7%90%86%E7%9A%84%E6%88%90%E6%9C%AC"><span class="nav-number">2.2.</span> <span class="nav-text">Day 2：AI 竞赛的本质 —— 训练与推理的成本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-3%EF%BC%9AML-%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%9A%84%E5%A4%A9%E5%A0%82%E4%B8%8E%E5%9C%B0%E7%8B%B1"><span class="nav-number">2.3.</span> <span class="nav-text">Day 3：ML 工程师的天堂与地狱</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-2%EF%BC%9A%E7%A1%AC%E4%BB%B6%EF%BC%88Day-4-8%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">Part 2：硬件（Day 4-8）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-4%EF%BC%9A%E5%8A%A0%E9%80%9F%E5%99%A8%E9%80%89%E5%9E%8B"><span class="nav-number">3.1.</span> <span class="nav-text">Day 4：加速器选型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-5%EF%BC%9A%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F"><span class="nav-number">3.2.</span> <span class="nav-text">Day 5：存储系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-6%EF%BC%9A%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84"><span class="nav-number">3.3.</span> <span class="nav-text">Day 6：网络架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-7%EF%BC%9A%E7%BC%96%E6%8E%92%E7%B3%BB%E7%BB%9F"><span class="nav-number">3.4.</span> <span class="nav-text">Day 7：编排系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-8%EF%BC%9A%E7%A1%AC%E4%BB%B6%E5%91%A8%E5%A4%8D%E7%9B%98"><span class="nav-number">3.5.</span> <span class="nav-text">Day 8：硬件周复盘</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-3%EF%BC%9A%E8%AE%AD%E7%BB%83%EF%BC%88Day-9-12%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">Part 3：训练（Day 9-12）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-9%EF%BC%9A%E6%A8%A1%E5%9E%8B%E5%B9%B6%E8%A1%8C%E7%AD%96%E7%95%A5"><span class="nav-number">4.1.</span> <span class="nav-text">Day 9：模型并行策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-10%EF%BC%9A%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B8%8E-Checkpoint"><span class="nav-number">4.2.</span> <span class="nav-text">Day 10：性能优化与 Checkpoint</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-11%EF%BC%9A%E8%AE%AD%E7%BB%83%E4%B8%8D%E7%A8%B3%E5%AE%9A%E6%80%A7"><span class="nav-number">4.3.</span> <span class="nav-text">Day 11：训练不稳定性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-12%EF%BC%9A%E8%AE%AD%E7%BB%83%E5%91%A8%E5%A4%8D%E7%9B%98"><span class="nav-number">4.4.</span> <span class="nav-text">Day 12：训练周复盘</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-4%EF%BC%9A%E6%8E%A8%E7%90%86%EF%BC%88Day-13-15%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">Part 4：推理（Day 13-15）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-13%EF%BC%9APrefill-vs-Decode"><span class="nav-number">5.1.</span> <span class="nav-text">Day 13：Prefill vs Decode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-14%EF%BC%9ABatching-%E7%AD%96%E7%95%A5"><span class="nav-number">5.2.</span> <span class="nav-text">Day 14：Batching 策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-15%EF%BC%9A%E6%8E%A8%E7%90%86%E5%91%A8%E5%A4%8D%E7%9B%98-%E5%B7%A5%E5%85%B7%E9%93%BE%E5%AE%9E%E9%AA%8C"><span class="nav-number">5.3.</span> <span class="nav-text">Day 15：推理周复盘 + 工具链实验</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-5%EF%BC%9A%E8%B0%83%E8%AF%95%E4%B8%8E%E5%BC%80%E5%8F%91%EF%BC%88Day-16-18%EF%BC%89"><span class="nav-number">6.</span> <span class="nav-text">Part 5：调试与开发（Day 16-18）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-16%EF%BC%9A%E8%B0%83%E8%AF%95%E6%96%B9%E6%B3%95%E8%AE%BA"><span class="nav-number">6.1.</span> <span class="nav-text">Day 16：调试方法论</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-17%EF%BC%9APyTorch-%E8%B0%83%E8%AF%95%E5%AE%9E%E6%88%98"><span class="nav-number">6.2.</span> <span class="nav-text">Day 17：PyTorch 调试实战</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-18%EF%BC%9A%E6%B5%8B%E8%AF%95%E7%AD%96%E7%95%A5"><span class="nav-number">6.3.</span> <span class="nav-text">Day 18：测试策略</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-6%EF%BC%9A%E5%85%A8%E5%B1%80%E5%A4%8D%E7%9B%98%EF%BC%88Day-19%EF%BC%89"><span class="nav-number">7.</span> <span class="nav-text">Part 6：全局复盘（Day 19）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Day-19%EF%BC%9A%E5%85%A8%E4%B9%A6%E6%80%BB%E7%BB%93%E4%B8%8E%E8%87%AA%E6%88%91%E6%A3%80%E9%AA%8C"><span class="nav-number">7.1.</span> <span class="nav-text">Day 19：全书总结与自我检验</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E5%BD%95%EF%BC%9A%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%E9%80%9F%E6%9F%A5%E8%A1%A8"><span class="nav-number">8.</span> <span class="nav-text">附录：核心概念速查表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E5%BD%95%EF%BC%9A%E6%9C%AC%E5%9C%B0%E5%8F%AF%E5%A4%8D%E7%8E%B0%E5%AE%9E%E9%AA%8C%E6%B8%85%E5%8D%95"><span class="nav-number">9.</span> <span class="nav-text">附录：本地可复现实验清单</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -226,12 +226,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="ML Engineering 读书笔记 | ZincSabian's Blog">
+      <meta itemprop="name" content="ML Engineering 读书笔记（逐日展开版） | ZincSabian's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          ML Engineering 读书笔记
+          ML Engineering 读书笔记（逐日展开版）
         </h1>
 
         <div class="post-meta-container">
@@ -249,7 +249,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-06-02 09:54:42" itemprop="dateModified" datetime="2026-06-02T09:54:42+08:00">2026-06-02</time>
+      <time title="修改时间：2026-06-02 10:59:52" itemprop="dateModified" datetime="2026-06-02T10:59:52+08:00">2026-06-02</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -273,237 +273,495 @@
     <div class="post-body" itemprop="articleBody"><blockquote>
 <p>原书地址：<a target="_blank" rel="noopener" href="https://github.com/stas00/ml-engineering">https://github.com/stas00/ml-engineering</a></p>
 <p>作者：Stas Bekman（BLOOM-176B、IDEFICS-80B 训练工程师）<br>许可：CC BY-SA 4.0</p>
+<p>这是一本面向 LLM&#x2F;VLM 训练工程师的开放技术手册。本文按”先读理论 → 再跑实验 → 最后总结”的路径逐日展开，每步都有 <code>[ ]</code> 进度标识和预期收获。</p>
 </blockquote>
-<p>这是一本面向 LLM&#x2F;VLM 训练工程师和操作人员的开放技术手册，涵盖从硬件选型到训练、推理、调试的全流程实战经验。以下内容按照原书结构整理，方便日后查阅和学习。</p>
 <span id="more"></span>
 
 <hr>
-<h2 id="一、AI-战场工程（Insights）"><a href="#一、AI-战场工程（Insights）" class="headerlink" title="一、AI 战场工程（Insights）"></a>一、AI 战场工程（Insights）</h2><h3 id="1-1-AI-竞赛中什么最重要？"><a href="#1-1-AI-竞赛中什么最重要？" class="headerlink" title="1.1 AI 竞赛中什么最重要？"></a>1.1 AI 竞赛中什么最重要？</h3><p><strong>训练阶段：</strong></p>
-<ol>
-<li>多快能训练出一个更好的模型（先发优势）</li>
-<li>花了多少钱（训练后是否还有钱付工资？）</li>
-</ol>
-<p><strong>推理阶段：</strong></p>
-<ol>
-<li>低延迟（用户习惯毫秒级响应，秒级会流失）</li>
-<li>高吞吐（能同时处理多少查询）</li>
-<li>每个用户的成本（能否租更多 GPU 来服务更多用户？）</li>
-</ol>
-<h3 id="1-2-LLM-训练需要什么？"><a href="#1-2-LLM-训练需要什么？" class="headerlink" title="1.2 LLM 训练需要什么？"></a>1.2 LLM 训练需要什么？</h3><ol>
-<li><strong>快速的计算能力</strong> —— 主要由矩阵乘法主导</li>
-<li><strong>足够快的内存、IO、网络和 CPU</strong> —— 来为计算单元供数</li>
-</ol>
-<p><strong>推论：</strong> 如果你买了最快的加速器，但在其他组件上省钱，那就是浪费钱，训练会更慢。</p>
-<h3 id="1-3-ML-的”主力军”"><a href="#1-3-ML-的”主力军”" class="headerlink" title="1.3 ML 的”主力军”"></a>1.3 ML 的”主力军”</h3><ul>
-<li><strong>加速器</strong>：GPU、TPU、IPU、FPGA、HPU、QPU、RDU 等</li>
-<li>最近的 CPU 也越来越多地被用于推理</li>
-</ul>
-<h3 id="1-4-信息分享文化"><a href="#1-4-信息分享文化" class="headerlink" title="1.4 信息分享文化"></a>1.4 信息分享文化</h3><p>AI 领域有一个令人惊讶的现象：几乎所有人都会与社区分享大量发现。虽然公司不会披露所有 IP，但很多知识或模型权重都会公开。</p>
-<ul>
-<li>Twitter 是跟踪最新动态的核心平台</li>
-</ul>
-<h3 id="1-5-ML-工程师的天堂与地狱"><a href="#1-5-ML-工程师的天堂与地狱" class="headerlink" title="1.5 ML 工程师的天堂与地狱"></a>1.5 ML 工程师的天堂与地狱</h3><p><strong>天堂：</strong></p>
-<ul>
-<li>有人专门维护硬件和系统的 HPC&#x2F;全托管云集群</li>
-<li>大量可独占使用的节点</li>
-<li>快速的节点间连接，不与他人共享</li>
-<li>巨大的本地 NVMe 共享文件系统</li>
-<li>barebones Linux + SLURM，最小化软件栈</li>
-<li>拥有 <code>sudo</code> 权限</li>
-</ul>
-<p><strong>地狱：</strong></p>
-<ul>
-<li>需要自己当系统管理员的云&#x2F;内部集群</li>
-<li>缓慢的小型共享文件系统（NFS？）</li>
-<li>缓慢的节点间网络导致加速器利用率低</li>
-<li>网络与其他用户共享，导致不稳定</li>
-<li>超级复杂的云控制台，连简单设置都要点无数个屏幕</li>
-</ul>
-<hr>
-<h2 id="二、硬件（Hardware）"><a href="#二、硬件（Hardware）" class="headerlink" title="二、硬件（Hardware）"></a>二、硬件（Hardware）</h2><h3 id="2-1-计算（Compute）"><a href="#2-1-计算（Compute）" class="headerlink" title="2.1 计算（Compute）"></a>2.1 计算（Compute）</h3><p><strong>加速器（Accelerator）</strong>：ML 的主力军</p>
-<ul>
-<li>GPU、TPU、IPU、FPGA、HPUs、QPUs、RDUs</li>
-<li>选择加速器时需关注：理论 TFLOPS、内存大小和带宽</li>
-</ul>
-<p><strong>CPU</strong>：</p>
-<ul>
-<li>CPU 亲和性（affinity）设置很重要</li>
-<li>需要足够快的 CPU 来预处理数据并调度加速器</li>
-</ul>
-<p><strong>CPU 内存</strong>：</p>
-<ul>
-<li>“多少 CPU 内存才够？” —— 这是全书最短的章节</li>
-<li>答案：越多越好，但关键是平衡</li>
-</ul>
-<h3 id="2-2-存储（Storage）"><a href="#2-2-存储（Storage）" class="headerlink" title="2.2 存储（Storage）"></a>2.2 存储（Storage）</h3><p>ML 工作负载有 3 种截然不同的 IO 需求：</p>
-<ol>
-<li><strong>DataLoader 读取</strong> —— 需要超快的可持续读取，持续数小时甚至数天</li>
-<li><strong>Checkpoint 写入</strong> —— 需要超快的突发写入，越快越好，否则会阻塞训练</li>
-<li><strong>代码加载</strong> —— 中等速度读写，需要共享以便所有节点看到相同代码</li>
-</ol>
-<p><strong>理想的文件系统选择：</strong></p>
-<p>分布式并行文件系统是最高效的解决方案：</p>
-<ul>
-<li><strong>GPFS</strong>（IBM，现称 IBM Storage Scale）</li>
-<li><strong>WekaIO</strong></li>
-<li><strong>Lustre FS</strong>（开源）</li>
-</ul>
-<p>其他选择：</p>
-<ul>
-<li>BeeGFS</li>
-<li>DAOS（Intel）</li>
-<li>NetApp、VAST</li>
-</ul>
-<p><strong>案例研究：</strong> 在 JeanZay HPC（法国），2021 年用 GPFS + NVMe 在 384 个进程上并行保存 2.3TB checkpoint 只用了 40 秒。</p>
-<h3 id="2-3-网络（Network）"><a href="#2-3-网络（Network）" class="headerlink" title="2.3 网络（Network）"></a>2.3 网络（Network）</h3><p>节点有 3 种网络，速度差异很大：</p>
-<ol>
-<li><strong>前端网络（Frontend）</strong> —— 互联网连接、分布式存储、编排（SLURM&#x2F;K8s），通常 100-400Gbps</li>
-<li><strong>后端网络（Backend）</strong> —— 加速器间通信，需要极高的带宽</li>
-<li><strong>带外网络（Out-of-band）</strong> —— 管理&#x2F;监控用途</li>
-</ol>
-<p><strong>关键概念：</strong></p>
-<ul>
-<li><strong>RDMA</strong>（Remote Direct Memory Access）：绕过 CPU 直接读写远程内存</li>
-<li><strong>RoCE</strong>（RDMA over Converged Ethernet）</li>
-<li><strong>InfiniBand（IB）</strong>：高性能计算网络的事实标准</li>
-<li><strong>NVLink&#x2F;NVSwitch</strong>：NVIDIA GPU 之间的高速互联</li>
-</ul>
-<p><strong>单工 vs 双工：</strong> 注意区分单向（Unidirectional）和双向（Duplex）带宽，后者通常是前者的 2 倍。</p>
-<hr>
-<h2 id="三、编排（Orchestration）"><a href="#三、编排（Orchestration）" class="headerlink" title="三、编排（Orchestration）"></a>三、编排（Orchestration）</h2><h3 id="3-1-SLURM"><a href="#3-1-SLURM" class="headerlink" title="3.1 SLURM"></a>3.1 SLURM</h3><p>Simple Linux Utility for Resource Management，在大多数 HPC 环境中都能找到，已有 20 多年历史。</p>
-<p><strong>SLURM on Kubernetes：</strong></p>
-<ul>
-<li><strong>Slinky</strong>：SLURM 原作者开发的框架</li>
-<li><strong>Soperator</strong>：Nebius 出品</li>
-</ul>
-<h3 id="3-2-Kubernetes"><a href="#3-2-Kubernetes" class="headerlink" title="3.2 Kubernetes"></a>3.2 Kubernetes</h3><p>K8s，最流行的容器编排系统，用于自动化部署、扩展和管理容器化应用。</p>
-<h3 id="3-3-其他编排方案"><a href="#3-3-其他编排方案" class="headerlink" title="3.3 其他编排方案"></a>3.3 其他编排方案</h3><ul>
-<li><strong>dstack</strong>：K8s 和 Slurm 的轻量级开源替代，支持 NVIDIA、AMD、TPU</li>
-<li><strong>SkyPilot</strong>：统一执行、高成本节省、高 GPU 可用性</li>
-<li><strong>OpenHPC</strong>：提供 HPC Linux 集群所需的各种预构建组件</li>
-<li><strong>run.ai</strong>：被 NVIDIA 收购，计划开源</li>
-<li><strong>Docker Swarm</strong>：Docker 官方的容器编排工具</li>
-</ul>
-<hr>
-<h2 id="四、训练（Training）"><a href="#四、训练（Training）" class="headerlink" title="四、训练（Training）"></a>四、训练（Training）</h2><h3 id="4-1-模型并行（Model-Parallelism）"><a href="#4-1-模型并行（Model-Parallelism）" class="headerlink" title="4.1 模型并行（Model Parallelism）"></a>4.1 模型并行（Model Parallelism）</h3><p>当模型太大，单个加速器放不下时的策略：</p>
-<ul>
-<li><strong>数据并行（DP）</strong>：每个 GPU 持有完整模型副本，处理不同数据批次</li>
-<li><strong>张量并行（TP）</strong>：将模型层切分到多个 GPU</li>
-<li><strong>流水线并行（PP）</strong>：将模型按层分配到不同 GPU</li>
-<li><strong>FSDP</strong>：Fully Sharded Data Parallel，PyTorch 的分布式方案</li>
-</ul>
-<h3 id="4-2-性能优化"><a href="#4-2-性能优化" class="headerlink" title="4.2 性能优化"></a>4.2 性能优化</h3><ul>
-<li>重叠计算与通信</li>
-<li>使用混合精度（FP16&#x2F;BF16）加速训练</li>
-<li>优化数据加载器，避免 GPU 等待数据</li>
-</ul>
-<h3 id="4-3-容错（Fault-Tolerance）"><a href="#4-3-容错（Fault-Tolerance）" class="headerlink" title="4.3 容错（Fault Tolerance）"></a>4.3 容错（Fault Tolerance）</h3><ul>
-<li>频繁保存 checkpoint</li>
-<li>使用弹性训练框架（如 Elastic Horovod、Torch Elastic）</li>
-<li>监控节点健康状态</li>
-</ul>
-<h3 id="4-4-不稳定性（Instabilities）"><a href="#4-4-不稳定性（Instabilities）" class="headerlink" title="4.4 不稳定性（Instabilities）"></a>4.4 不稳定性（Instabilities）</h3><ul>
-<li>Loss 爆炸：学习率过高、梯度裁剪不当</li>
-<li>NaN&#x2F;Inf：数值下溢&#x2F;上溢</li>
-<li>使用 <code>--detect-anomaly</code> 或自定义检测工具</li>
-</ul>
-<h3 id="4-5-Checkpoint"><a href="#4-5-Checkpoint" class="headerlink" title="4.5 Checkpoint"></a>4.5 Checkpoint</h3><ul>
-<li>保存频率：平衡恢复成本与丢失进度</li>
-<li>异步保存：避免阻塞训练</li>
-<li>案例：2.3TB checkpoint 在 384 进程上 40 秒完成（GPFS + NVMe）</li>
-</ul>
-<hr>
-<h2 id="五、推理（Inference）"><a href="#五、推理（Inference）" class="headerlink" title="五、推理（Inference）"></a>五、推理（Inference）</h2><h3 id="5-1-核心概念"><a href="#5-1-核心概念" class="headerlink" title="5.1 核心概念"></a>5.1 核心概念</h3><p><strong>Prefill 与 Decode：</strong></p>
-<ul>
-<li><strong>Prefill</strong>：一次性处理完整 prompt（类似训练），构建 KV Cache。延迟很小。</li>
-<li><strong>Decode</strong>：逐个生成新 token（回归式），无法并行化，是延迟的主要来源。</li>
-</ul>
-<p><strong>Online vs Offline 推理：</strong></p>
-<ul>
-<li><strong>Online</strong>：实时用户查询（聊天机器人、搜索引擎），需要低 TTFT（首 token 时间）和低延迟</li>
-<li><strong>Offline</strong>：批量处理（基准测试、合成数据生成），需要高吞吐</li>
-</ul>
-<p><strong>Grounding（ grounding&#x2F;上下文）：</strong></p>
-<ul>
-<li>给预训练模型提供训练时未见过的额外信息</li>
-<li>主要技术：<strong>RAG</strong>（检索增强生成）、微调</li>
-</ul>
-<h3 id="5-2-Batching"><a href="#5-2-Batching" class="headerlink" title="5.2 Batching"></a>5.2 Batching</h3><p><strong>静态批处理（Static Batching）：</strong></p>
-<ul>
-<li>将前 N 个查询 batch 在一起</li>
-<li>问题：如果某个查询提前完成，必须等最慢的完成才能返回</li>
-</ul>
-<p><strong>动态批处理（Continuous&#x2F;In-flight Batching）：</strong></p>
-<ul>
-<li>完成的查询立即移除，新查询立即加入</li>
-<li>batch 中不同位置可能处于完全不同的生成阶段</li>
-<li>显著提高响应速度，是 vLLM 等推理引擎的核心优化</li>
-</ul>
-<hr>
-<h2 id="六、开发与调试（Development）"><a href="#六、开发与调试（Development）" class="headerlink" title="六、开发与调试（Development）"></a>六、开发与调试（Development）</h2><h3 id="6-1-快速调试方法论"><a href="#6-1-快速调试方法论" class="headerlink" title="6.1 快速调试方法论"></a>6.1 快速调试方法论</h3><p><strong>两个核心需求：</strong></p>
-<ol>
-<li><strong>快速迭代</strong>：从重启到关键点的等待时间应控制在几秒</li>
-<li><strong>小数据</strong>：用最小数据调试，更容易记住、比较和心算</li>
-</ol>
-<p><strong>数据选择策略：</strong></p>
-<ul>
-<li>程序崩溃时：任何随机&#x2F;合成数据都可以</li>
-<li>程序能跑但质量不对：需要真实数据</li>
-<li>用 <code>rand</code> 或精心设计的合成数据（如 <code>[[1.0, 2.0], [3.0, 4.0]]</code>）</li>
-<li>ML 调试：用 10K 参数模型调功能，1B 模型测质量，175B 模型做最终训练</li>
-</ul>
-<h3 id="6-2-调试-PyTorch-程序"><a href="#6-2-调试-PyTorch-程序" class="headerlink" title="6.2 调试 PyTorch 程序"></a>6.2 调试 PyTorch 程序</h3><ul>
-<li>使用 <code>torch-distributed-gpu-test.py</code> 检查所有 GPU 是否能互相通信</li>
-<li>诊断 Hanging 和 Deadlock（多节点多 GPU Python 程序）</li>
-<li>检测 Underflow&#x2F;Overflow</li>
-<li>使用 <code>NicerTrace.py</code> 改进 trace 输出</li>
-</ul>
-<h3 id="6-3-网络调试"><a href="#6-3-网络调试" class="headerlink" title="6.3 网络调试"></a>6.3 网络调试</h3><ul>
-<li>使用 <code>all_reduce_bench.py</code> 替代 nccl-tests 进行网络吞吐量基准测试</li>
-<li>检查 RDMA 连接状态</li>
-<li>验证 NCCL 环境变量设置</li>
-</ul>
-<h3 id="6-4-测试"><a href="#6-4-测试" class="headerlink" title="6.4 测试"></a>6.4 测试</h3><ul>
-<li>编写可复现的测试</li>
-<li>使用 tiny models&#x2F;tokenizers&#x2F;datasets 加速测试</li>
-<li>持续集成（CI）确保代码质量</li>
-</ul>
-<hr>
-<h2 id="七、实用工具"><a href="#七、实用工具" class="headerlink" title="七、实用工具"></a>七、实用工具</h2><table>
+<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><h3 id="你的硬件能做什么"><a href="#你的硬件能做什么" class="headerlink" title="你的硬件能做什么"></a>你的硬件能做什么</h3><table>
 <thead>
 <tr>
-<th>工具</th>
-<th>用途</th>
+<th>配置</th>
+<th>能跑什么</th>
+<th>不能跑什么</th>
 </tr>
 </thead>
 <tbody><tr>
-<td><code>all_reduce_bench.py</code></td>
-<td>网络吞吐量基准测试（比 nccl-tests 更简单）</td>
+<td>RTX 5060 8GB</td>
+<td>读代码、跑小模型、验证概念</td>
+<td>训练 7B+ 模型、多卡分布式</td>
 </tr>
 <tr>
-<td><code>torch-distributed-gpu-test.py</code></td>
-<td>快速测试节点间 GPU 连通性</td>
+<td>CPU AMD 9600X</td>
+<td>数据预处理、编译</td>
+<td>大规模训练</td>
+</tr>
+</tbody></table>
+<p><strong>学习策略</strong>：理解原理不需要大模型。BLOOM-176B 的分布式策略和 1B 模型的原理是一样的，只是规模差异。用本地小模型验证概念，大模型训练的知识通过阅读和思考来掌握。</p>
+<hr>
+<h2 id="Part-1：AI-战场工程（Day-1-3）"><a href="#Part-1：AI-战场工程（Day-1-3）" class="headerlink" title="Part 1：AI 战场工程（Day 1-3）"></a>Part 1：AI 战场工程（Day 1-3）</h2><h3 id="Day-1：全书概览与目录梳理"><a href="#Day-1：全书概览与目录梳理" class="headerlink" title="Day 1：全书概览与目录梳理"></a>Day 1：全书概览与目录梳理</h3><ul>
+<li><input disabled="" type="checkbox"> 打开 <a target="_blank" rel="noopener" href="https://github.com/stas00/ml-engineering%EF%BC%8C%E9%98%85%E8%AF%BB">https://github.com/stas00/ml-engineering，阅读</a> README 的 Table of Contents</li>
+<li><input disabled="" type="checkbox"> 下载 PDF&#x2F;EPUB 版本（电子书链接在 README 中）</li>
+<li><input disabled="" type="checkbox"> 快速浏览每个 Part 的标题，标记你最感兴趣的部分</li>
+<li><input disabled="" type="checkbox"> 记录：全书共 7 个 Part，你目前对哪个最陌生？</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>这本书覆盖的范围：从硬件选型到训练、推理、调试的全流程</li>
+<li>哪些章节是你知识盲区（比如可能从没接触过 SLURM 或分布式文件系统）</li>
+<li>全书结构可以作为你未来遇到训练问题时的”查阅地图”</li>
+</ul>
+<hr>
+<h3 id="Day-2：AI-竞赛的本质-——-训练与推理的成本"><a href="#Day-2：AI-竞赛的本质-——-训练与推理的成本" class="headerlink" title="Day 2：AI 竞赛的本质 —— 训练与推理的成本"></a>Day 2：AI 竞赛的本质 —— 训练与推理的成本</h3><ul>
+<li><input disabled="" type="checkbox"> 精读 Part 1 “The AI Battlefield Engineering” 的第一节</li>
+<li><input disabled="" type="checkbox"> 列出作者说的 AI 竞赛中最重要的 6 个指标：<ul>
+<li>训练侧：<em><strong><strong>、</strong></strong></em></li>
+<li>推理侧：<em><strong><strong>、</strong></strong></em>、_____</li>
+<li>成本侧：_____</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>思考</strong>：如果你要训练一个 7B 模型，估算一下需要的 GPU 小时数（查一下 Llama-3 的训练成本作为参考）</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>为什么训练大模型不是”堆卡就行”，而是<strong>系统工程</strong></li>
+<li>“买了最快的加速器但在内存&#x2F;网络&#x2F;存储上省钱 &#x3D; 浪费钱” 这句话的底层逻辑</li>
+</ul>
+<hr>
+<h3 id="Day-3：ML-工程师的天堂与地狱"><a href="#Day-3：ML-工程师的天堂与地狱" class="headerlink" title="Day 3：ML 工程师的天堂与地狱"></a>Day 3：ML 工程师的天堂与地狱</h3><ul>
+<li><input disabled="" type="checkbox"> 精读 Part 1 的 “ML Engineer’s heaven and hell”</li>
+<li><input disabled="" type="checkbox"> 左边列 “天堂” 的特征，右边列 “地狱” 的特征</li>
+<li><input disabled="" type="checkbox"> <strong>对比</strong>：你目前的工作&#x2F;学习环境更接近天堂还是地狱？</li>
+<li><input disabled="" type="checkbox"> 思考：如果你只能改善一个”地狱”条件，优先改善哪个？（通常网络 &gt; 存储 &gt; 计算）</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>什么样的基础设施配置能让训练效率最大化</li>
+<li>为什么”慢速共享文件系统”和”与他人共享网络”是训练瓶颈</li>
+</ul>
+<hr>
+<h2 id="Part-2：硬件（Day-4-8）"><a href="#Part-2：硬件（Day-4-8）" class="headerlink" title="Part 2：硬件（Day 4-8）"></a>Part 2：硬件（Day 4-8）</h2><h3 id="Day-4：加速器选型"><a href="#Day-4：加速器选型" class="headerlink" title="Day 4：加速器选型"></a>Day 4：加速器选型</h3><ul>
+<li><input disabled="" type="checkbox"> 精读 Part 2 “Compute” 的 Accelerator 章节</li>
+<li><input disabled="" type="checkbox"> 整理一张对比表：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>加速器</th>
+<th>适用场景</th>
+<th>优缺点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NVIDIA GPU</td>
+<td>通用训练&#x2F;推理</td>
+<td>生态最好，最贵</td>
 </tr>
 <tr>
-<td><code>mamf-finder.py</code></td>
-<td>测量加速器实际可达 TFLOPS</td>
+<td>AMD GPU (MI300X)</td>
+<td>大模型训练</td>
+<td>性价比高，生态建设中</td>
 </tr>
 <tr>
-<td><code>printflock.py</code></td>
-<td>多 GPU 环境下非交错打印</td>
+<td>Google TPU</td>
+<td>Google Cloud 用户</td>
+<td>与 TensorFlow&#x2F;JAX 深度集成</td>
 </tr>
 <tr>
-<td><code>NicerTrace.py</code></td>
-<td>改进的 Python trace 模块</td>
+<td>Intel Gaudi</td>
+<td>特定场景</td>
+<td>价格优势</td>
+</tr>
+</tbody></table>
+<ul>
+<li><input disabled="" type="checkbox"> 查一下当前 A100&#x2F;H100&#x2F;MI300X 的租赁价格（Lambda Cloud、RunPod 等）</li>
+<li><input disabled="" type="checkbox"> <strong>本地实验</strong>：用 <code>nvidia-smi</code> 查看你的 RTX 5060 的显存带宽和算力<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvidia-smi -q | grep -E <span class="string">&quot;Product Name|Memory Bandwidth|CUDA Cores|Clock&quot;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>为什么 GPU 是 ML 训练的首选（并行计算架构适合矩阵乘法）</li>
+<li>不同加速器的 trade-off：NVIDIA 生态 vs AMD 价格 vs TPU 深度集成</li>
+</ul>
+<hr>
+<h3 id="Day-5：存储系统"><a href="#Day-5：存储系统" class="headerlink" title="Day 5：存储系统"></a>Day 5：存储系统</h3><ul>
+<li><input disabled="" type="checkbox"> 精读 Part 2 “Storage” 章节</li>
+<li><input disabled="" type="checkbox"> 理解 3 种 ML IO 需求：<ol>
+<li>DataLoader 读取：_____（读&#x2F;写速度要求）</li>
+<li>Checkpoint 写入：_____（读&#x2F;写速度要求）</li>
+<li>代码加载：_____（读&#x2F;写速度要求）</li>
+</ol>
+</li>
+<li><input disabled="" type="checkbox"> <strong>本地实验</strong>：测试你的本地存储速度<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 测试顺序写入速度</span></span><br><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/zero of=/tmp/test_write bs=1G count=1 oflag=direct</span><br><span class="line"><span class="comment"># 测试顺序读取速度</span></span><br><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/tmp/test_write of=/dev/null bs=1G count=1 iflag=direct</span><br><span class="line"><span class="comment"># 测试随机读取（模拟 DataLoader）</span></span><br><span class="line">fio --name=randread --ioengine=libaio --iodepth=16 --rw=randread --bs=4k --direct=1 --size=1G --numjobs=4</span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 对比你的存储速度和书中提到的 GPFS&#x2F;WekaIO&#x2F;Lustre 的性能差距</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>为什么 “用一个超级快的文件系统解决所有问题” 不如 “用 2-3 个不同文件系统分别优化”</li>
+<li>你的本地 NVMe 速度是否可能成为训练瓶颈（如果是 SSD 而非 NVMe，大概率是）</li>
+</ul>
+<hr>
+<h3 id="Day-6：网络架构"><a href="#Day-6：网络架构" class="headerlink" title="Day 6：网络架构"></a>Day 6：网络架构</h3><ul>
+<li><input disabled="" type="checkbox"> 精读 Part 2 “Network” 章节</li>
+<li><input disabled="" type="checkbox"> 理解 3 种网络：<ul>
+<li>前端网络（Frontend）：用途 _____，典型速度 _____</li>
+<li>后端网络（Backend）：用途 _____，典型速度 _____</li>
+<li>带外网络（Out-of-band）：用途 _____</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> 理解关键概念：<ul>
+<li>RDMA：_____</li>
+<li>InfiniBand：_____</li>
+<li>NVLink：_____</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>思考</strong>：如果你只有 2 台服务器，每台 8×A100，用什么互联方案性价比最高？（答案：如果同一机架，NVLink + 100Gbps 以太网；如果跨机架，IB&#x2F;RoCE）</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>为什么网络往往是分布式训练的瓶颈（而非 GPU 算力）</li>
+<li>单工 vs 双工带宽的区别（书中提到的 600GBps 是双工，实际单向只有 300GBps）</li>
+</ul>
+<hr>
+<h3 id="Day-7：编排系统"><a href="#Day-7：编排系统" class="headerlink" title="Day 7：编排系统"></a>Day 7：编排系统</h3><ul>
+<li><input disabled="" type="checkbox"> 精读 Part 3 “Orchestration”</li>
+<li><input disabled="" type="checkbox"> 对比 SLURM 和 Kubernetes：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>SLURM</th>
+<th>Kubernetes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>设计目标</td>
+<td>HPC&#x2F;科学计算</td>
+<td>容器编排</td>
+</tr>
+<tr>
+<td>学习曲线</td>
+<td>较陡</td>
+<td>较平缓</td>
+</tr>
+<tr>
+<td>GPU 调度</td>
+<td>原生支持</td>
+<td>需要 Device Plugin</td>
+</tr>
+<tr>
+<td>适用场景</td>
+<td>大规模训练</td>
+<td>推理服务</td>
+</tr>
+</tbody></table>
+<ul>
+<li><input disabled="" type="checkbox"> <strong>本地实验</strong>：如果你有 SLURM 环境，跑 <code>sinfo</code> 和 <code>squeue</code> 查看集群状态；如果没有，阅读 <code>docs/slurm_for_users.md</code></li>
+<li><input disabled="" type="checkbox"> 理解为什么 “SLURM on Kubernetes”（Slinky&#x2F;Soperator）是趋势</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>SLURM 的 job → partition → node → task 层级结构</li>
+<li>为什么大多数 HPC 集群用 SLURM 而非 K8s</li>
+</ul>
+<hr>
+<h3 id="Day-8：硬件周复盘"><a href="#Day-8：硬件周复盘" class="headerlink" title="Day 8：硬件周复盘"></a>Day 8：硬件周复盘</h3><ul>
+<li><input disabled="" type="checkbox"> 不看笔记，回答：<ul>
+<li>如果你要搭建一个 8×A100 的训练集群，存储、网络、编排分别选什么？</li>
+<li>为什么 “买最快的 GPU 但配慢速网络” 是浪费？</li>
+<li>你的本地机器的瓶颈是什么？（存储？网络？还是计算？）</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="Part-3：训练（Day-9-12）"><a href="#Part-3：训练（Day-9-12）" class="headerlink" title="Part 3：训练（Day 9-12）"></a>Part 3：训练（Day 9-12）</h2><h3 id="Day-9：模型并行策略"><a href="#Day-9：模型并行策略" class="headerlink" title="Day 9：模型并行策略"></a>Day 9：模型并行策略</h3><ul>
+<li><input disabled="" type="checkbox"> 精读 Part 4 “Training” 的 Model Parallelism 章节</li>
+<li><input disabled="" type="checkbox"> 画图理解四种并行：<ul>
+<li><strong>Data Parallel (DP)</strong>：每张卡持有一个完整的模型副本，各自处理不同 batch</li>
+<li><strong>Tensor Parallel (TP)</strong>：把一层切分到多张卡，每张卡算一部分</li>
+<li><strong>Pipeline Parallel (PP)</strong>：把模型的不同层分配到不同卡</li>
+<li><strong>Sequence Parallel (SP)</strong>：把序列维度切分</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>本地实验</strong>：用 PyTorch 模拟 DP<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">from</span> torch.nn.parallel <span class="keyword">import</span> DataParallel</span><br><span class="line"></span><br><span class="line">model = nn.Linear(<span class="number">10</span>, <span class="number">10</span>)</span><br><span class="line">dp_model = DataParallel(model, device_ids=[<span class="number">0</span>])  <span class="comment"># 单卡模拟</span></span><br><span class="line"><span class="built_in">input</span> = torch.randn(<span class="number">4</span>, <span class="number">10</span>).cuda()</span><br><span class="line">output = dp_model(<span class="built_in">input</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;Input shape: <span class="subst">&#123;<span class="built_in">input</span>.shape&#125;</span>, Output shape: <span class="subst">&#123;output.shape&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 理解 FSDP（Fully Sharded Data Parallel）：把模型参数、梯度、优化器状态都分片到各卡</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>为什么需要多种并行策略（单一策略无法满足所有需求）</li>
+<li>DP、TP、PP 的适用场景和组合方式</li>
+</ul>
+<hr>
+<h3 id="Day-10：性能优化与-Checkpoint"><a href="#Day-10：性能优化与-Checkpoint" class="headerlink" title="Day 10：性能优化与 Checkpoint"></a>Day 10：性能优化与 Checkpoint</h3><ul>
+<li><input disabled="" type="checkbox"> 精读 Part 4 的 “Performance” 和 “Checkpoints” 章节</li>
+<li><input disabled="" type="checkbox"> 理解混合精度训练（FP16&#x2F;BF16）的原理<ul>
+<li>FP16：1 位符号 + 5 位指数 + 10 位尾数</li>
+<li>BF16：1 位符号 + 8 位指数 + 7 位尾数</li>
+<li>为什么 BF16 更稳定但精度略低？</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>本地实验</strong>：对比 FP32、FP16、BF16 的内存占用<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line">x_fp32 = torch.randn(<span class="number">1000</span>, <span class="number">1000</span>)</span><br><span class="line">x_fp16 = x_fp32.half()</span><br><span class="line">x_bf16 = x_fp32.bfloat16()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;FP32: <span class="subst">&#123;x_fp32.element_size() * x_fp32.nelement() / <span class="number">1024</span>**<span class="number">2</span>:<span class="number">.2</span>f&#125;</span> MB&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;FP16: <span class="subst">&#123;x_fp16.element_size() * x_fp16.nelement() / <span class="number">1024</span>**<span class="number">2</span>:<span class="number">.2</span>f&#125;</span> MB&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;BF16: <span class="subst">&#123;x_bf16.element_size() * x_bf16.nelement() / <span class="number">1024</span>**<span class="number">2</span>:<span class="number">.2</span>f&#125;</span> MB&quot;</span>)</span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 理解 Checkpoint 策略：<ul>
+<li>保存频率 vs 训练中断损失</li>
+<li>异步 Checkpoint（不阻塞训练）</li>
+</ul>
+</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>混合精度训练如何让速度翻倍、内存减半</li>
+<li>BF16 比 FP16 更适合大模型训练的原因（更大的动态范围）</li>
+</ul>
+<hr>
+<h3 id="Day-11：训练不稳定性"><a href="#Day-11：训练不稳定性" class="headerlink" title="Day 11：训练不稳定性"></a>Day 11：训练不稳定性</h3><ul>
+<li><input disabled="" type="checkbox"> 精读 Part 4 的 “Instabilities” 章节</li>
+<li><input disabled="" type="checkbox"> 列出常见的训练不稳定现象：<ul>
+<li>Loss 爆炸：_____</li>
+<li>NaN&#x2F;Inf：_____</li>
+<li>梯度消失：_____</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>本地实验</strong>：用一个小模型故意制造 NaN<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line">x = torch.tensor([<span class="number">1e30</span>], requires_grad=<span class="literal">True</span>)</span><br><span class="line">y = x * x  <span class="comment"># 1e60，超出 FP32 范围</span></span><br><span class="line"><span class="built_in">print</span>(y)  <span class="comment"># 输出 inf</span></span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 理解解决方案：<ul>
+<li>梯度裁剪（Gradient Clipping）</li>
+<li>损失缩放（Loss Scaling）</li>
+<li>学习率预热（Learning Rate Warmup）</li>
+</ul>
+</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>训练不稳定不是”玄学”，而是可以系统性地诊断和解决的</li>
+<li>为什么大模型训练特别容易出现 NaN（大矩阵乘法容易数值溢出）</li>
+</ul>
+<hr>
+<h3 id="Day-12：训练周复盘"><a href="#Day-12：训练周复盘" class="headerlink" title="Day 12：训练周复盘"></a>Day 12：训练周复盘</h3><ul>
+<li><input disabled="" type="checkbox"> 回答：<ul>
+<li>如果你要训练一个 70B 模型，需要多少 GPU？用什么并行策略组合？</li>
+<li>为什么 Checkpoint 要异步保存？</li>
+<li>梯度裁剪的阈值怎么选？</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="Part-4：推理（Day-13-15）"><a href="#Part-4：推理（Day-13-15）" class="headerlink" title="Part 4：推理（Day 13-15）"></a>Part 4：推理（Day 13-15）</h2><h3 id="Day-13：Prefill-vs-Decode"><a href="#Day-13：Prefill-vs-Decode" class="headerlink" title="Day 13：Prefill vs Decode"></a>Day 13：Prefill vs Decode</h3><ul>
+<li><input disabled="" type="checkbox"> 精读 Part 5 “Inference”</li>
+<li><input disabled="" type="checkbox"> 画图理解两个阶段：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Prefill:  prompt tokens → 并行处理 → 生成第一个 token</span><br><span class="line">Decode:   已生成 tokens → 逐个生成 → 直到结束</span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> <strong>本地实验</strong>：用 SGLang 或 Transformers 测量 prefill 和 decode 的延迟差异<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 用 SGLang 启动一个小模型</span></span><br><span class="line">python -m sglang.launch_server --model-path Qwen/Qwen2.5-1.5B-Instruct --tp-size 1</span><br><span class="line"><span class="comment"># 发送短 prompt（100 tokens）</span></span><br><span class="line">curl ... -d <span class="string">&#x27;&#123;&quot;messages&quot;:[&#123;&quot;role&quot;:&quot;user&quot;,&quot;content&quot;:&quot;Short&quot;&#125;]&#125;&#x27;</span></span><br><span class="line"><span class="comment"># 发送长 prompt（2000 tokens）</span></span><br><span class="line">curl ... -d <span class="string">&#x27;&#123;&quot;messages&quot;:[&#123;&quot;role&quot;:&quot;user&quot;,&quot;content&quot;:&quot;Very long prompt...&quot;&#125;]&#125;&#x27;</span></span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 理解：为什么 prefill 延迟 &#x3D; f(prompt_length)，decode 延迟 &#x3D; f(output_length)</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>推理延迟的两个独立组成部分</li>
+<li>为什么 “长 prompt 的首次响应慢” 是正常的（prefill 需要处理整个 prompt）</li>
+</ul>
+<hr>
+<h3 id="Day-14：Batching-策略"><a href="#Day-14：Batching-策略" class="headerlink" title="Day 14：Batching 策略"></a>Day 14：Batching 策略</h3><ul>
+<li><input disabled="" type="checkbox"> 精读 Part 5 的 “Batching” 章节</li>
+<li><input disabled="" type="checkbox"> 对比两种 batching：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>Static Batching</th>
+<th>Continuous Batching</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>实现复杂度</td>
+<td>简单</td>
+<td>复杂</td>
+</tr>
+<tr>
+<td>吞吐</td>
+<td>低</td>
+<td>高</td>
+</tr>
+<tr>
+<td>延迟</td>
+<td>高（等最慢的）</td>
+<td>低（完成即返回）</td>
+</tr>
+<tr>
+<td>代表框架</td>
+<td>早期 vLLM</td>
+<td>SGLang、vLLM 0.3+</td>
+</tr>
+</tbody></table>
+<ul>
+<li><input disabled="" type="checkbox"> <strong>思考</strong>：为什么 Continuous Batching 能显著提高吞吐？（关键：移除已完成请求，立即加入新请求）</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>Continuous Batching 是现代推理引擎的核心优化</li>
+<li>为什么它被称为 “in-flight batching”</li>
+</ul>
+<hr>
+<h3 id="Day-15：推理周复盘-工具链实验"><a href="#Day-15：推理周复盘-工具链实验" class="headerlink" title="Day 15：推理周复盘 + 工具链实验"></a>Day 15：推理周复盘 + 工具链实验</h3><ul>
+<li><input disabled="" type="checkbox"> 跑通书中提到的三个工具：<ul>
+<li><code>all_reduce_bench.py</code>：测试网络带宽</li>
+<li><code>torch-distributed-gpu-test.py</code>：测试多卡连通性</li>
+<li><code>mamf-finder.py</code>：测量实际 TFLOPS</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>本地实验</strong>：测量 RTX 5060 的实际 FP16 TFLOPS<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 下载工具</span></span><br><span class="line">wget https://raw.githubusercontent.com/stas00/ml-engineering/master/compute/accelerator/mamf-finder.py</span><br><span class="line">python mamf-finder.py</span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 对比实测值和理论值（RTX 5060 理论 FP16 算力约 19 TFLOPS）</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>你的 GPU 实际能达到多少算力（通常只有理论的 60-80%）</li>
+<li>为什么实测值低于理论值（内存带宽瓶颈、启动开销等）</li>
+</ul>
+<hr>
+<h2 id="Part-5：调试与开发（Day-16-18）"><a href="#Part-5：调试与开发（Day-16-18）" class="headerlink" title="Part 5：调试与开发（Day 16-18）"></a>Part 5：调试与开发（Day 16-18）</h2><h3 id="Day-16：调试方法论"><a href="#Day-16：调试方法论" class="headerlink" title="Day 16：调试方法论"></a>Day 16：调试方法论</h3><ul>
+<li><input disabled="" type="checkbox"> 精读 Part 6 “Debugging and Troubleshooting”</li>
+<li><input disabled="" type="checkbox"> 掌握两个核心原则：<ol>
+<li>快速迭代：_____</li>
+<li>小数据：_____</li>
+</ol>
+</li>
+<li><input disabled="" type="checkbox"> <strong>本地实验</strong>：用小数据复现一个 bug<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 故意制造一个 shape mismatch</span></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line">a = torch.randn(<span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">b = torch.randn(<span class="number">4</span>, <span class="number">3</span>)</span><br><span class="line">c = a + b  <span class="comment"># RuntimeError: shape mismatch</span></span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 理解：为什么 “用 tiny model 调试” 比 “用 175B model 调试” 高效 100 倍</li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>调试不是”碰运气”，而是可以系统化的方法论</li>
+<li>“小数据 + 快速迭代” 是调试的万能钥匙</li>
+</ul>
+<hr>
+<h3 id="Day-17：PyTorch-调试实战"><a href="#Day-17：PyTorch-调试实战" class="headerlink" title="Day 17：PyTorch 调试实战"></a>Day 17：PyTorch 调试实战</h3><ul>
+<li><input disabled="" type="checkbox"> 精读 Part 6 的 “Debugging PyTorch” 章节</li>
+<li><input disabled="" type="checkbox"> 掌握三个工具：<ul>
+<li><code>torch.autograd.set_detect_anomaly(True)</code>：自动检测 NaN</li>
+<li><code>torch.cuda.memory_summary()</code>：显存分析</li>
+<li><code>pdb</code> 或 <code>ipdb</code>：断点调试</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>本地实验</strong>：用 <code>detect_anomaly</code> 定位 NaN 来源<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line">torch.autograd.set_detect_anomaly(<span class="literal">True</span>)</span><br><span class="line">x = torch.tensor([<span class="number">1e20</span>], requires_grad=<span class="literal">True</span>)</span><br><span class="line">y = x * x</span><br><span class="line">z = y.sqrt()  <span class="comment"># 可能产生 inf</span></span><br><span class="line">z.backward()</span><br></pre></td></tr></table></figure></li>
+<li><input disabled="" type="checkbox"> 学习 <code>py-spy</code> 的使用：<code>py-spy top --pid &lt;pid&gt;</code></li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>PyTorch 的调试工具链</li>
+<li>如何在训练过程中实时监控显存和性能</li>
+</ul>
+<hr>
+<h3 id="Day-18：测试策略"><a href="#Day-18：测试策略" class="headerlink" title="Day 18：测试策略"></a>Day 18：测试策略</h3><ul>
+<li><input disabled="" type="checkbox"> 精读 Part 6 的 “Testing” 章节</li>
+<li><input disabled="" type="checkbox"> 理解测试分层：<ul>
+<li>单元测试：测试一个函数</li>
+<li>集成测试：测试一组模块</li>
+<li>端到端测试：测试完整流程</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>本地实验</strong>：为一个小函数写测试<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pytest</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">a, b</span>):</span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_add</span>():</span><br><span class="line">    <span class="keyword">assert</span> add(<span class="number">1</span>, <span class="number">2</span>) == <span class="number">3</span></span><br><span class="line">    <span class="keyword">assert</span> add(-<span class="number">1</span>, <span class="number">1</span>) == <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    pytest.main([__file__, <span class="string">&quot;-v&quot;</span>])</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><strong>做完之后能了解</strong>：</p>
+<ul>
+<li>为什么 ML 项目特别需要测试（随机性、数值稳定性）</li>
+<li>如何用 <code>pytest</code> 和 <code>hypothesis</code> 写 ML 测试</li>
+</ul>
+<hr>
+<h2 id="Part-6：全局复盘（Day-19）"><a href="#Part-6：全局复盘（Day-19）" class="headerlink" title="Part 6：全局复盘（Day 19）"></a>Part 6：全局复盘（Day 19）</h2><h3 id="Day-19：全书总结与自我检验"><a href="#Day-19：全书总结与自我检验" class="headerlink" title="Day 19：全书总结与自我检验"></a>Day 19：全书总结与自我检验</h3><ul>
+<li><input disabled="" type="checkbox"> 不看笔记，回答以下问题：<ol>
+<li>如果要训练 BLOOM-176B，需要哪些硬件组件？按重要性排序：_____</li>
+<li>为什么 “买 H100 但配 NFS” 是错误决策？_____</li>
+<li>RDMA 解决了什么问题？_____</li>
+<li>SLURM 的 <code>sbatch</code> 和 <code>srun</code> 有什么区别？_____</li>
+<li>FSDP 和 DDP 的区别是什么？_____</li>
+<li>为什么 Continuous Batching 比 Static Batching 吞吐高？_____</li>
+<li>Prefill 和 Decode 哪个对延迟贡献更大？为什么？_____</li>
+<li>调试时为什么先用小数据？_____</li>
+</ol>
+</li>
+<li><input disabled="" type="checkbox"> 记录：这本书对你最有价值的 3 个知识点</li>
+<li><input disabled="" type="checkbox"> 记录：你还想深入了解但没覆盖到的 3 个主题</li>
+</ul>
+<hr>
+<h2 id="附录：核心概念速查表"><a href="#附录：核心概念速查表" class="headerlink" title="附录：核心概念速查表"></a>附录：核心概念速查表</h2><table>
+<thead>
+<tr>
+<th>概念</th>
+<th>一句话解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>RadixAttention</td>
+<td>SGLang 的注意力机制，支持前缀缓存</td>
+</tr>
+<tr>
+<td>RDMA</td>
+<td>绕过 CPU，直接读写远程 GPU 内存</td>
+</tr>
+<tr>
+<td>InfiniBand</td>
+<td>HPC 网络协议，低延迟高带宽</td>
+</tr>
+<tr>
+<td>SLURM</td>
+<td>HPC 作业调度系统</td>
+</tr>
+<tr>
+<td>FSDP</td>
+<td>全分片数据并行，把模型&#x2F;梯度&#x2F;优化器状态都分片</td>
+</tr>
+<tr>
+<td>Mixed Precision</td>
+<td>FP16&#x2F;BF16 训练，速度翻倍</td>
+</tr>
+<tr>
+<td>Gradient Clipping</td>
+<td>限制梯度范数，防止爆炸</td>
+</tr>
+<tr>
+<td>Continuous Batching</td>
+<td>动态移除已完成请求，立即加入新请求</td>
+</tr>
+<tr>
+<td>Prefill</td>
+<td>一次性处理整个 prompt，生成第一个 token</td>
+</tr>
+<tr>
+<td>Decode</td>
+<td>逐个生成后续 token</td>
 </tr>
 </tbody></table>
 <hr>
-<h2 id="八、资源与更新"><a href="#八、资源与更新" class="headerlink" title="八、资源与更新"></a>八、资源与更新</h2><ul>
-<li><strong>电子书</strong>：提供 PDF 和 EPUB 格式</li>
-<li><strong>社区讨论</strong>：GitHub Discussions 供交流</li>
-<li><strong>更新通知</strong>：作者 Twitter @StasBekman</li>
-<li><strong>许可证</strong>：Attribution-ShareAlike 4.0 International</li>
-</ul>
+<h2 id="附录：本地可复现实验清单"><a href="#附录：本地可复现实验清单" class="headerlink" title="附录：本地可复现实验清单"></a>附录：本地可复现实验清单</h2><table>
+<thead>
+<tr>
+<th>实验</th>
+<th>命令&#x2F;代码</th>
+<th>预期结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>测试存储速度</td>
+<td><code>fio --name=randread --rw=randread</code></td>
+<td>顺序读 &gt; 500MB&#x2F;s，随机读 &gt; 50MB&#x2F;s</td>
+</tr>
+<tr>
+<td>测量 GPU 算力</td>
+<td><code>python mamf-finder.py</code></td>
+<td>达到理论值的 60-80%</td>
+</tr>
+<tr>
+<td>混合精度内存对比</td>
+<td><code>x_fp16 = x_fp32.half()</code></td>
+<td>FP16 内存减半</td>
+</tr>
+<tr>
+<td>制造 NaN</td>
+<td><code>x = torch.tensor([1e20]); y = x*x</code></td>
+<td>输出 <code>inf</code></td>
+</tr>
+<tr>
+<td>py-spy 监控</td>
+<td><code>py-spy top --pid &lt;pid&gt;</code></td>
+<td>看到 Python 线程的 CPU 占用</td>
+</tr>
+</tbody></table>
 
     </div>
 
@@ -524,8 +782,8 @@
             <div class="post-nav-item">
             </div>
             <div class="post-nav-item">
-                <a href="/2026/06/01/AI-Performance-Engineering-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="next" title="AI Performance Engineering 读书笔记">
-                  AI Performance Engineering 读书笔记 <i class="fa fa-angle-right"></i>
+                <a href="/2026/06/01/AI-Performance-Engineering-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="next" title="AI Performance Engineering 读书笔记（逐日展开版）">
+                  AI Performance Engineering 读书笔记（逐日展开版） <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
